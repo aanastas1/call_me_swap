@@ -1,0 +1,208 @@
+Общие примитивы (в терминах op_*)
+bring_rank_to_top_a(ctx, rank)
+
+(берёт текущий rank-элемент из a и поднимает его на верх)
+c
+
+int idx = stack_index_of_rank(&ctx->a, rank);     // 0 = top
+int n = ctx->a.size;
+
+if (idx <= n/2) {
+    while (stack_index_of_rank(&ctx->a, rank) != 0) op_ra(ctx);
+} else {
+    while (stack_index_of_rank(&ctx->a, rank) != 0) op_rra(ctx);
+}
+
+bring_rank_to_top_b(ctx, rank)
+c
+
+int idx = stack_index_of_rank(&ctx->b, rank);     // 0 = top
+int n = ctx->b.size;
+
+if (idx <= n/2) {
+    while (stack_index_of_rank(&ctx->b, rank) != 0) op_rb(ctx);
+} else {
+    while (stack_index_of_rank(&ctx->b, rank) != 0) op_rrb(ctx);
+}
+
+sort_three_a(ctx) (3 элемента в a, ранги различны)
+
+Пусть r0=a.top.rank, r1=a.top.next.rank, r2=a.next.next.rank.
+c
+
+int r0 = ctx->a.top->rank;
+int r1 = ctx->a.top->next->rank;
+int r2 = ctx->a.top->next->next->rank;
+
+// цель: r0 < r1 < r2 (asc по rank)
+
+if (r0 < r1 && r1 < r2) return; // уже sorted
+
+// определить, какой из r0,r1,r2 максимальный
+if (r0 > r1 && r0 > r2) {
+    // [max, _, _]
+    if (r1 < r2) {
+        op_ra(ctx);            // [2,0,1] -> [0,1,2]
+    } else {
+        op_sa(ctx);           // [2,1,0] -> [1,2,0]
+        op_rra(ctx);          // -> [0,1,2]
+    }
+} else if (r1 > r0 && r1 > r2) {
+    // [_, max, _]
+    if (r0 < r2) {
+        op_sa(ctx);           // [0,2,1] -> [2,0,1]
+        op_ra(ctx);           // -> [0,1,2]
+    } else {
+        op_rra(ctx);          // [1,2,0] -> [0,1,2]
+    }
+} else {
+    // r2 максимальный
+    if (r0 > r1) op_sa(ctx);  // [1,0,2] -> [0,1,2]
+    // иначе [0,1,2] (но там раннее return сработал)
+}
+
+strategy_simple(ctx, n) (O(n²): выбор min в a → pb → обратно pa)
+c
+
+// обычно сначала если n<=3:
+if (n <= 3) { sort_small(ctx); return; }
+
+while (ctx->a.size > 3) {
+    int min_rank = stack_min_rank(&ctx->a);
+
+    // bring min to top of a
+    bring_rank_to_top_a(ctx, min_rank);  // вызывает op_ra/op_rra внутри
+
+    op_pb(ctx); // min уходит в b
+}
+
+// теперь в a ровно 3 элемента
+sort_three_a(ctx);
+
+// выкатываем всё из b обратно
+while (!stack_is_empty(&ctx->b)) {
+    op_pa(ctx);
+}
+
+strategy_medium(ctx, n) (O(n√n): чанки по rank)
+
+Псевдокод именно “что делает цикл”:
+c
+
+if (n <= 3) { sort_small(ctx); return; }
+
+// size чанка примерно sqrt(n)
+int chunk_size = (int)sqrt((double)n) + 1;
+int half = chunk_size / 2;
+
+for (int chunk_start = 0; chunk_start < n; chunk_start += chunk_size) {
+    int chunk_end = chunk_start + chunk_size - 1;
+    if (chunk_end >= n) chunk_end = n - 1;
+
+    int need = chunk_end - chunk_start + 1;
+    int pushed = 0;
+
+    // пока не отправим в b весь текущий чанк
+    while (pushed < need) {
+        // условие читается по текущему top рангу
+        int top_rank = ctx->a.top->rank;
+
+        if (top_rank <= chunk_end) {
+            op_pb(ctx); // топ из a в b
+            pushed++;
+
+            // если элемент из "нижней половины" чанка — крутим b для улучшения
+            // (через rb — меньшие rank уходят в глубину b)
+            if (ctx->b.top->rank <= chunk_start + half - 1) {
+                op_rb(ctx);
+            }
+        } else {
+            op_ra(ctx); // топ не принадлежит чанку — вращаем a
+        }
+    }
+}
+
+// когда все чанки отправлены — собираем обратно в a
+while (!stack_is_empty(&ctx->b)) {
+    op_pa(ctx);
+}
+
+strategy_complex(ctx, n) (O(n log n): radix LSD по bit’ам rank)
+c
+
+if (n <= 3) { sort_small(ctx); return; }
+
+int max_rank = get_max_rank(&ctx->a);
+int maxbits  = get_maxbits(max_rank);
+
+// LSD radix по bit=0..maxbits-1
+for (int bit = 0; bit < maxbits; bit++) {
+    int i = 0;
+    int size = ctx->a.size; // фиксируем сколько раз смотрим top в этом проходе
+
+    while (i < size) {
+        int r = ctx->a.top->rank;
+
+        if (((r >> bit) & 1) == 0) {
+            op_pb(ctx); // 0-ки в b
+        } else {
+            op_ra(ctx); // 1-ки остаются в a (через rotate)
+        }
+        i++;
+    }
+
+    // всё из b обратно в a перед следующим bit
+    while (!stack_is_empty(&ctx->b)) {
+        op_pa(ctx);
+    }
+}
+
+strategy_adaptive(ctx, n, disorder) (выбор стратегии + те же циклы op_* дальше)
+c
+
+if (n <= 3) { sort_small(ctx); return; }
+
+if (disorder < 0.2) {
+    strategy_simple(ctx, n);
+} else if (disorder < 0.5) {
+    strategy_medium(ctx, n);
+} else {
+    strategy_complex(ctx, n);
+}
+
+sort_small(ctx) (для n = 2..5) — точные последовательности `op_*
+Общие условия
+
+    Везде предполагается, что rank — уникальные 0..n-1 (меньше = “раньше” в отсортированном asc).
+    stack_min_rank(&ctx->a) возвращает rank текущего минимума в a.
+    bring_rank_to_top_a(ctx, rank) поднимает этот rank в top a, используя только op_ra/op_rra.
+
+`n == 2
+c
+
+if (ctx->a.top->rank > ctx->a.top->next->rank)
+    op_sa(ctx);
+
+n == 3
+c
+
+sort_three_a(ctx);   // (использует только op_sa/op_ra/op_rra внутри)
+
+n == 4 или `n == 5
+
+Идея: вытащить минимум(ы) из a в b, отсортировать оставшиеся 3 в a, затем вернуть всё из b обратно.
+c
+
+while (ctx->a.size > 3) {
+    int min_rank = stack_min_rank(&ctx->a);      // минимум в текущей a
+    bring_rank_to_top_a(ctx, min_rank);         // делает min_rank top
+    op_pb(ctx);                                   // min -> top b
+}
+
+sort_three_a(ctx);                               // сортируем оставшиеся 3 в a
+
+while (!stack_is_empty(&ctx->b)) {
+    op_pa(ctx);                                   // обратно в a
+}
+
+Это даёт нужный итоговый порядок в a (top = минимальный rank), потому что pa возвращает элементы из b в обратном порядке извлечения минимумов.
