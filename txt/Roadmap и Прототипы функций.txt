@@ -80,7 +80,9 @@ typedef struct s_ctx {
 } t_ctx;
 
 /* parse */
-int  parse_args(int argc, char **argv, int **out_values);
+int  parse_args(int argc, char **argv, int **out_values); out_values — это “output parameter” (указатель на переменную-результат):
+функция заполняет/выделяет массив int* с распарсенными значениями (числа из argv) и возвращает его в вызывающий main через этот аргумент.
+
 int  validate_ints_and_no_dups(int *values, int n);
 
 /* disorder + ranks */
