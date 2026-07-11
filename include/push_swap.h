@@ -3,45 +3,22 @@
 
 #include <stdio.h>
 
-
-
-
-typedef struct s_node
-{
-    int             value;      // 42
-    int             rank;       // позиция числа в отсортированном массиве
-    struct s_node   *next;      // указатель на следующий элемент
-}   t_node;
-
-typedef struct s_stack
-{
-    t_node          *top;       // первый элемент стека
-    t_node          *bottom;    // последний элемент стека
-    int             size;       // сколько элементов в стеке
-}   t_stack;
-
-// adrii 
-
-typedef struct s_node {
-    int value;
-    int rank;
-    struct s_node *next;
-} t_node;
-
-typedef struct s_stack {
-    t_node *top;
+typedef struct s_arr {
+    int *num;
+    int start;
+    int len;
     int size;
-} t_stack;
+}   t_arr;
 
 typedef enum e_optype {
-    OP_SA, OP_SB, OP_SS,
-    OP_PA, OP_PB,
-    OP_RA, OP_RB, OP_RR,
-    OP_RRA, OP_RRB, OP_RRR,
-    OP_COUNT
-} t_optype;
+    SA, SB, SS,
+    PA, PB,
+    RA, RB, RR,
+    RRA, RRB, RRR,
+    COUNT
+} t_operation_type;
 
-typedef struct s_ctx {
+typedef struct s_context {
     t_stack a;
     t_stack b;
 
@@ -50,7 +27,7 @@ typedef struct s_ctx {
     long op_counts[OP_COUNT];
 
     /* stdout-only ops are printed inside op_* */
-} t_ctx;
+} t_context;
 
 /* parse */
 int  parse_args(int argc, char **argv, int **out_values);
@@ -60,37 +37,31 @@ int  validate_ints_and_no_dups(int *values, int n);
 double compute_disorder_values(const int *values, int n);   /* returns [0..1] */
 int   *compute_ranks(const int *values, int n);             /* returns n ints */
 
-/* stack */
-void stack_init(t_stack *s);
-void stack_clear(t_stack *s);
-void stack_push_top(t_stack *s, int value, int rank);
-int  stack_is_empty(const t_stack *s);
-
 /* sort helpers */
 int  stack_is_sorted_asc(const t_stack *a); /* ascending: smaller ranks first on top */
-void sort_small(t_ctx *ctx);                /* handles n<=3..5 safely via dedicated logic */
+void sort_small(t_context *context);                /* handles n<=3..5 safely via dedicated logic */
 
 /* operation layer (must be the only place that prints ops) */
-void op_sa(t_ctx *ctx);
-void op_sb(t_ctx *ctx);
-void op_ss(t_ctx *ctx);
-void op_pa(t_ctx *ctx);
-void op_pb(t_ctx *ctx);
-void op_ra(t_ctx *ctx);
-void op_rb(t_ctx *ctx);
-void op_rr(t_ctx *ctx);
-void op_rra(t_ctx *ctx);
-void op_rrb(t_ctx *ctx);
-void op_rrr(t_ctx *ctx);
+void sa(t_context *context);
+void sb(t_context *context);
+void ss(t_context *context);
+void pa(t_context *context);
+void pb(t_context *context);
+void ra(t_context *context);
+void rb(t_context *context);
+void rr(t_context *context);
+void rra(t_context *context);
+void rrb(t_context *context);
+void rrr(t_context *context);
 
 /* strategies */
-void strategy_simple(t_ctx *ctx, int n);
-void strategy_medium(t_ctx *ctx, int n);
-void strategy_complex(t_ctx *ctx, int n);
-void strategy_adaptive(t_ctx *ctx, int n, double disorder);
+void strategy_simple(t_context *context, int n);
+void strategy_medium(t_context *context, int n);
+void strategy_complex(t_context *context, int n);
+void strategy_adaptive(t_context *context, int n, double disorder);
 
-/* bench */
-void bench_print_and_counts(t_ctx *ctx, double disorder,
+/* bench */ //by anastasi side print count of operation, or sa ss 
+void bench_print_and_counts(t_context *context, double disorder,
 const char *strategy_name, const char *complex_class);
 
 # endif
