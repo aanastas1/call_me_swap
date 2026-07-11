@@ -11,7 +11,7 @@ typedef struct s_node
 {
     int             value;      // 42
     int             rank;       // позиция числа в отсортированном массиве
-    struct s_node   *next;      // указатель на следующий элемент
+    struct s_node   *next;      // указатель на следующий элемент 
 }   t_node;
 
 typedef struct s_stack
@@ -98,7 +98,6 @@ int	main(void)
 	t_stack	stack_b;
 
 	stack_init(&stack_a);
-	stack_init(&stack_b);
 	stack_push_front(&stack_a, stack_create_node(10, 0));
 	stack_push_front(&stack_a, stack_create_node(42, 2));
 	stack_push_front(&stack_a, stack_create_node(21, 1));
@@ -106,7 +105,24 @@ int	main(void)
     printf("\n");
 	stack_clear(&stack_a);
     printf("\n");
-	stack_clear(&stack_b);
-    printf("\n");
 	return (0);
 }
+
+
+/*
+typedef struct s_number
+{
+    int value;      // 42
+    int rank;       // позиция числа в отсортированном массиве
+}   t_number;
+
+a and b
+typedef struct s_stack
+{
+    t_number  *array;     // start stack
+    int     top_index;  // нужен ли нам первый индекс? это может быть пршсто size - 1, может просто индекс чтобы двигаться по аррей
+    int     size;  // размер, проверяем и маллок один раз 
+}   t_stack;
+
+
+*/
