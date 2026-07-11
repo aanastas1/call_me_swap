@@ -1,9 +1,5 @@
 **Creating markdown formatting**
 
-I need to convert the user's request into markdown formatting for a plan. They mentioned a Russian phrase asking to format it, so I'll provide a markdown table. But wait, I shouldn't use web search for this. I have to keep it concise and ensure the correct dates. They specified tasks should be ≤2 hours for 2 people, so I can include two tables. Let's prioritize creating the markdown with those tables included!## План-график (2 человека, задачи ≤ 2 часов, равномерно) — старт 10.07.2026
-
-Ровность: итого выйдет ~по 34–38 часов на каждого (можете подвинуть под ваш реальный режим).
-
 ### Неделя 1 (10.07–16.07)
 
 | Дата | Задача | Член | Часы | Зависимости | Готово = |
