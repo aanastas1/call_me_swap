@@ -2,6 +2,9 @@
 # define PUSH_SWAP_H
 
 #include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <limits.h>
 
 typedef struct s_arr {
     int *num;
@@ -22,7 +25,8 @@ typedef enum e_strategy {
     SIMPLE,
     MEDIUM,
     COMPLEX,
-    ADAPTIVE
+    ADAPTIVE,
+    NONE
 } t_strategy;
 
 typedef struct s_context {
@@ -38,7 +42,7 @@ typedef struct s_context {
 } t_context;
 
 /* parse */
-int  parse_args(int argc, char **argv, int **out_values);
+int  parse_args(int argc, char **argv, int **out_values, t_context *context);
 int  validate_ints_and_no_dups(int *values, int n);
 
 /* disorder + ranks */
