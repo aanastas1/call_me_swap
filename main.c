@@ -6,11 +6,32 @@
 /*   By: aloiko <aloiko@student.42warsaw.pl>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/12 18:39:35 by aloiko            #+#    #+#             */
-/*   Updated: 2026/07/12 19:22:19 by aloiko           ###   ########.fr       */
+/*   Updated: 2026/07/12 20:11:47 by aloiko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
+
+int  validate_ints_and_no_dups(int *values, int n)
+{
+	(void)values;
+	(void)n;
+	return (1);
+}
+
+double compute_disorder_values(const int *values, int n)
+{
+	(void)values;
+	(void)n;
+	return (0.0);
+}
+
+int   *compute_ranks(const int *values, int n)
+{
+	(void)values;
+	(void)n;
+	return (NULL)	;
+}
 
 void stack_init(t_arr *arr, int capacity)
 {
@@ -42,7 +63,7 @@ void context_init(t_context *context, int capacity)
     
     // Обнуляем массив счетчиков операций
     ft_bzero(context->op_counts, sizeof(context->op_counts)); 
-    /* или цикл: for (int i = 0; i < COUNT; i++) context->op_counts[i] = 0; */
+   
 }
 
 int main(int argc, char **argv)
@@ -58,13 +79,13 @@ int main(int argc, char **argv)
 	context_init(&context, argc);
 	values = NULL;
 	n = parse_args(argc, argv, &values, &context);
-	if (n <= 0 || !values)
+	if (n <= 0 || !values) 
 	{
 		ft_putstr_fd("Error\n", 2);
 		return (0);
 	}
 
-	if (!validate_ints_and_no_dups(values, n))
+if (!validate_ints_and_no_dups(values, n))
 		return (0);
 
 	disorder = compute_disorder_values(values, n);

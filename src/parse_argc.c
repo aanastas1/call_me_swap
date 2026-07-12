@@ -6,7 +6,7 @@
 /*   By: aloiko <aloiko@student.42warsaw.pl>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/12 15:09:31 by aloiko            #+#    #+#             */
-/*   Updated: 2026/07/12 19:11:32 by aloiko           ###   ########.fr       */
+/*   Updated: 2026/07/12 19:50:33 by aloiko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,15 +26,14 @@ int	ft_strcmp(const char *s1, const char *s2)
 	return (0);
 }
 
-long	ft_atoil(const char *nptr)
+static long	ft_atoil(const char *nptr)
 {
 	int	sign;
 	long	res;
 
 	sign = 1;
 	res = 0;
-	while (ft_isspace(*nptr))
-		nptr++;
+	
 	if (*nptr == '-' || *nptr == '+')
 	{
 		if (*nptr == '-')
