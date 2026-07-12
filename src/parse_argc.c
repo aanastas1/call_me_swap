@@ -6,7 +6,7 @@
 /*   By: aloiko <aloiko@student.42warsaw.pl>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/12 15:09:31 by aloiko            #+#    #+#             */
-/*   Updated: 2026/07/12 15:09:44 by aloiko           ###   ########.fr       */
+/*   Updated: 2026/07/12 16:46:01 by aloiko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,20 @@ int	is_digits(char *src)
 	return (1);
 }
 
+int	is_flag(char *src)
+{
+	const char *flags[] = {"--simple", "--medium", "--complex", "--adaptive", "--bench", NULL};
+	while (*flags)
+	{
+		if (ft_strcmp(*flags, src) == 0)
+		{
+			return (1);
+		}
+		flags++;
+	}	
+	return (0);
+}
+
 int  parse_args(int argc, char **argv, int **out_values)
 {
 	int	i;
@@ -60,7 +74,7 @@ int  parse_args(int argc, char **argv, int **out_values)
 	while (++i < argc)
 	{
 		if (is_flag(argv[i]))
-			set_flag(1);
+			continue ;
 		else if (is_digits(argv[i]))
 		{
 			tmp = ft_atoil(argv[i]);
