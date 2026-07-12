@@ -6,7 +6,7 @@
 /*   By: aloiko <aloiko@student.42warsaw.pl>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/12 15:09:31 by aloiko            #+#    #+#             */
-/*   Updated: 2026/07/12 19:50:33 by aloiko           ###   ########.fr       */
+/*   Updated: 2026/07/12 21:14:22 by aloiko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ static long	ft_atoil(const char *nptr)
 	return (sign * res);
 }
 
-int	is_digits(char *src)
+int	all_digits(char *src)
 {
 	if (*src == '-' || *src == '+')
 		src++;
@@ -89,13 +89,15 @@ int  parse_args(int argc, char **argv, int **out_values, t_context *context)
 	long tmp;
 
 	*out_values = malloc(argc * sizeof(**out_values));
+	if (!*out_values)
+		return (0);
 	count = 0;
 	i = 0;
 	while (++i < argc)
 	{
 		if (is_flag(argv[i], context))
 			continue ;
-		else if (is_digits(argv[i]))
+		else if (all_digits(argv[i]))
 		{
 			tmp = ft_atoil(argv[i]);
 			if (tmp < INT_MIN || tmp > INT_MAX)
