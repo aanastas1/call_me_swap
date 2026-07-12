@@ -18,10 +18,18 @@ typedef enum e_optype {
     COUNT
 } t_operation_type;
 
-typedef struct s_context {
-    t_stack a;
-    t_stack b;
+typedef enum e_strategy {
+    SIMPLE,
+    MEDIUM,
+    COMPLEX,
+    ADAPTIVE
+} t_strategy;
 
+typedef struct s_context {
+    t_arr a;
+    t_arr b;
+
+    t_strategy strategy;
     int bench_enabled;
     long op_total;
     long op_counts[COUNT];
@@ -38,7 +46,7 @@ double compute_disorder_values(const int *values, int n);   /* returns [0..1] */
 int   *compute_ranks(const int *values, int n);             /* returns n ints */
 
 /* sort helpers */
-int  stack_is_sorted_asc(const t_stack *a); /* ascending: smaller ranks first on top */
+int  stack_is_sorted_asc(const t_arr *a); /* ascending: smaller ranks first on top */
 void sort_small(t_context *context);                /* handles n<=3..5 safely via dedicated logic */
 
 /* operation layer (must be the only place that prints ops) */
