@@ -6,7 +6,7 @@
 /*   By: aloiko <aloiko@student.42warsaw.pl>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/12 15:09:31 by aloiko            #+#    #+#             */
-/*   Updated: 2026/07/12 18:53:14 by aloiko           ###   ########.fr       */
+/*   Updated: 2026/07/12 19:11:32 by aloiko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,8 +88,6 @@ int  parse_args(int argc, char **argv, int **out_values, t_context *context)
 	int	i;
 	int	count;
 	long tmp;
-	context->strategy = NONE; 
-	context->bench_enabled = 0;
 
 	*out_values = malloc(argc * sizeof(**out_values));
 	count = 0;
