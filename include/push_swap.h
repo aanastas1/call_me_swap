@@ -41,10 +41,12 @@ typedef struct s_context {
     t_arr a;
     t_arr b;
 
-    t_strategy strategy;
-    int bench_enabled;
     long op_total;
     long op_counts[COUNT];
+
+    t_strategy strategy;
+    int bench_enabled;
+    
 
     /* stdout-only ops are printed inside op_* */
 } t_context;
@@ -83,5 +85,6 @@ void strategy_adaptive(t_context *context, int n, double disorder);
 /* bench */ //by anastasi side print count of operation, or sa ss 
 void bench_print_and_counts(t_context *context, double disorder,
 const char *strategy_name, const char *complex_class);
+
 
 # endif
