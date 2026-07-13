@@ -6,7 +6,7 @@
 /*   By: aloiko <aloiko@student.42warsaw.pl>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/12 15:09:31 by aloiko            #+#    #+#             */
-/*   Updated: 2026/07/12 21:14:22 by aloiko           ###   ########.fr       */
+/*   Updated: 2026/07/13 21:50:19 by aloiko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,15 +50,19 @@ static long	ft_atoil(const char *nptr)
 
 int	all_digits(char *src)
 {
+	int has_digits = 0;
 	if (*src == '-' || *src == '+')
 		src++;
+	if (!*src) /* Check if the string is empty after skipping sign */
+		return (0);
 	while (*src)
 	{
 		if (!ft_isdigit(*src))
 			return (0);
+		has_digits = 1;
 		src++;
 	}
-	return (1);
+	return (has_digits);
 }
 
 int	is_flag(char *src, t_context *context)
@@ -73,9 +77,9 @@ int	is_flag(char *src, t_context *context)
 	{
 		if (ft_strcmp(src, flags[i]) == 0)
 		{
-			if ((i < max_index) && context->strategy == NONE) /* strategy flags */
+			if ((i < max_index - 1) && context->strategy == NONE) /* strategy flags */
 				context->strategy = (t_strategy)i;
-			else if ((i == max_index) && context->bench_enabled == 0) /* bench flag */
+			else if ((i == max_index - 1) && context->bench_enabled == 0) /* bench flag */
 				context->bench_enabled = 1;
 			return (1);
 		}

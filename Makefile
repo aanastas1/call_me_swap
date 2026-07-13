@@ -1,27 +1,38 @@
 NAME = push_swap
-CC = cc
-CFLAGS = -Wall -Wextra -Werror
 
-SRC = main.c push_swap.c
+SRC_DIR = src
+INC_DIR = include
+
+SRCS	=	$(SRC_DIR)/main.c \
+$(SRC_DIR)/push_swap.c \
+$(SRC_DIR)/parse_argc.c \
+$(SRC_DIR)/prepare_stacks.c 
+
 # Add the rest of your .c files here, for example:
 # SRC = push_swap.c utils.c parse.c strategies_simple.c strategies_medium.c strategies_complex.c strategies_adaptive.c
 
-OBJ = $(SRC:.c=.o)
+HDRS = $(INC_DIR)/push_swap.h \
+	libft/libft.h 	
 
-.PHONY: all clean fclean re
+CC = cc
+CFLAGS = -Wall -Wextra -Werror -I$(INC_DIR)
+
+LIBFT_PATH = libft
+LIBFT = $(LIBFT_PATH)/libft.a
+
+LDFLAGS = -L$(LIBFT_PATH) -lft -L.
 
 all: $(NAME)
 
-$(NAME): $(OBJ)
-	$(CC) $(CFLAGS) $(OBJ) -o $(NAME)
-
-%.o: %.c
-	$(CC) $(CFLAGS) -c $< -o $@
+$(NAME): $(SRCS) $(HDRS) $(LIBFT_PATH)
+	$(CC) $(CFLAGS) -o $(NAME) $(SRCS) $(LIBFT) 
 
 clean:
-	rm -f $(OBJ)
+	rm -f *.o
 
 fclean: clean
 	rm -f $(NAME)
 
 re: fclean all
+
+.PHONY: all clean fclean re

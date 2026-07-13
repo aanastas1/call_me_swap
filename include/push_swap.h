@@ -6,7 +6,7 @@
 # include <unistd.h>
 # include <limits.h>
 
-# include "libft.h"
+# include "../libft/libft.h"
 
 typedef struct s_element
 {
@@ -52,12 +52,14 @@ typedef struct s_context {
 } t_context;
 
 /* parse */
-int  parse_args(int argc, char **argv, int **out_values, t_context *context);
-int  validate_ints_and_no_dups(int *values, int n);
+int parse_args(int argc, char **argv, int **out_values, t_context *context);
+int validate_no_dups(int *values, int n);
 
 /* disorder + ranks */
 double compute_disorder_values(const int *values, int n);   /* returns [0..1] */
 int   *compute_ranks(const int *values, int n);             /* returns n ints */
+
+void setup_stacks(t_context *context, int *values, int *ranks, int n);
 
 /* sort helpers */
 int  stack_is_sorted_asc(const t_arr *a); /* ascending: smaller ranks first on top */

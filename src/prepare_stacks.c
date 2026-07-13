@@ -6,7 +6,7 @@
 /*   By: aloiko <aloiko@student.42warsaw.pl>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/13 13:46:35 by aloiko            #+#    #+#             */
-/*   Updated: 2026/07/13 14:03:20 by aloiko           ###   ########.fr       */
+/*   Updated: 2026/07/13 21:50:20 by aloiko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,10 +82,14 @@ int   *compute_ranks(const int *values, int n)
 
 void setup_stacks(t_context *context, int *values, int *ranks, int n)
 {
-	for (int i = 0; i < n; i++)
+	int i;
+
+	i = 0;
+	while (i < n)
 	{
 		context->a.elements[i].value = values[i];
 		context->a.elements[i].rank = ranks[i];
+		i++;
 	}
 	context->a.len = n;
 }
