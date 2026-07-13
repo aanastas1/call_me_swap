@@ -35,8 +35,8 @@ int   *compute_ranks(const int *values, int n)
 
 void stack_init(t_arr *arr, int capacity)
 {
-	arr->num = malloc(capacity * sizeof(int));
-	if (!arr->num)
+	arr->elements = malloc(capacity * sizeof(t_element));
+	if (!arr->elements)
 	{
 		ft_putstr_fd("Error: Memory allocation failed\n", 2);
 		exit(EXIT_FAILURE);
@@ -82,6 +82,10 @@ int main(int argc, char **argv)
 	if (n <= 0 || !values) 
 	{
 		ft_putstr_fd("Error\n", 2);
+		free(values);
+		free(context.a.elements);
+		free(context.b.elements);
+		free(context.op_counts);
 		return (0);
 	}
 

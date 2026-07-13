@@ -65,15 +65,17 @@ int	is_flag(char *src, t_context *context)
 {
 	const char *flags[] = {"--simple", "--medium", "--complex", "--adaptive", "--bench", NULL};
 	int i;
+	int max_index;
 	
 	i = 0;
+	max_index = sizeof(flags) / sizeof(flags[0]) - 1; /* exclude NULL */
 	while (flags[i])
 	{
 		if (ft_strcmp(src, flags[i]) == 0)
 		{
-			if (i < 4 && context->strategy == NONE) /* strategy flags */
+			if ((i < max_index) && context->strategy == NONE) /* strategy flags */
 				context->strategy = (t_strategy)i;
-			else if (i == 4 && context->bench_enabled == 0) /* bench flag */
+			else if ((i == max_index) && context->bench_enabled == 0) /* bench flag */
 				context->bench_enabled = 1;
 			return (1);
 		}
@@ -81,6 +83,7 @@ int	is_flag(char *src, t_context *context)
 	}
 	return (0);
 }
+
 
 int  parse_args(int argc, char **argv, int **out_values, t_context *context)
 {

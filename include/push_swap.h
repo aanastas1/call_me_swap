@@ -8,8 +8,14 @@
 
 # include "libft.h"
 
+typedef struct s_element
+{
+	int value;
+	int rank;
+} t_element;
+
 typedef struct s_arr {
-    int *num;
+    t_element *elements;
     int start;
     int len;
     int size;
