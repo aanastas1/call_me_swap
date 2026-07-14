@@ -6,35 +6,40 @@
 /*   By: aloiko <aloiko@student.42warsaw.pl>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/13 14:15:04 by aloiko            #+#    #+#             */
-/*   Updated: 2026/07/13 21:50:21 by aloiko           ###   ########.fr       */
+/*   Updated: 2026/07/14 20:02:43 by aloiko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
+#include "../libft/libft.h"
 
 void	sa(t_context *context)
 {
-    t_element	tmp;
+	t_element	tmp;
+	int			top;
 
-    if (context->a.len < 2)
-        return ; /* Not enough elements to swap */
-    tmp = context->a.elements[context->a.start];
-    context->a.elements[context->a.start] = context->a.elements[context->a.start + 1];
-    context->a.elements[context->a.start + 1] = tmp;
-    context->op_counts[SA]++;
-    context->op_total++;
-    ft_putstr_fd("sa\n", 1);
+	if (context->a.depth <= 1) /* Not enough elements to swap */
+		return ;
+	top = (context->a.bottom + context->a.depth - 1) % context->a.size;
+	tmp = context->a.elements[top];
+	context->a.elements[top] = context->a.elements[top - 1];
+	context->a.elements[top - 1] = tmp;
+	context->op_counts[SA]++;
+	context->op_total++;
+	ft_putstr_fd("sa\n", 1);
 }
 
 void	sb(t_context *context)
 {
 	t_element	tmp;
+	int			top;
 
-	if (context->b.len < 2)
+	if (context->b.depth <= 1)
 		return ;
-	tmp = context->b.elements[context->b.start];
-	context->b.elements[context->b.start] = context->b.elements[context->b.start+1];
-	context->b.elements[context->b.start + 1] = tmp;
+	top = (context->b.bottom + context->b.depth - 1) % context->b.size;
+	tmp = context->b.elements[top];
+	context->b.elements[top] = context->b.elements[top - 1];
+	context->b.elements[top - 1] = tmp;
 	context->op_counts[SB]++;
 	context->op_total++;
 	ft_putstr_fd("sb\n", 1);
@@ -43,20 +48,24 @@ void	sb(t_context *context)
 void	ss(t_context *context)
 {
 	t_element	tmp;
+	int			top_a;
+	int			top_b;
 
-    if (context->a.len < 2 && context->b.len < 2)
-        return ; 
-    if (context->a.len >= 2)
+	if (context->a.depth <= 1 && context->b.depth <= 1)
+		return ;
+	if (context->a.depth > 1)
 	{
-		tmp = context->a.elements[context->a.start];
-		context->a.elements[context->a.start] = context->a.elements[context->a.start + 1];
-		context->a.elements[context->a.start + 1] = tmp;
+		top_a = (context->a.bottom + context->a.depth - 1) % context->a.size;
+		tmp = context->a.elements[top_a];
+		context->a.elements[top_a] = context->a.elements[top_a - 1];
+		context->a.elements[top_a - 1] = tmp;
 	}
-	if (context->b.len >=  2)
+	if (context->b.depth > 1)
 	{
-		tmp = context->b.elements[context->b.start];
-		context->b.elements[context->b.start] = context->b.elements[context->b.start+1];
-		context->b.elements[context->b.start + 1] = tmp;
+		top_b = (context->b.bottom + context->b.depth - 1) % context->b.size;
+		tmp = context->b.elements[top_b];
+		context->b.elements[top_b] = context->b.elements[top_b - 1];
+		context->b.elements[top_b - 1] = tmp;
 	}
 	context->op_counts[SS]++;
 	context->op_total++;
@@ -65,6 +74,34 @@ void	ss(t_context *context)
 
 void	pa(t_context *context)
 {
-	if (context->b.len == 0)
+	int	top_a;
+	int	top_b;
+
+	if (context->b.depth == 0)
 		return ;
-	
+	context->a.depth++;
+	top_b = (context->b.bottom + context->b.depth - 1) % context->b.size;
+	top_a = (context->a.bottom + context->a.depth - 1) % context->a.size;
+	context->a.elements[top_a] = context->b.elements[top_b];
+	context->b.depth--;
+	context->op_counts[PA]++;
+	context->op_total++;
+	ft_putstr_fd("pa\n", 1);
+}
+
+void	pb(t_context *context)
+{
+	int	top_a;
+	int	top_b;
+
+	if (context->a.depth == 0)
+		return ;
+	context->b.depth++;
+	top_a = (context->a.bottom + context->a.depth - 1) % context->a.size;
+	top_b = (context->b.bottom + context->b.depth - 1) % context->b.size;
+	context->b.elements[top_b] = context->a.elements[top_a];
+	context->a.depth--;
+	context->op_counts[PB]++;
+	context->op_total++;
+	ft_putstr_fd("pb\n", 1);
+}

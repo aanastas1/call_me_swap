@@ -5,7 +5,7 @@ INC_DIR = include
 
 SRCS	=	$(SRC_DIR)/main.c \
 $(SRC_DIR)/push_swap.c \
-$(SRC_DIR)/parse_argc.c \
+$(SRC_DIR)/parse_args.c \
 $(SRC_DIR)/prepare_stacks.c 
 
 # Add the rest of your .c files here, for example:

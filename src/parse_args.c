@@ -1,45 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse_argc.c                                       :+:      :+:    :+:   */
+/*   parse_args.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aloiko <aloiko@student.42warsaw.pl>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/12 15:09:31 by aloiko            #+#    #+#             */
-/*   Updated: 2026/07/13 21:50:19 by aloiko           ###   ########.fr       */
+/*   Updated: 2026/07/14 20:56:21 by aloiko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 #include "../libft/libft.h"
 
-int ft_isdigit(int c)
-{
-	return (c >= '0' && c <= '9');
-}
-
 int	ft_strcmp(const char *s1, const char *s2)
 {
-	while (1)	
+	while (*s1 && *s1 == *s2)
 	{
-		if ((unsigned char)*s1 != (unsigned char)*s2)
-			return ((unsigned char)*s1 - (unsigned char)*s2);
-		if (!(unsigned char)*s1)
-			return (0);
 		s1++;
 		s2++;
 	}
-	return (0);
+	return (*s1 - *s2);
 }
 
 static long	ft_atoil(const char *nptr)
 {
-	int	sign;
+	int		sign;
 	long	res;
 
 	sign = 1;
 	res = 0;
-	
 	if (*nptr == '-' || *nptr == '+')
 	{
 		if (*nptr == '-')
@@ -56,7 +46,9 @@ static long	ft_atoil(const char *nptr)
 
 int	all_digits(char *src)
 {
-	int has_digits = 0;
+	int	has_digits;
+
+	has_digits = 0;
 	if (*src == '-' || *src == '+')
 		src++;
 	if (!*src) /* Check if the string is empty after skipping sign */
@@ -73,19 +65,19 @@ int	all_digits(char *src)
 
 int	is_flag(char *src, t_context *context)
 {
-	const char *flags[] = {"--simple", "--medium", "--complex", "--adaptive", "--bench", NULL};
-	int i;
-	int max_index;
-	
+	const char	*flags[] = {"--simple", "--medium", "--complex", "--adaptive", "--bench"};
+	int	i;
+	int	max_index;
+
 	i = 0;
-	max_index = sizeof(flags) / sizeof(flags[0]) - 1; /* exclude NULL */
-	while (flags[i])
+	max_index = sizeof(flags) / sizeof(flags[0]) - 1; /* last index is for --bench */
+	while (i <= max_index)
 	{
 		if (ft_strcmp(src, flags[i]) == 0)
 		{
 			if ((i < max_index - 1) && context->strategy == NONE) /* strategy flags */
 				context->strategy = (t_strategy)i;
-			else if ((i == max_index - 1) && context->bench_enabled == 0) /* bench flag */
+			else if ((i == max_index) && context->bench_enabled == 0) /* bench flag */
 				context->bench_enabled = 1;
 			return (1);
 		}
@@ -94,14 +86,14 @@ int	is_flag(char *src, t_context *context)
 	return (0);
 }
 
-
-int  parse_args(int argc, char **argv, int **out_values, t_context *context)
+int	parse_args(int argc, char **argv, int **out_values, t_context *context)
 {
-	int	i;
-	int	count;
-	long tmp;
+	int		i;
+	int		count;
+	long	tmp;
 
 	*out_values = malloc(argc * sizeof(**out_values));
+	printf("DEBUG: parse_args start\n");
 	if (!*out_values)
 		return (0);
 	count = 0;

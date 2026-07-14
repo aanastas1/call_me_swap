@@ -10,15 +10,15 @@
 
 typedef struct s_element
 {
-	int value;
-	int rank;
+	int value; /* Value of the element */
+	int rank; /* Rank of the element */
 } t_element;
 
 typedef struct s_arr {
     t_element *elements;
-    int start;
-    int len;
-    int size;
+    int bottom; /* physical index of the cell containing logical element [0] */
+    int depth; /* number of elements in the stack */
+    int size; /* total capacity of the array */
 }   t_arr;
 
 typedef enum e_optype {
@@ -41,8 +41,8 @@ typedef struct s_context {
     t_arr a;
     t_arr b;
 
-    long op_total;
-    long op_counts[COUNT];
+    int op_total; /* total number of operations performed */
+    int op_counts[COUNT]; /* array counts of each operation type */
 
     t_strategy strategy;
     int bench_enabled;

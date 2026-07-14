@@ -6,13 +6,13 @@
 /*   By: aloiko <aloiko@student.42warsaw.pl>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/13 13:46:35 by aloiko            #+#    #+#             */
-/*   Updated: 2026/07/13 21:50:20 by aloiko           ###   ########.fr       */
+/*   Updated: 2026/07/14 20:37:33 by aloiko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-int  validate_no_dups(int *values, int n)
+int	validate_no_dups(int *values, int n)
 {
 	int	i;
 	int	j;
@@ -32,7 +32,7 @@ int  validate_no_dups(int *values, int n)
 	return (1);
 }
 
-double compute_disorder_values(const int *values, int n)
+double	compute_disorder_values(const int *values, int n)
 {
 	int	mistakes;
 	int	total_pairs;
@@ -50,16 +50,18 @@ double compute_disorder_values(const int *values, int n)
 			total_pairs++;
 			if (values[i] > values[j])
 				mistakes++;
+			j++;
 		}
+		i++;
 	}
 	return ((double)mistakes / total_pairs);
 }
 
-int   *compute_ranks(const int *values, int n)
+int	*compute_ranks(const int *values, int n)
 {
-	int *temp;
-	int i;
-	int j;
+	int	*temp;
+	int	i;
+	int	j;
 
 	temp = malloc(n * sizeof(int));
 	if (!temp)
@@ -80,10 +82,11 @@ int   *compute_ranks(const int *values, int n)
 	return (temp);
 }
 
-void setup_stacks(t_context *context, int *values, int *ranks, int n)
+void	setup_stacks(t_context *context, int *values, int *ranks, int n)
 {
-	int i;
+	int	i;
 
+	printf("DEBUG: setup_stacks start\n");
 	i = 0;
 	while (i < n)
 	{
@@ -91,5 +94,5 @@ void setup_stacks(t_context *context, int *values, int *ranks, int n)
 		context->a.elements[i].rank = ranks[i];
 		i++;
 	}
-	context->a.len = n;
+	context->a.depth = n;
 }
