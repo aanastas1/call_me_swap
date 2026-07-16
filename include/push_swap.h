@@ -65,6 +65,9 @@ void setup_stacks(t_context *context, int *values, int *ranks, int n);
 int  stack_is_sorted_asc(const t_arr *a); /* ascending: smaller ranks first on top */
 void sort_small(t_context *context);                /* handles n<=3..5 safely via dedicated logic */
 
+int phys_idx(t_arr *arr, int logical_idx);
+void swap(t_arr *arr, int logical_idx1, int logical_idx2);
+
 /* operation layer (must be the only place that prints ops) */
 void sa(t_context *context);
 void sb(t_context *context);
@@ -77,6 +80,8 @@ void rr(t_context *context);
 void rra(t_context *context);
 void rrb(t_context *context);
 void rrr(t_context *context);
+
+void turk_alg(t_context *context);
 
 /* strategies */
 void strategy_simple(t_context *context, int n);

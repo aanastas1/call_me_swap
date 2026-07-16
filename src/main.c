@@ -6,7 +6,7 @@
 /*   By: aloiko <aloiko@student.42warsaw.pl>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/12 18:39:35 by aloiko            #+#    #+#             */
-/*   Updated: 2026/07/14 20:47:44 by aloiko           ###   ########.fr       */
+/*   Updated: 2026/07/16 20:10:05 by aloiko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,22 +65,46 @@ static void	free_all(t_context *context, int *values, int *ranks)
 		free(context->b.elements);
 }
 
-void print_stack_a(t_context *context)
+void print_stack_a_b(t_context *context)
 {
-	int	i;
+	int	idx_a;
+	int top_a;
+	int idx_b;
+	int top_b;
+
+	top_a = context->a.depth - 1;
+	top_b = context->b.depth - 1;
 	ft_putstr_fd("Stack A: (Value | Rank): [ ", 1);
-	i = context->a.depth - 1;
-	while (i >= 0)
+	ft_putstr_fd("                 Stack B: (Value | Rank): [\n", 1);
+	while (top_a >= 0 || top_b >= 0)
 	{
-		ft_putnbr_fd(context->a.elements[context->a.bottom + i].value, 1);
-		ft_putstr_fd(" | ", 1);
-		ft_putnbr_fd(context->a.elements[context->a.bottom + i].rank, 1);
-		if (i != 0)
-			ft_putstr_fd(", ", 1);
-		ft_putstr_fd(" ", 1);
-		i--;
+		if (top_a >= 0)
+		{
+			idx_a = phys_idx(&context->a, top_a);
+			ft_putstr_fd("              ", 1);
+			ft_putnbr_fd(context->a.elements[idx_a].value, 1);
+			ft_putstr_fd(" | ", 1);
+			ft_putnbr_fd(context->a.elements[idx_a].rank, 1);
+			if (top_a == 0)
+				ft_putstr_fd(" ]", 1);
+			ft_putstr_fd("                       ", 1);
+			top_a--;
+		}
+		if (top_b >= 0)
+		{
+			idx_b = phys_idx(&context->b, top_b);
+			ft_putnbr_fd(context->b.elements[idx_b].value, 1);
+			ft_putstr_fd(" | ", 1);
+			ft_putnbr_fd(context->b.elements[idx_b].rank, 1);
+			if (top_b == 0)
+				ft_putstr_fd(" ]", 1);
+			top_b--;
+		}
+		ft_putstr_fd("             \n", 1);
+		if (top_a < 0)
+			ft_putstr_fd("                                            ", 1);
 	}
-	ft_putstr_fd("]\n", 1);
+	ft_putstr_fd("\n", 1);
 }
 
 int	main(int argc, char **argv)
@@ -121,12 +145,33 @@ int	main(int argc, char **argv)
 	setup_stacks(&context, values, ranks, n);
 	printf("DEBUG: After setup_stacks\n");
 	disorder = compute_disorder_values(values, n);
-	
+	print_stack_a_b(&context); /*print stack before small functions*/
+
+	sa(&context);
+	pb(&context);
+	pb(&context);
+	pb(&context);
+	pb(&context);
+	pb(&context);
+	pb(&context);
+	pb(&context);
+	pb(&context);
+	ra(&context);
+	ra(&context);
+	rr(&context);
+	rr(&context);
+	rrr(&context);
+	rb(&context);
+
+
+	//turk_alg(&context);
+
 	printf("Disorder: %.2f\n", disorder);
 	printf("DEBUG: n = %d\n", n);
 	printf("DEBUG: values = %d\n", *values);
-	printf("DEBUG: depth = %d, size = %d\n", context.a.depth, context.a.size);
-	print_stack_a(&context);
+	printf("DEBUG: depth.a = %d, size.a = %d              depth.b = %d, size.b = %d\n", context.a.depth, context.a.size, context.b.depth, context.b.size);
+	
+	print_stack_a_b(&context); /* print stack after small functions */
 
 	free_all(&context, values, ranks);
 	return (0);
