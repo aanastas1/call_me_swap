@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   op_swap_n_push.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aloiko <aloiko@student.42warsaw.pl>        +#+  +:+       +#+        */
+/*   By: anakloch <anakloch@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/13 14:15:04 by aloiko            #+#    #+#             */
-/*   Updated: 2026/07/14 20:02:43 by aloiko           ###   ########.fr       */
+/*   Updated: 2026/07/17 12:24:46 by anakloch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,15 +15,12 @@
 
 void	sa(t_context *context)
 {
-	t_element	tmp;
-	int			top;
-
+	int			top_logic_idx;
+	
+	top_logic_idx = context->a.depth - 1;
 	if (context->a.depth <= 1) /* Not enough elements to swap */
 		return ;
-	top = (context->a.bottom + context->a.depth - 1) % context->a.size;
-	tmp = context->a.elements[top];
-	context->a.elements[top] = context->a.elements[top - 1];
-	context->a.elements[top - 1] = tmp;
+	swap(&context->a, top_logic_idx, top_logic_idx - 1);
 	context->op_counts[SA]++;
 	context->op_total++;
 	ft_putstr_fd("sa\n", 1);
@@ -31,15 +28,12 @@ void	sa(t_context *context)
 
 void	sb(t_context *context)
 {
-	t_element	tmp;
-	int			top;
+	int			top_logic_idx;
 
 	if (context->b.depth <= 1)
 		return ;
-	top = (context->b.bottom + context->b.depth - 1) % context->b.size;
-	tmp = context->b.elements[top];
-	context->b.elements[top] = context->b.elements[top - 1];
-	context->b.elements[top - 1] = tmp;
+	top_logic_idx = context->b.depth - 1;
+	swap(&context->b, top_logic_idx, top_logic_idx - 1);
 	context->op_counts[SB]++;
 	context->op_total++;
 	ft_putstr_fd("sb\n", 1);
@@ -47,25 +41,20 @@ void	sb(t_context *context)
 
 void	ss(t_context *context)
 {
-	t_element	tmp;
-	int			top_a;
-	int			top_b;
+	int			top_a_logic_idx;
+	int			top_b_logic_idx;
 
 	if (context->a.depth <= 1 && context->b.depth <= 1)
 		return ;
 	if (context->a.depth > 1)
 	{
-		top_a = (context->a.bottom + context->a.depth - 1) % context->a.size;
-		tmp = context->a.elements[top_a];
-		context->a.elements[top_a] = context->a.elements[top_a - 1];
-		context->a.elements[top_a - 1] = tmp;
+		top_a_logic_idx = context->a.depth - 1;
+		swap(&context->a, top_a_logic_idx, top_a_logic_idx - 1);
 	}
 	if (context->b.depth > 1)
 	{
-		top_b = (context->b.bottom + context->b.depth - 1) % context->b.size;
-		tmp = context->b.elements[top_b];
-		context->b.elements[top_b] = context->b.elements[top_b - 1];
-		context->b.elements[top_b - 1] = tmp;
+		top_b_logic_idx = context->b.depth - 1;
+		swap(&context->b, top_b_logic_idx, top_b_logic_idx - 1);
 	}
 	context->op_counts[SS]++;
 	context->op_total++;
@@ -74,15 +63,20 @@ void	ss(t_context *context)
 
 void	pa(t_context *context)
 {
-	int	top_a;
-	int	top_b;
+	int			top_a_logic_idx;
+	int			top_b_logic_idx;
+	int			idx_a;
+	int			idx_b;
 
 	if (context->b.depth == 0)
 		return ;
 	context->a.depth++;
-	top_b = (context->b.bottom + context->b.depth - 1) % context->b.size;
-	top_a = (context->a.bottom + context->a.depth - 1) % context->a.size;
-	context->a.elements[top_a] = context->b.elements[top_b];
+	top_a_logic_idx = context->a.depth - 1;
+	top_b_logic_idx = context->b.depth - 1;
+
+	idx_a = phys_idx(&context->a, top_a_logic_idx);
+	idx_b = phys_idx(&context->b, top_b_logic_idx);
+	context->a.elements[idx_a] = context->b.elements[idx_b];
 	context->b.depth--;
 	context->op_counts[PA]++;
 	context->op_total++;
@@ -91,15 +85,19 @@ void	pa(t_context *context)
 
 void	pb(t_context *context)
 {
-	int	top_a;
-	int	top_b;
-
+	int			top_a_logic_idx;
+	int			top_b_logic_idx;
+	int			idx_a;
+	int			idx_b;
+	
 	if (context->a.depth == 0)
 		return ;
 	context->b.depth++;
-	top_a = (context->a.bottom + context->a.depth - 1) % context->a.size;
-	top_b = (context->b.bottom + context->b.depth - 1) % context->b.size;
-	context->b.elements[top_b] = context->a.elements[top_a];
+	top_a_logic_idx = context->a.depth - 1;
+	top_b_logic_idx = context->b.depth - 1;
+	idx_a = phys_idx(&context->a, top_a_logic_idx);
+	idx_b = phys_idx(&context->b, top_b_logic_idx);
+	context->b.elements[idx_b] = context->a.elements[idx_a];
 	context->a.depth--;
 	context->op_counts[PB]++;
 	context->op_total++;

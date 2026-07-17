@@ -3,19 +3,27 @@
 /*                                                        :::      ::::::::   */
 /*   op_rotate.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aloiko <aloiko@student.42warsaw.pl>        +#+  +:+       +#+        */
+/*   By: anakloch <anakloch@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/14 19:17:37 by aloiko            #+#    #+#             */
-/*   Updated: 2026/07/14 20:07:47 by aloiko           ###   ########.fr       */
+/*   Updated: 2026/07/17 12:24:31 by anakloch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 #include "../libft/libft.h"
 
+
+int phys_idx(t_arr *arr, int logical_idx)
+{
+	return (arr->bottom + logical_idx) % arr->depth;
+}
+
 void	ra(t_context *context)
 {
-	context->a.bottom = (context->a.bottom + 1) % context->a.size;
+	if (context->a.depth <= 1)
+		return ;
+	context->a.bottom = phys_idx(&context->a, 1);
 	context->op_counts[RA]++;
 	context->op_total++;
 	ft_putstr_fd("ra\n", 1);
@@ -23,7 +31,9 @@ void	ra(t_context *context)
 
 void	rb(t_context *context)
 {
-	context->b.bottom = (context->b.bottom + 1) % context->b.size;
+	if (context->b.depth <= 1)
+		return ;
+	context->b.bottom = phys_idx(&context->b, 1);
 	context->op_counts[RB]++;
 	context->op_total++;
 	ft_putstr_fd("rb\n", 1);
@@ -31,8 +41,12 @@ void	rb(t_context *context)
 
 void	rr(t_context *context)
 {
-	context->a.bottom = (context->a.bottom + 1) % context->a.size;
-	context->b.bottom = (context->b.bottom + 1) % context->b.size;
+	if (context->a.depth <= 1 && context->b.depth <= 1)
+		return ;
+	if (context->a.depth > 1)
+		context->a.bottom = phys_idx(&context->a, 1);
+	if (context->b.depth > 1)
+		context->b.bottom = phys_idx(&context->b, 1);
 	context->op_counts[RR]++;
 	context->op_total++;
 	ft_putstr_fd("rr\n", 1);

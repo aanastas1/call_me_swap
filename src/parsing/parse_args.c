@@ -3,19 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   parse_args.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aloiko <aloiko@student.42warsaw.pl>        +#+  +:+       +#+        */
+/*   By: anakloch <anakloch@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/12 15:09:31 by aloiko            #+#    #+#             */
-/*   Updated: 2026/07/14 20:56:21 by aloiko           ###   ########.fr       */
+/*   Updated: 2026/07/17 12:25:01 by anakloch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
-
-static int	is_digit(int c)
-{
-	return (c >= '0' && c <= '9');
-}
+#include "../libft/libft.h"
 
 int	ft_strcmp(const char *s1, const char *s2)
 {
@@ -40,7 +36,7 @@ static long	ft_atoil(const char *nptr)
 			sign = -1;
 		nptr++;
 	}
-	while (is_digit(*nptr))
+	while (ft_isdigit(*nptr))
 	{
 		res = res * 10 + (*nptr - '0');
 		nptr++;
@@ -59,7 +55,7 @@ int	all_digits(char *src)
 		return (0);
 	while (*src)
 	{
-		if (!is_digit(*src))
+		if (!ft_isdigit(*src))
 			return (0);
 		has_digits = 1;
 		src++;
@@ -79,7 +75,7 @@ int	is_flag(char *src, t_context *context)
 	{
 		if (ft_strcmp(src, flags[i]) == 0)
 		{
-			if ((i < max_index) && context->strategy == NONE)
+			if ((i < max_index - 1) && context->strategy == NONE) /* strategy flags */
 				context->strategy = (t_strategy)i;
 			else if ((i == max_index) && context->bench_enabled == 0) /* bench flag */
 				context->bench_enabled = 1;
@@ -97,6 +93,7 @@ int	parse_args(int argc, char **argv, int **out_values, t_context *context)
 	long	tmp;
 
 	*out_values = malloc(argc * sizeof(**out_values));
+	printf("DEBUG: parse_args start\n");
 	if (!*out_values)
 		return (0);
 	count = 0;

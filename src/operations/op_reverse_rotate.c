@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   op_reverse_rotate.c                                :+:      :+:    :+:   */
+/*   op_reverse_rotate.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aloiko <aloiko@student.42warsaw.pl>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/14 19:21:31 by aloiko            #+#    #+#             */
-/*   Updated: 2026/07/14 20:43:03 by aloiko           ###   ########.fr       */
+/*   Updated: 2026/07/16 17:06:54 by aloiko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,9 @@
 
 void	rra(t_context *context)
 {
-	context->a.bottom = (context->a.bottom - 1 + context->a.size)
-		% context->a.size;
+	if (context->a.depth <= 1)
+		return ;
+	context->a.bottom = phys_idx(&context->a, context->a.depth - 1);
 	context->op_counts[RRA]++;
 	context->op_total++;
 	ft_putstr_fd("rra\n", 1);
@@ -24,8 +25,9 @@ void	rra(t_context *context)
 
 void	rrb(t_context *context)
 {
-	context->b.bottom = (context->b.bottom - 1 + context->b.size)
-		% context->b.size;
+	if (context->b.depth <= 1)
+		return ;
+	context->b.bottom = phys_idx(&context->b, context->b.depth - 1);
 	context->op_counts[RRB]++;
 	context->op_total++;
 	ft_putstr_fd("rrb\n", 1);
@@ -33,10 +35,12 @@ void	rrb(t_context *context)
 
 void	rrr(t_context *context)
 {
-	context->a.bottom = (context->a.bottom - 1 + context->a.size)
-		% context->a.size;
-	context->b.bottom = (context->b.bottom - 1 + context->b.size)
-		% context->b.size;
+	if (context->a.depth <= 1 && context->b.depth <= 1)
+		return ;
+	if (context->a.depth > 1)
+		context->a.bottom = phys_idx(&context->a, context->a.depth - 1);
+	if (context->b.depth > 1)
+		context->b.bottom = phys_idx(&context->b, context->b.depth - 1);
 	context->op_counts[RRR]++;
 	context->op_total++;
 	ft_putstr_fd("rrr\n", 1);

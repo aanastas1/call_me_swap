@@ -2,7 +2,7 @@
 
 void	op_record(t_context *context, t_operation_type operation)
 {
-	if (operation < SA || operation >= OP_COUNT)
+	if (operation < SA || operation >= COUNT)
 		return ;
 	context->op_total++;
 	context->op_counts[operation]++;
@@ -10,7 +10,7 @@ void	op_record(t_context *context, t_operation_type operation)
 
 static const char	*operation_name(int operation)
 {
-	const char	*names[OP_COUNT];
+	const char	*names[COUNT];
 
 	names[SA] = "sa";
 	names[SB] = "sb";
@@ -36,11 +36,11 @@ void	bench_print_and_counts(t_context *context, double disorder,
 		return ;
 	fprintf(stderr, "disorder: %.2f%%\n", disorder * 100.0);
 	fprintf(stderr, "strategy: %s (%s)\n", strategy_name, complex_class);
-	fprintf(stderr, "operations: %ld\n", context->op_total);
+	fprintf(stderr, "operations: %d\n", context->op_total);
 	i = 0;
-	while (i < OP_COUNT)
+	while (i < COUNT)
 	{
-		fprintf(stderr, "%s: %ld\n", operation_name(i),
+		fprintf(stderr, "%s: %d\n", operation_name(i),
 			context->op_counts[i]);
 		i++;
 	}
