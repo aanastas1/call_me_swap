@@ -6,7 +6,7 @@
 /*   By: aloiko <aloiko@student.42warsaw.pl>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/12 15:09:31 by aloiko            #+#    #+#             */
-/*   Updated: 2026/07/14 20:56:21 by aloiko           ###   ########.fr       */
+/*   Updated: 2026/07/18 00:24:14 by aloiko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,10 @@ int	ft_strcmp(const char *s1, const char *s2)
 		s2++;
 	}
 	return (*s1 - *s2);
+}
+static int	ft_isspace(char c)
+{
+	return (c == ' ' || (c >= '\t' && c <= '\r'));
 }
 
 static long	ft_atoil(const char *nptr)
@@ -44,7 +48,7 @@ static long	ft_atoil(const char *nptr)
 	return (sign * res);
 }
 
-int	all_digits(char *src)
+int	is_number(char *src)
 {
 	int	has_digits;
 
@@ -63,7 +67,7 @@ int	all_digits(char *src)
 	return (has_digits);
 }
 
-int	is_flag(char *src, t_context *context)
+int	is_strategy_selector(char *src, t_context *context)
 {
 	const char	*flags[] = {"--simple", "--medium", "--complex", "--adaptive", "--bench"};
 	int	i;
@@ -85,33 +89,120 @@ int	is_flag(char *src, t_context *context)
 	}
 	return (0);
 }
+int has_spaces(char *src)
+{
+	while (*src)
+	{
+		if (ft_isspace(*src))
+			return (1);
+		src++;
+	}
+	return (0);
+}
+int	find_buf_size(char **buf)
+{
+	int	i;
+
+	i = 0;
+	while (buf[i])
+		i++;
+	return (i);
+}
+int out_of_int_range(long nbr)
+{
+	if (nbr < INT_MIN || nbr > INT_MAX)
+		return (1);
+	return (0);
+}
+
+int	add_nbr_to_arr(int **out_values, char *nptr, int idx)
+{
+	long	tmp;
+
+	tmp = ft_atoil(nptr);
+	if (out_of_int_range(tmp))
+			return (0);
+	(*out_values)[idx] = (int)tmp;
+	return (1);
+}
+
+void free_split(char **buf)
+{
+    int i;
+
+    if (!buf)
+        return;
+    i = 0;
+    while (buf[i])
+    {
+        free(buf[i]);
+        i++;
+    }
+    free(buf);
+}
+
+int complex_string_split(int **out_values, char *str)
+{
+	char	**buf;
+	int		buf_size;
+	const char c = ' ';
+	int	i;
+			
+	buf = ft_split(str, c);
+	if (!buf)
+		return (0); /*add return error NULL if no buf*/
+	buf_size = find_buf_size(buf);
+	*out_values = malloc(buf_size * sizeof(**out_values));
+	if (!*out_values)
+		return (0); /*add return error NULL if no buf*/
+	i = 0;
+	while (i < buf_size)
+	{ 
+		if (!is_number(buf[i]))
+			return (0);
+		if (!add_nbr_to_arr(out_values, buf[i], i))
+			return (0);
+		i++;
+	}
+	free_split(buf);
+	return (buf_size);
+}
 
 int	parse_args(int argc, char **argv, int **out_values, t_context *context)
 {
+	enum e_mode {unknown, single_numbers, spaced_arg};
+	enum e_mode	mode;
 	int		i;
 	int		count;
-	long	tmp;
-
-	*out_values = malloc(argc * sizeof(**out_values));
+	context->strategy = NONE;
+	
 	printf("DEBUG: parse_args start\n");
-	if (!*out_values)
+	if (!out_values)
 		return (0);
 	count = 0;
+	mode = unknown;
 	i = 0;
 	while (++i < argc)
 	{
-		if (is_flag(argv[i], context))
+		if (is_strategy_selector(argv[i], context))
 			continue ;
-		else if (all_digits(argv[i]))
+		else if (has_spaces(argv[i]))
 		{
-			tmp = ft_atoil(argv[i]);
-			if (tmp < INT_MIN || tmp > INT_MAX)
+			if (mode == single_numbers || mode == spaced_arg)
 				return (0);
-			(*out_values)[count++] = tmp;
+			count = complex_string_split(out_values, argv[i]);
+			mode = spaced_arg;
 		}
-		else
+		else 
 		{
-			return (0);
+			if (mode == spaced_arg || !is_number(argv[i]))
+				return (0);
+			if(!*out_values)
+				*out_values = malloc(argc * sizeof(**out_values));
+			if (!add_nbr_to_arr(out_values, argv[i], count))
+				return (0);
+			count++;
+			mode = (mode == unknown) ? single_numbers : mode;
 		}
 	}
 	return (count);

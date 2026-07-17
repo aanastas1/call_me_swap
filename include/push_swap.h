@@ -57,9 +57,9 @@ int validate_no_dups(int *values, int n);
 
 /* disorder + ranks */
 double compute_disorder_values(const int *values, int n);   /* returns [0..1] */
-int   *compute_ranks(const int *values, int n);             /* returns n ints */
+void   compute_ranks(t_context *context, const int *values, int size);            
 
-void setup_stacks(t_context *context, int *values, int *ranks, int n);
+void setup_stacks(t_context *context, int *values, int size);
 
 /* sort helpers */
 int  stack_is_sorted_asc(const t_arr *a); /* ascending: smaller ranks first on top */

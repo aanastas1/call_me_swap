@@ -6,7 +6,7 @@
 /*   By: aloiko <aloiko@student.42warsaw.pl>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/12 18:39:35 by aloiko            #+#    #+#             */
-/*   Updated: 2026/07/16 20:10:05 by aloiko           ###   ########.fr       */
+/*   Updated: 2026/07/18 01:08:10 by aloiko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,51 +14,17 @@
 #include "../libft/libft.h"
 #include <stdio.h>
 
-static void	stack_init(t_arr *arr, int capacity)
-{
-	arr->elements = malloc(capacity * sizeof(t_element));
-	if (!arr->elements)
-	{
-		ft_putstr_fd("Error: Memory allocation failed\n", 2);
-		exit(EXIT_FAILURE);
-	}
-	arr->bottom = 0; /* Initialize bottom to 0 to indicate the stack is empty */
-	arr->depth = 0;
-	arr->size = capacity;
-}
-
-static void	context_init(t_context *context, int capacity)
-{
-    // 1. Инициализация стеков (массивов)
-    // Выделяем память под arr, задаем capacity, обнуляем size и bottom
-    stack_init(&context->a, capacity);
-    stack_init(&context->b, capacity);
-
-    // 2. Инициализация стратегии
-    // Ставим дефолт (NONE), чтобы не зависеть от мусора в памяти
-    context->strategy = NONE;
-
-    // 3. Инициализация флагов и счетчиков
-    context->bench_enabled = 0;
-    context->op_total = 0;
-    
-    // Обнуляем массив счетчиков операций
-    ft_bzero(context->op_counts, sizeof(context->op_counts)); 
-   
-}
-
 static void	put_error(void)
 {
 	ft_putstr_fd("Error\n", 2);
 	
 }
 
-static void	free_all(t_context *context, int *values, int *ranks)
+static void	free_all(t_context *context, int *values)
 {
+
 	if (values)
 		free(values);
-	if (ranks)
-		free(ranks);
 	if (context->a.elements)
 		free(context->a.elements);
 	if (context->b.elements)
@@ -110,41 +76,33 @@ void print_stack_a_b(t_context *context)
 int	main(int argc, char **argv)
 {
 	int		*values;
-	int		n;
+	int		count_of_nbr;
 	double	disorder;
-	int		*ranks;
 	t_context	context;
 
 	values = NULL;
-	ranks = NULL;
+	ft_bzero(&context, sizeof(context)); 
 	if (argc < 2)
 		return (0);
 	printf("DEBUG: main start\n");
-	context_init(&context, argc);
-	n = parse_args(argc, argv, &values, &context);
+	count_of_nbr = parse_args(argc, argv, &values, &context);
 	printf("DEBUG: After parse_args\n");
-	if (n <= 0 || !values) 
+	if (count_of_nbr <= 0 || !values) 
 	{
 		put_error();
-		free_all(&context, values, ranks);
+		free_all(&context, values);
 		return (0);
 	}
-	if (!validate_no_dups(values, n))
+	
+	if (!validate_no_dups(values, count_of_nbr))
 	{
 		put_error();
-		free_all(&context, values, ranks);
+		free_all(&context, values);
 		return (0);
 	}
-	ranks = compute_ranks(values, n);
-	if (!ranks)
-	{
-		put_error();
-		free_all(&context, values, ranks);
-		return (0);
-	}
-	setup_stacks(&context, values, ranks, n);
+	setup_stacks(&context, values, count_of_nbr);
 	printf("DEBUG: After setup_stacks\n");
-	disorder = compute_disorder_values(values, n);
+	disorder = compute_disorder_values(values, count_of_nbr);
 	print_stack_a_b(&context); /*print stack before small functions*/
 
 	sa(&context);
@@ -167,13 +125,13 @@ int	main(int argc, char **argv)
 	//turk_alg(&context);
 
 	printf("Disorder: %.2f\n", disorder);
-	printf("DEBUG: n = %d\n", n);
+	printf("DEBUG: n = %d\n", count_of_nbr);
 	printf("DEBUG: values = %d\n", *values);
 	printf("DEBUG: depth.a = %d, size.a = %d              depth.b = %d, size.b = %d\n", context.a.depth, context.a.size, context.b.depth, context.b.size);
 	
 	print_stack_a_b(&context); /* print stack after small functions */
 
-	free_all(&context, values, ranks);
+	free_all(&context, values);
 	return (0);
 }
 
