@@ -1,10 +1,5 @@
 #include "push_swap.h"
 
-static const char	*g_operation_names[OP_COUNT] = 
-{
-	"sa", "sb", "ss", "pa", "pb", "ra", "rb", "rr", "rra", "rrb", "rrr"
-};
-
 void	op_record(t_context *context, t_operation_type operation)
 {
 	if (operation < SA || operation >= OP_COUNT)
@@ -13,6 +8,25 @@ void	op_record(t_context *context, t_operation_type operation)
 	context->op_counts[operation]++;
 }
 
+static const char	*operation_name(int operation)
+{
+	const char	*names[OP_COUNT];
+
+	names[SA] = "sa";
+	names[SB] = "sb";
+	names[SS] = "ss";
+	names[PA] = "pa";
+	names[PB] = "pb";
+	names[RA] = "ra";
+	names[RB] = "rb";
+	names[RR] = "rr";
+	names[RRA] = "rra";
+	names[RRB] = "rrb";
+	names[RRR] = "rrr";
+	return (names[operation]);
+}
+
+// mode (--bench)
 void	bench_print_and_counts(t_context *context, double disorder,
 		const char *strategy_name, const char *complex_class)
 {
@@ -26,7 +40,7 @@ void	bench_print_and_counts(t_context *context, double disorder,
 	i = 0;
 	while (i < OP_COUNT)
 	{
-		fprintf(stderr, "%s: %ld\n", g_operation_names[i],
+		fprintf(stderr, "%s: %ld\n", operation_name(i),
 			context->op_counts[i]);
 		i++;
 	}

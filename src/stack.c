@@ -47,27 +47,3 @@ int	stack_is_sorted_asc(const t_stack *stack)
 	}
 	return (1); // полностью отсортирован
 }
-/* 
-int	main(void)
-{
-	t_stack		a;
-	t_number	removed;
-
-	if (!stack_init(&a, 3))
-		return (1);
-	stack_add_top(&a, 20, 2);
-	stack_add_top(&a, 30, 1);
-	stack_add_top(&a, 10, 0);
-	printf("Stack: %d, %d, %d", a.numbers[0].value, a.numbers[1].value, a.numbers[2].value);
-	printf("top: 		value=%d, rank=%d\n", a.numbers[0].value, a.numbers[0].rank);
-	printf("after pushes: 	empty=%d, sorted=%d, size=%d\n",
-		stack_is_empty(&a), stack_is_sorted_asc(&a), a.size);
-	if (stack_remove_top(&a, &removed))
-		printf("popped: 	value=%d, rank=%d\n", removed.value, removed.rank);
-	printf("after pop: 	empty=%d, sorted=%d, size=%d\n",
-		stack_is_empty(&a), stack_is_sorted_asc(&a), a.size);
-	stack_clear(&a);
-	printf("after clear: 	empty=%d, size=%d\n", stack_is_empty(&a), a.size);
-	return (0);
-}
-	*/

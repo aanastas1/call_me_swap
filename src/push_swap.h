@@ -2,18 +2,19 @@
 # define PUSH_SWAP_H
 
 # include <stdio.h>
+# include <limits.h>
 # include <stdlib.h>
 # include <string.h>
 
-typedef struct s_number
+typedef struct s_element
 {
 	int		value; // 42
 	int		rank; // вычислянем по возрастанию 
-} t_number;
+} t_element;
 
 typedef struct s_stack
 {
-	t_number	*numbers; 
+	t_element	*numbers;
 	int         size;	// актуальный размер 
 	int         capacity; // вместительность
 } t_stack;
@@ -27,10 +28,27 @@ typedef enum e_optype
 	OP_COUNT
 } t_operation_type;
 
+typedef struct s_arr
+{
+	t_element	*elements;
+	int			bottom;
+	int			depth;
+	int			size;
+}t_arr;
+
+typedef enum e_strategy {
+    SIMPLE,
+    MEDIUM,
+    COMPLEX,
+    ADAPTIVE,
+    NONE
+} t_strategy;
+
 typedef struct s_context
 {
-	t_stack	a;
-	t_stack	b;
+	t_arr		a;
+	t_arr		b;
+	t_strategy	strategy;
 	int		bench_enabled;
 	long		op_total;
 	long		op_counts[OP_COUNT];
@@ -40,12 +58,13 @@ typedef struct s_context
 int	    stack_init(t_stack *stack, int capacity); // ✅ 
 void	stack_clear(t_stack *stack);			// ✅ 
 int	    stack_add_top(t_stack *stack, int value, int rank); // ✅ 
-int	    stack_remove_top(t_stack *stack, t_number *out); // ✅
+int	    stack_remove_top(t_stack *stack, t_element *out); // ✅
 int 	stack_is_empty(const t_stack *stack); // ✅ 
 int	    stack_is_sorted_asc(const t_stack *a); // ✅ 
 
 /* parse */
-int		parse_args(int argc, char **argv, int **out_values);
+int		parse_args(int argc, char **argv, int **out_values,
+			t_context *context);
 int		validate_ints_and_no_dups(int *values, int n);
 
 /* disorder + ranks */
