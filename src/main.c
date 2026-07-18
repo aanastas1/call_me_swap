@@ -6,7 +6,7 @@
 /*   By: aloiko <aloiko@student.42warsaw.pl>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/12 18:39:35 by aloiko            #+#    #+#             */
-/*   Updated: 2026/07/18 16:26:36 by aloiko           ###   ########.fr       */
+/*   Updated: 2026/07/18 16:49:22 by aloiko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,8 @@ void print_stack_a_b(t_context *context)
 		}
 		if (top_b >= 0)
 		{
+			if (top_a < 0 && top_b == context->b.depth - 1)
+				ft_putstr_fd("                                            ", 1);
 			idx_b = phys_idx(&context->b, top_b);
 			ft_putnbr_fd(context->b.elements[idx_b].value, 1);
 			ft_putstr_fd(" | ", 1);
@@ -96,7 +98,7 @@ int	main(int argc, char **argv)
 	printf("DEBUG: depth.a = %d, size.a = %d              depth.b = %d, size.b = %d\n", context.a.depth, context.a.size, context.b.depth, context.b.size);
 	print_stack_a_b(&context); /*print stack before small functions*/
 
-	sa(&context);
+	//sa(&context);
 	pb(&context);
 	printf("DEBUG: depth.a = %d, size.a = %d              depth.b = %d, size.b = %d\n", context.a.depth, context.a.size, context.b.depth, context.b.size);
 	pb(&context);
@@ -108,14 +110,21 @@ int	main(int argc, char **argv)
 	pb(&context);
 	printf("DEBUG: depth.a = %d, size.a = %d              depth.b = %d, size.b = %d\n", context.a.depth, context.a.size, context.b.depth, context.b.size);
 	pb(&context);
+	printf("DEBUG: depth.a = %d, size.a = %d              depth.b = %d, size.b = %d\n", context.a.depth, context.a.size, context.b.depth, context.b.size);
 	pb(&context);
+	printf("DEBUG: depth.a = %d, size.a = %d              depth.b = %d, size.b = %d\n", context.a.depth, context.a.size, context.b.depth, context.b.size);
 	pb(&context);
-	ra(&context);
+	printf("DEBUG: depth.a = %d, size.a = %d              depth.b = %d, size.b = %d\n", context.a.depth, context.a.size, context.b.depth, context.b.size);
+	pb(&context);
+	printf("DEBUG: depth.a = %d, size.a = %d              depth.b = %d, size.b = %d\n", context.a.depth, context.a.size, context.b.depth, context.b.size);
+	pb(&context);
+	printf("DEBUG: depth.a = %d, size.a = %d              depth.b = %d, size.b = %d\n", context.a.depth, context.a.size, context.b.depth, context.b.size);
+	/*ra(&context);
 	ra(&context);
 	rr(&context);
 	rr(&context);
 	rrr(&context);
-	rb(&context);
+	rb(&context);*/
 
 
 	//turk_alg(&context);
