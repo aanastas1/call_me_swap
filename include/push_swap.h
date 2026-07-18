@@ -30,11 +30,11 @@ typedef enum e_optype {
 } t_operation_type;
 
 typedef enum e_strategy {
+    NONE,
     SIMPLE,
     MEDIUM,
     COMPLEX,
-    ADAPTIVE,
-    NONE
+    ADAPTIVE
 } t_strategy;
 
 typedef struct s_context {

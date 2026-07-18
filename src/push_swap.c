@@ -50,7 +50,7 @@ void turk_alg(t_context *context)
     target = context->b.elements[phys_idx(&context->b, 0)].rank;
     log_idx = find_element(&context->a, target);
     dist = context->a.depth - 1 - log_idx;
-    while (dist)
+    while (dist--)
         ra(context);
     pb(context);
 

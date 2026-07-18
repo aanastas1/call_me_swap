@@ -79,7 +79,7 @@ int	is_strategy_selector(char *src, t_context *context)
 	{
 		if (ft_strcmp(src, flags[i]) == 0)
 		{
-			if ((i < max_index - 1) && context->strategy == NONE) /* strategy flags */
+			if ((i < max_index - 1) && !context->strategy) /* strategy flags */
 				context->strategy = (t_strategy)i;
 			else if ((i == max_index) && context->bench_enabled == 0) /* bench flag */
 				context->bench_enabled = 1;
@@ -174,7 +174,6 @@ int	parse_args(int argc, char **argv, int **out_values, t_context *context)
 	enum e_mode	mode;
 	int		i;
 	int		count;
-	context->strategy = NONE;
 	
 	printf("DEBUG: parse_args start\n");
 	if (!out_values)
