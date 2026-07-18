@@ -127,6 +127,16 @@ int	main(int argc, char **argv)
 	printf("Disorder: %.2f\n", disorder);
 	printf("DEBUG: n = %d\n", count_of_nbr);
 	printf("DEBUG: values = %d\n", *values);
+	
+	printf("DEBUG: int size = %zu\n", sizeof(int));
+    printf("DEBUG: double size = %zu\n", sizeof(double));
+	printf("DEBUG: a size = %zu\n", sizeof(context.a));
+	printf("DEBUG: strategy size = %zu\n", sizeof(context.strategy));
+	printf("DEBUG: op_total size = %zu\n", sizeof(context.op_total));
+	printf("DEBUG: op_counts[COUNT] size = %zu\n", sizeof(context.op_counts[COUNT]));
+	printf("DEBUG: bench_enabled size = %zu\n", sizeof(context.bench_enabled));
+
+
 	printf("DEBUG: depth.a = %d, size.a = %d              depth.b = %d, size.b = %d\n", context.a.depth, context.a.size, context.b.depth, context.b.size);
 	
 	print_stack_a_b(&context); /* print stack after small functions */
