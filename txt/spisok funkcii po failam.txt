@@ -1,0 +1,34 @@
+main.c
+(
+    static void	context_init(t_context *context);
+    static void	put_error_n_exit(void);
+    static void	free_all(t_context *context);
+    void print_stack_a_b(t_context *context); - for debuging
+    int	main(int argc, char **argv)
+)
+
+parse_args.c
+(
+    void    *xmalloc_count(size_t count, size_t type_size);
+    int	ft_strcmp(const char *s1, const char *s2);
+    static int	ft_isspace(char c);
+    static long	ft_atoil(const char *nptr);
+    int	is_number(char *src);
+    int	is_strategy_selector(char *src, t_context *context);
+    int has_spaces(char *src);
+    int	find_buf_size(char **buf);
+    int out_of_int_range(long nbr);
+    int	add_nbr_to_arr(int **out_values, char *nptr, int idx);
+    void free_split(char **buf);
+    int complex_string_split(int **out_values, char *str);
+    void	parse_args(int argc, char **argv, t_context *context);
+)
+
+prepare_stacks.c
+(
+    static void	stack_init(t_arr *arr, int capacity);
+    int	validate_no_dups(int *values, int n);
+    double	compute_disorder_values(const int *values, int n);
+    void	compute_ranks(t_context *context, const int *values, int size);
+    void	setup_stacks(t_context *context, int *values, int size);
+)

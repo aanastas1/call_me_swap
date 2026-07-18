@@ -6,6 +6,7 @@
 # include <unistd.h>
 # include <limits.h>
 
+
 # include "../libft/libft.h"
 
 typedef struct s_element
@@ -41,18 +42,22 @@ typedef struct s_context {
     t_arr a;
     t_arr b;
 
-    int op_total; /* total number of operations performed */
-    int op_counts[COUNT]; /* array counts of each operation type */
+    double disorder;
 
     t_strategy strategy;
     int bench_enabled;
-    
+   
+    int op_total; /* total number of operations performed */
+    int op_counts[COUNT]; /* array counts of each operation type */
 
     /* stdout-only ops are printed inside op_* */
 } t_context;
 
+void	put_error_n_exit(void);
+void    *xalloc(size_t count, size_t type_size);
+
 /* parse */
-int parse_args(int argc, char **argv, int **out_values, t_context *context);
+void parse_args(int argc, char **argv, t_context *context);
 int validate_no_dups(int *values, int n);
 
 /* disorder + ranks */

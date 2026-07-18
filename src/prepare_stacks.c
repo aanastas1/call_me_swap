@@ -6,7 +6,7 @@
 /*   By: aloiko <aloiko@student.42warsaw.pl>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/13 13:46:35 by aloiko            #+#    #+#             */
-/*   Updated: 2026/07/18 00:38:54 by aloiko           ###   ########.fr       */
+/*   Updated: 2026/07/18 15:51:28 by aloiko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,7 @@
 
 static void	stack_init(t_arr *arr, int capacity)
 {
-	arr->elements = malloc(capacity * sizeof(t_element));
-	if (!arr->elements)
-	{
-		ft_putstr_fd("Error: Memory allocation failed\n", 2);
-		exit(EXIT_FAILURE);
-	}
+	arr->elements = xalloc(capacity, sizeof(t_element));
 	arr->bottom = 0; /* Initialize bottom to 0 to indicate the stack is empty */
 	arr->depth = 0;
 	arr->size = capacity;

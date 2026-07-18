@@ -6,25 +6,26 @@
 /*   By: aloiko <aloiko@student.42warsaw.pl>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/12 18:39:35 by aloiko            #+#    #+#             */
-/*   Updated: 2026/07/18 01:08:10 by aloiko           ###   ########.fr       */
+/*   Updated: 2026/07/18 16:26:36 by aloiko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 #include "../libft/libft.h"
-#include <stdio.h>
 
-static void	put_error(void)
+void	put_error_n_exit(void)
 {
 	ft_putstr_fd("Error\n", 2);
-	
+	exit(1);
+}
+static void	context_init(t_context *context)
+{
+    ft_bzero(&context, sizeof(context)); 
 }
 
-static void	free_all(t_context *context, int *values)
-{
 
-	if (values)
-		free(values);
+static void	free_all(t_context *context)
+{
 	if (context->a.elements)
 		free(context->a.elements);
 	if (context->b.elements)
@@ -75,42 +76,37 @@ void print_stack_a_b(t_context *context)
 
 int	main(int argc, char **argv)
 {
-	int		*values;
-	int		count_of_nbr;
-	double	disorder;
 	t_context	context;
 
-	values = NULL;
-	ft_bzero(&context, sizeof(context)); 
 	if (argc < 2)
 		return (0);
+	context_init(&context); 
+	
 	printf("DEBUG: main start\n");
-	count_of_nbr = parse_args(argc, argv, &values, &context);
+	parse_args(argc, argv, &context);
 	printf("DEBUG: After parse_args\n");
-	if (count_of_nbr <= 0 || !values) 
-	{
-		put_error();
-		free_all(&context, values);
-		return (0);
+	if (context.a.size == 0) 
+	{		
+		free_all(&context);
+		put_error_n_exit();
 	}
 	
-	if (!validate_no_dups(values, count_of_nbr))
-	{
-		put_error();
-		free_all(&context, values);
-		return (0);
-	}
-	setup_stacks(&context, values, count_of_nbr);
+	
 	printf("DEBUG: After setup_stacks\n");
-	disorder = compute_disorder_values(values, count_of_nbr);
+	printf("DEBUG: depth.a = %d, size.a = %d              depth.b = %d, size.b = %d\n", context.a.depth, context.a.size, context.b.depth, context.b.size);
 	print_stack_a_b(&context); /*print stack before small functions*/
 
 	sa(&context);
 	pb(&context);
+	printf("DEBUG: depth.a = %d, size.a = %d              depth.b = %d, size.b = %d\n", context.a.depth, context.a.size, context.b.depth, context.b.size);
 	pb(&context);
+	printf("DEBUG: depth.a = %d, size.a = %d              depth.b = %d, size.b = %d\n", context.a.depth, context.a.size, context.b.depth, context.b.size);
 	pb(&context);
+	printf("DEBUG: depth.a = %d, size.a = %d              depth.b = %d, size.b = %d\n", context.a.depth, context.a.size, context.b.depth, context.b.size);
 	pb(&context);
+	printf("DEBUG: depth.a = %d, size.a = %d              depth.b = %d, size.b = %d\n", context.a.depth, context.a.size, context.b.depth, context.b.size);
 	pb(&context);
+	printf("DEBUG: depth.a = %d, size.a = %d              depth.b = %d, size.b = %d\n", context.a.depth, context.a.size, context.b.depth, context.b.size);
 	pb(&context);
 	pb(&context);
 	pb(&context);
@@ -124,12 +120,12 @@ int	main(int argc, char **argv)
 
 	//turk_alg(&context);
 
-	printf("Disorder: %.2f\n", disorder);
-	printf("DEBUG: n = %d\n", count_of_nbr);
-	printf("DEBUG: values = %d\n", *values);
-	
+	printf("Disorder: %.2f\n", context.disorder);
+	printf("DEBUG: n = %d\n", context.a.size);
+		
 	printf("DEBUG: int size = %zu\n", sizeof(int));
     printf("DEBUG: double size = %zu\n", sizeof(double));
+	printf("DEBUG: context.disorder size = %zu\n", sizeof(context.disorder));
 	printf("DEBUG: a size = %zu\n", sizeof(context.a));
 	printf("DEBUG: strategy size = %zu\n", sizeof(context.strategy));
 	printf("DEBUG: op_total size = %zu\n", sizeof(context.op_total));
@@ -141,7 +137,7 @@ int	main(int argc, char **argv)
 	
 	print_stack_a_b(&context); /* print stack after small functions */
 
-	free_all(&context, values);
+	free_all(&context);
 	return (0);
 }
 

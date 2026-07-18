@@ -6,12 +6,25 @@
 /*   By: aloiko <aloiko@student.42warsaw.pl>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/12 15:09:31 by aloiko            #+#    #+#             */
-/*   Updated: 2026/07/18 00:24:14 by aloiko           ###   ########.fr       */
+/*   Updated: 2026/07/18 15:56:48 by aloiko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 #include "../libft/libft.h"
+
+void *xalloc(size_t count, size_t elem_size)
+{
+	size_t total;
+
+    if (elem_size != 0 && count > SIZE_MAX / elem_size)
+        put_error_n_exit(); 
+    total = count * elem_size;
+    void *p = malloc(total);
+    if (!p)
+        put_error_n_exit();
+    return p;
+}
 
 int	ft_strcmp(const char *s1, const char *s2)
 {
@@ -131,7 +144,7 @@ void free_split(char **buf)
     int i;
 
     if (!buf)
-        return;
+        return ;
     i = 0;
     while (buf[i])
     {
@@ -152,9 +165,7 @@ int complex_string_split(int **out_values, char *str)
 	if (!buf)
 		return (0); /*add return error NULL if no buf*/
 	buf_size = find_buf_size(buf);
-	*out_values = malloc(buf_size * sizeof(**out_values));
-	if (!*out_values)
-		return (0); /*add return error NULL if no buf*/
+	*out_values = xalloc(buf_size, sizeof(**out_values));
 	i = 0;
 	while (i < buf_size)
 	{ 
@@ -168,16 +179,16 @@ int complex_string_split(int **out_values, char *str)
 	return (buf_size);
 }
 
-int	parse_args(int argc, char **argv, int **out_values, t_context *context)
+void	parse_args(int argc, char **argv, t_context *context)
 {
 	enum e_mode {unknown, single_numbers, spaced_arg};
 	enum e_mode	mode;
+	int		*out_values;
 	int		i;
 	int		count;
 	
 	printf("DEBUG: parse_args start\n");
-	if (!out_values)
-		return (0);
+	out_values = NULL;
 	count = 0;
 	mode = unknown;
 	i = 0;
@@ -188,21 +199,29 @@ int	parse_args(int argc, char **argv, int **out_values, t_context *context)
 		else if (has_spaces(argv[i]))
 		{
 			if (mode == single_numbers || mode == spaced_arg)
-				return (0);
-			count = complex_string_split(out_values, argv[i]);
+				return ;
+			count = complex_string_split(&out_values, argv[i]);
 			mode = spaced_arg;
 		}
 		else 
 		{
 			if (mode == spaced_arg || !is_number(argv[i]))
-				return (0);
-			if(!*out_values)
-				*out_values = malloc(argc * sizeof(**out_values));
-			if (!add_nbr_to_arr(out_values, argv[i], count))
-				return (0);
+				return ;
+			if(!out_values)
+				out_values = xalloc(argc, sizeof(*out_values));
+			if (!add_nbr_to_arr(&out_values, argv[i], count))
+				return ;
 			count++;
 			mode = (mode == unknown) ? single_numbers : mode;
 		}
 	}
-	return (count);
+	if (!validate_no_dups(out_values, count))
+	{
+		//put_error();
+		//free_all(&context);
+		return ;
+	}
+	setup_stacks(context, out_values, count);
+	context->disorder = compute_disorder_values(out_values, count);
+	free(out_values);
 }
