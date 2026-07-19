@@ -91,7 +91,7 @@ int	main(int argc, char **argv)
 		free_all(&context);
 		put_error_n_exit();
 	}
-	strategy_selector(context);
+	strategy_selector(&context);
 	
 /*	printf("DEBUG: After setup_stacks\n");*/
 	printf("DEBUG: depth.a = %d, size.a = %d              depth.b = %d, size.b = %d\n", context.a.depth, context.a.size, context.b.depth, context.b.size);

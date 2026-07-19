@@ -88,6 +88,7 @@ void rrr(t_context *context);
 
 void turk_alg(t_context *context);
 
+void    strategy_selector(t_context *context);
 /* strategies */
 void strategy_simple(t_context *context);
 void strategy_medium(t_context *context);
