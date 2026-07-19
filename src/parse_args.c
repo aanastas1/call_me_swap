@@ -6,7 +6,7 @@
 /*   By: aloiko <aloiko@student.42warsaw.pl>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/12 15:09:31 by aloiko            #+#    #+#             */
-/*   Updated: 2026/07/18 15:56:48 by aloiko           ###   ########.fr       */
+/*   Updated: 2026/07/19 15:41:48 by aloiko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -211,7 +211,7 @@ static int fill_the_buffer(int max_args, char *arg, int **out_values, int *size)
 	{
 		if (mode == complex_arg || !is_number(arg))
 			return (0);
-		if(!out_values)
+		if(!*out_values)
 			*out_values = xalloc(max_args, sizeof(**out_values));
 		if (!add_nbr_to_arr(out_values, arg, *size))
 			return (0);
