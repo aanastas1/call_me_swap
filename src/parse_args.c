@@ -216,11 +216,7 @@ void	parse_args(int argc, char **argv, t_context *context)
 		}
 	}
 	if (!validate_no_dups(out_values, count))
-	{
-		//put_error();
-		//free_all(&context);
-		return ;
-	}
+			return ;
 	setup_stacks(context, out_values, count);
 	context->disorder = compute_disorder_values(out_values, count);
 	free(out_values);
