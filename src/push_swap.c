@@ -12,6 +12,20 @@
 
 #include "push_swap.h"
 
+void    strategy_selector(t_context *context)
+{
+    if (context->strategy == NONE)
+        strategy_adaptive(context);
+    if (context->strategy == SIMPLE)
+        strategy_simple(context);
+    if (context->strategy == MEDIUM)
+        strategy_medium(context);
+    if (context->strategy == COMPLEX)
+        strategy_complex(context);
+    if (context->strategy == ADAPTIVE)
+        strategy_adaptive(context);
+}
+
 int find_element(t_arr *arr, int nbr)
 {
     int idx;
