@@ -13,6 +13,13 @@
 #include "push_swap.h"
 #include "../libft/libft.h"
 
+typedef enum e_mode
+{
+    unknown,
+    single_numbers,
+    complex_arg
+}   t_mode;
+
 void *xalloc(size_t count, size_t elem_size)
 {
 	size_t total;
@@ -179,45 +186,64 @@ int complex_string_split(int **out_values, char *str)
 	return (buf_size);
 }
 
+/* Finalize parsing and build the stacks. */
+static void	finalize_parse(int *out_values, int count, t_context *context)
+{
+	if (!validate_no_dups(out_values, count))
+		return ;
+	setup_stacks(context, out_values, count);
+	context->disorder = compute_disorder_values(out_values, count);
+}
+
+static int fill_the_buffer(int max_args, char *arg, int **out_values, int *size)
+{
+	t_mode	mode;
+
+	mode = unknown;
+	if (has_spaces(arg))
+	{
+		if (mode == single_numbers || mode == complex_arg)
+				return (0);
+		*size = complex_string_split(out_values, arg);
+		mode = complex_arg;
+	}
+	else 
+	{
+		if (mode == complex_arg || !is_number(arg))
+			return (0);
+		if(!out_values)
+			*out_values = xalloc(max_args, sizeof(**out_values));
+		if (!add_nbr_to_arr(out_values, arg, *size))
+			return (0);
+		(*size)++;
+		if (mode == unknown)          // проверяем, в каком режиме мы сейчас находимся
+    		mode = single_numbers;    // если был «unknown», переключаемся в режим single_numbers
+	}
+	return (1);
+}
+
+/* Initialize parsing state. */
+static void	init_parse(int **out_values, int *count, int *iter)
+{
+	*out_values = NULL;
+	*count = 0;
+	*iter = 0;
+}
+
 void	parse_args(int argc, char **argv, t_context *context)
 {
-	enum e_mode {unknown, single_numbers, spaced_arg};
-	enum e_mode	mode;
 	int		*out_values;
-	int		i;
 	int		count;
+	int		i;
 	
-	/*printf("DEBUG: parse_args start\n");*/
-	out_values = NULL;
-	count = 0;
-	mode = unknown;
-	i = 0;
+	init_parse(&out_values, &count, &i);
 	while (++i < argc)
 	{
 		if (is_strategy_flag(argv[i], context))
 			continue ;
-		else if (has_spaces(argv[i]))
-		{
-			if (mode == single_numbers || mode == spaced_arg)
-				return ;
-			count = complex_string_split(&out_values, argv[i]);
-			mode = spaced_arg;
-		}
-		else 
-		{
-			if (mode == spaced_arg || !is_number(argv[i]))
-				return ;
-			if(!out_values)
-				out_values = xalloc(argc, sizeof(*out_values));
-			if (!add_nbr_to_arr(&out_values, argv[i], count))
-				return ;
-			count++;
-			mode = (mode == unknown) ? single_numbers : mode;
-		}
+		if (!fill_the_buffer(argc, argv[i], &out_values, &count))
+				return (free(out_values));
 	}
-	if (!validate_no_dups(out_values, count))
-			return ;
-	setup_stacks(context, out_values, count);
-	context->disorder = compute_disorder_values(out_values, count);
+	finalize_parse(out_values, count, context);
 	free(out_values);
 }
