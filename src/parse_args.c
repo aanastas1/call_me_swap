@@ -80,7 +80,7 @@ int	is_number(char *src)
 	return (has_digits);
 }
 
-int	is_strategy_selector(char *src, t_context *context)
+static int	is_strategy_flag(char *src, t_context *context)
 {
 	const char	*flags[] = {"--simple", "--medium", "--complex", "--adaptive", "--bench"};
 	int	i;
@@ -194,7 +194,7 @@ void	parse_args(int argc, char **argv, t_context *context)
 	i = 0;
 	while (++i < argc)
 	{
-		if (is_strategy_selector(argv[i], context))
+		if (is_strategy_flag(argv[i], context))
 			continue ;
 		else if (has_spaces(argv[i]))
 		{

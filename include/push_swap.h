@@ -89,14 +89,13 @@ void rrr(t_context *context);
 void turk_alg(t_context *context);
 
 /* strategies */
-void strategy_simple(t_context *context, int n);
-void strategy_medium(t_context *context, int n);
-void strategy_complex(t_context *context, int n);
-void strategy_adaptive(t_context *context, int n, double disorder);
+void strategy_simple(t_context *context);
+void strategy_medium(t_context *context);
+void strategy_complex(t_context *context);
+void strategy_adaptive(t_context *context);
 
 /* bench */ //by anastasi side print count of operation, or sa ss 
-void bench_print_and_counts(t_context *context, double disorder,
-const char *strategy_name, const char *complex_class);
+void bench_print_and_counts(t_context *context, const char *strategy_name, const char *complex_class);
 
 
 # endif
