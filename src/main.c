@@ -23,7 +23,6 @@ static void	context_init(t_context *context)
     ft_bzero(&context, sizeof(context)); 
 }
 
-
 static void	free_all(t_context *context)
 {
 	if (context->a.elements)
@@ -84,54 +83,45 @@ int	main(int argc, char **argv)
 		return (0);
 	context_init(&context); 
 	
-	printf("DEBUG: main start\n");
+/*	printf("DEBUG: main start\n");*/
 	parse_args(argc, argv, &context);
-	printf("DEBUG: After parse_args\n");
+/*	printf("DEBUG: After parse_args\n");*/
 	if (context.a.size == 0) 
 	{		
 		free_all(&context);
 		put_error_n_exit();
 	}
+	strategy_selector(context);
 	
-	
-	printf("DEBUG: After setup_stacks\n");
+/*	printf("DEBUG: After setup_stacks\n");*/
 	printf("DEBUG: depth.a = %d, size.a = %d              depth.b = %d, size.b = %d\n", context.a.depth, context.a.size, context.b.depth, context.b.size);
 	print_stack_a_b(&context); /*print stack before small functions*/
 
-	//sa(&context);
+
+	sa(&context);
 	pb(&context);
-	printf("DEBUG: depth.a = %d, size.a = %d              depth.b = %d, size.b = %d\n", context.a.depth, context.a.size, context.b.depth, context.b.size);
 	pb(&context);
-	printf("DEBUG: depth.a = %d, size.a = %d              depth.b = %d, size.b = %d\n", context.a.depth, context.a.size, context.b.depth, context.b.size);
 	pb(&context);
-	printf("DEBUG: depth.a = %d, size.a = %d              depth.b = %d, size.b = %d\n", context.a.depth, context.a.size, context.b.depth, context.b.size);
 	pb(&context);
-	printf("DEBUG: depth.a = %d, size.a = %d              depth.b = %d, size.b = %d\n", context.a.depth, context.a.size, context.b.depth, context.b.size);
 	pb(&context);
-	printf("DEBUG: depth.a = %d, size.a = %d              depth.b = %d, size.b = %d\n", context.a.depth, context.a.size, context.b.depth, context.b.size);
 	pb(&context);
-	printf("DEBUG: depth.a = %d, size.a = %d              depth.b = %d, size.b = %d\n", context.a.depth, context.a.size, context.b.depth, context.b.size);
 	pb(&context);
-	printf("DEBUG: depth.a = %d, size.a = %d              depth.b = %d, size.b = %d\n", context.a.depth, context.a.size, context.b.depth, context.b.size);
 	pb(&context);
-	printf("DEBUG: depth.a = %d, size.a = %d              depth.b = %d, size.b = %d\n", context.a.depth, context.a.size, context.b.depth, context.b.size);
 	pb(&context);
-	printf("DEBUG: depth.a = %d, size.a = %d              depth.b = %d, size.b = %d\n", context.a.depth, context.a.size, context.b.depth, context.b.size);
 	pb(&context);
-	printf("DEBUG: depth.a = %d, size.a = %d              depth.b = %d, size.b = %d\n", context.a.depth, context.a.size, context.b.depth, context.b.size);
-	/*ra(&context);
+	ra(&context);
 	ra(&context);
 	rr(&context);
 	rr(&context);
 	rrr(&context);
-	rb(&context);*/
+	rb(&context);
 
 
 	//turk_alg(&context);
 
 	printf("Disorder: %.2f\n", context.disorder);
-	printf("DEBUG: n = %d\n", context.a.size);
-		
+	
+/*	printf("DEBUG: n = %d\n", context.a.size);
 	printf("DEBUG: int size = %zu\n", sizeof(int));
     printf("DEBUG: double size = %zu\n", sizeof(double));
 	printf("DEBUG: context.disorder size = %zu\n", sizeof(context.disorder));
@@ -139,7 +129,7 @@ int	main(int argc, char **argv)
 	printf("DEBUG: strategy size = %zu\n", sizeof(context.strategy));
 	printf("DEBUG: op_total size = %zu\n", sizeof(context.op_total));
 	printf("DEBUG: op_counts[COUNT] size = %zu\n", sizeof(context.op_counts[COUNT]));
-	printf("DEBUG: bench_enabled size = %zu\n", sizeof(context.bench_enabled));
+	printf("DEBUG: bench_enabled size = %zu\n", sizeof(context.bench_enabled));*/
 
 
 	printf("DEBUG: depth.a = %d, size.a = %d              depth.b = %d, size.b = %d\n", context.a.depth, context.a.size, context.b.depth, context.b.size);

@@ -109,7 +109,7 @@ void	setup_stacks(t_context *context, int *values, int size)
 {
 	int	i;
 
-	printf("DEBUG: setup_stacks start\n");
+	/*printf("DEBUG: setup_stacks start\n");*/
 	context_init(context, size);
 	compute_ranks(context, values, size);
 

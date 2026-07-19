@@ -187,7 +187,7 @@ void	parse_args(int argc, char **argv, t_context *context)
 	int		i;
 	int		count;
 	
-	printf("DEBUG: parse_args start\n");
+	/*printf("DEBUG: parse_args start\n");*/
 	out_values = NULL;
 	count = 0;
 	mode = unknown;
