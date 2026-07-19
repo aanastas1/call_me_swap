@@ -6,7 +6,7 @@
 /*   By: aloiko <aloiko@student.42warsaw.pl>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/12 18:39:35 by aloiko            #+#    #+#             */
-/*   Updated: 2026/07/18 16:49:22 by aloiko           ###   ########.fr       */
+/*   Updated: 2026/07/19 15:49:44 by aloiko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ int	main(int argc, char **argv)
 	print_stack_a_b(&context); /*print stack before small functions*/
 
 
-	sa(&context);
+	//sa(&context);
 	pb(&context);
 	pb(&context);
 	pb(&context);
@@ -106,15 +106,23 @@ int	main(int argc, char **argv)
 	pb(&context);
 	pb(&context);
 	pb(&context);
+	/*(&context);
 	pb(&context);
-	pb(&context);
-	pb(&context);
+	pb(&context);*/
+	print_stack_a_b(&context); /*print stack before small functions*/
 	ra(&context);
+	print_stack_a_b(&context); /*print stack before small functions*/
 	ra(&context);
-	rr(&context);
-	rr(&context);
+	print_stack_a_b(&context); /*print stack before small functions*/
+	ra(&context);
+	print_stack_a_b(&context); /*print stack before small functions*/
+	ra(&context);
+	print_stack_a_b(&context); /*print stack before small functions*/
+
 	rrr(&context);
+	print_stack_a_b(&context); /*print stack before small functions*/
 	rb(&context);
+	print_stack_a_b(&context); /*print stack before small functions*/
 
 
 	//turk_alg(&context);
