@@ -13,17 +13,21 @@
 #include "push_swap.h"
 #include "../libft/libft.h"
 
-
-int phys_idx(t_arr *arr, int logical_idx)
-{
-	return (arr->bottom + logical_idx) % arr->depth;
-}
-
 void	ra(t_context *context)
 {
+	t_element	tmp;
+	int	i;
+
 	if (context->a.depth <= 1)
-		return ;
-	context->a.bottom = phys_idx(&context->a, 1);
+		return;
+	tmp = context->a.elements[0];
+	i = 0;
+	while (i < context->a.depth - 1)
+	{
+		context->a.elements[i] = context->a.elements[i + 1];
+		i++;
+	}
+	context->a.elements[context->a.depth - 1] = tmp;
 	context->op_counts[RA]++;
 	context->op_total++;
 	ft_putstr_fd("ra\n", 1);
@@ -31,22 +35,51 @@ void	ra(t_context *context)
 
 void	rb(t_context *context)
 {
+	t_element	tmp;
+	int	i;
+
 	if (context->b.depth <= 1)
-		return ;
-	context->b.bottom = phys_idx(&context->b, 1);
+		return;
+	tmp = context->b.elements[0];
+	i = 0;
+	while (i < context->b.depth - 1)
+	{
+		context->b.elements[i] = context->b.elements[i + 1];
+		i++;
+	}
+	context->b.elements[context->b.depth - 1] = tmp;
 	context->op_counts[RB]++;
 	context->op_total++;
-	ft_putstr_fd("rb\n", 1);
+	ft_putstr_fd("ra\n", 1);
 }
 
 void	rr(t_context *context)
 {
-	if (context->a.depth <= 1 && context->b.depth <= 1)
-		return ;
+	t_element	tmp;
+	int	i;
+
 	if (context->a.depth > 1)
-		context->a.bottom = phys_idx(&context->a, 1);
+	{
+		tmp = context->a.elements[0];
+		i = 0;
+		while (i < context->a.depth - 1)
+		{
+			context->a.elements[i] = context->a.elements[i + 1];
+			i++;
+		}
+		context->a.elements[context->a.depth - 1] = tmp;
+	}
 	if (context->b.depth > 1)
-		context->b.bottom = phys_idx(&context->b, 1);
+	{
+		tmp = context->b.elements[0];
+		i = 0;
+		while (i < context->b.depth - 1)
+		{
+			context->b.elements[i] = context->b.elements[i + 1];
+			i++;
+		}
+		context->b.elements[context->b.depth - 1] = tmp;
+	}
 	context->op_counts[RR]++;
 	context->op_total++;
 	ft_putstr_fd("rr\n", 1);

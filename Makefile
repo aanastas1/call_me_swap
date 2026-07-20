@@ -18,7 +18,7 @@ HDRS = $(INC_DIR)/push_swap.h \
 	libft/libft.h 	
 
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -I$(INC_DIR) -fsanitize=address -g
+CFLAGS = -Wall -Wextra -Werror -I$(INC_DIR) #-fsanitize=address -g
 
 LIBFT_PATH = libft
 LIBFT = $(LIBFT_PATH)/libft.a

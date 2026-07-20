@@ -13,25 +13,21 @@
 #include "push_swap.h"
 #include "../libft/libft.h"
 
-void swap(t_arr *arr, int logical_idx1, int logical_idx2)
-{
-	t_element tmp;
-	int idx1;
-	int idx2;
-
-	idx1 = phys_idx(arr, logical_idx1);
-	idx2 = phys_idx(arr, logical_idx2);
-
-	tmp = arr->elements[idx1];
-	arr->elements[idx1] = arr->elements[idx2];
-	arr->elements[idx2] = tmp;
-}
-
 void	rra(t_context *context)
 {
+	t_element	tmp;
+	int	i;
+
 	if (context->a.depth <= 1)
-		return ;
-	context->a.bottom = phys_idx(&context->a, context->a.depth - 1);
+		return;
+	tmp = context->a.elements[context->a.depth - 1];
+	i = context->a.depth - 1;
+	while (i > 0)
+	{
+		context->a.elements[i] = context->a.elements[i - 1];
+		i--;
+	}
+	context->a.elements[0] = tmp;
 	context->op_counts[RRA]++;
 	context->op_total++;
 	ft_putstr_fd("rra\n", 1);
@@ -39,9 +35,19 @@ void	rra(t_context *context)
 
 void	rrb(t_context *context)
 {
+	t_element	tmp;
+	int	i;
+
 	if (context->b.depth <= 1)
 		return ;
-	context->b.bottom = phys_idx(&context->b, context->b.depth - 1);
+	tmp = context->b.elements[context->b.depth - 1];
+	i = context->b.depth - 1;
+	while (i > 0)
+	{
+		context->b.elements[i] = context->b.elements[i - 1];
+		i--;
+	}
+	context->b.elements[0] = tmp;
 	context->op_counts[RRB]++;
 	context->op_total++;
 	ft_putstr_fd("rrb\n", 1);
@@ -49,12 +55,31 @@ void	rrb(t_context *context)
 
 void	rrr(t_context *context)
 {
-	if (context->a.depth <= 1 && context->b.depth <= 1)
-		return ;
+	t_element	tmp;
+	int	i;
+
 	if (context->a.depth > 1)
-		context->a.bottom = phys_idx(&context->a, context->a.depth - 1);
+	{
+		tmp = context->a.elements[context->a.depth - 1];
+		i = context->a.depth - 1;
+		while (i > 0)
+		{
+			context->a.elements[i] = context->a.elements[i - 1];
+			i--;
+		}
+		context->a.elements[0] = tmp;
+	}
 	if (context->b.depth > 1)
-		context->b.bottom = phys_idx(&context->b, context->b.depth - 1);
+	{
+		tmp = context->b.elements[context->b.depth - 1];
+		i = context->b.depth - 1;
+		while (i > 0)
+		{
+			context->b.elements[i] = context->b.elements[i - 1];
+			i--;
+		}
+		context->b.elements[0] = tmp;
+	}
 	context->op_counts[RRR]++;
 	context->op_total++;
 	ft_putstr_fd("rrr\n", 1);

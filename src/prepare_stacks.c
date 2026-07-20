@@ -12,32 +12,12 @@
 
 #include "push_swap.h"
 
-static void	stack_init(t_arr *arr, int capacity)
+static void	stacks_init(t_context *context, int capacity)
 {
-	arr->elements = xalloc(capacity, sizeof(t_element));
-	arr->bottom = 0; /* Initialize bottom to 0 to indicate the stack is empty */
-	arr->depth = 0;
-	arr->size = capacity;
-}
-
-static void	context_init(t_context *context, int capacity)
-{
-    // 1. Инициализация стеков (массивов)
-    // Выделяем память под arr, задаем capacity, обнуляем size и bottom
-    stack_init(&context->a, capacity);
-    stack_init(&context->b, capacity);
-
-    // 2. Инициализация стратегии
-    // Ставим дефолт (NONE), чтобы не зависеть от мусора в памяти
-    //context->strategy = NONE;
-
-    // 3. Инициализация флагов и счетчиков
-    context->bench_enabled = 0;
-    context->op_total = 0;
-    
-    // Обнуляем массив счетчиков операций
-    ft_bzero(context->op_counts, sizeof(context->op_counts)); 
-   
+	context->a.elements = xalloc(capacity, sizeof(t_element));
+	context->a.depth = capacity;
+	context->b.elements = xalloc(capacity, sizeof(t_element));
+	context->b.depth = 0;
 }
 
 int	validate_no_dups(int *values, int n)
@@ -93,12 +73,12 @@ void	compute_ranks(t_context *context, const int *values, int size)
 	i = 0;
 	while (i < size)
 	{
-		context->a.elements[i].rank = 0;
+		context->a.elements[size - 1 - i].rank = 0;
 		j = 0;
 		while (j < size)
 		{
 			if (values[j] < values[i])
-				context->a.elements[i].rank++;
+				context->a.elements[size - 1 - i].rank++;
 			j++;
 		}
 		i++;
@@ -109,15 +89,13 @@ void	setup_stacks(t_context *context, int *values, int size)
 {
 	int	i;
 
-	/*printf("DEBUG: setup_stacks start\n");*/
-	context_init(context, size);
+	stacks_init(context, size);
 	compute_ranks(context, values, size);
 
-	i = 0;
+    i = 0;
 	while (i < size)
 	{
-		context->a.elements[i].value = values[i];
-		i++;
+    	context->a.elements[i].value = values[size - 1 - i];
+    	i++;
 	}
-	context->a.depth = size;
 }

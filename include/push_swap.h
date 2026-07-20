@@ -17,10 +17,8 @@ typedef struct s_element
 
 typedef struct s_arr {
     t_element *elements;
-    int bottom; /* physical index of the cell containing logical element [0] */
     int depth; /* number of elements in the stack */
-    int size; /* total capacity of the array */
-}   t_arr;
+} t_arr;
 
 typedef enum e_optype {
     SA, SB, SS,
@@ -69,9 +67,6 @@ void setup_stacks(t_context *context, int *values, int size);
 /* sort helpers */
 int  stack_is_sorted_asc(const t_arr *a); /* ascending: smaller ranks first on top */
 void sort_small(t_context *context);                /* handles n<=3..5 safely via dedicated logic */
-
-int phys_idx(t_arr *arr, int logical_idx);
-void swap(t_arr *arr, int logical_idx1, int logical_idx2);
 
 /* operation layer (must be the only place that prints ops) */
 void sa(t_context *context);

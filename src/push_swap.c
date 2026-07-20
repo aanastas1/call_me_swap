@@ -43,11 +43,11 @@ int find_element(t_arr *arr, int nbr)
     int res;
     int tmp;
 
-    delta = arr->size;
+    delta = arr->depth - 1;
     top = arr->depth - 1;
+    idx = 0;
     while (top >= 0)
     {
-        idx = phys_idx(arr, top);
         if (arr->elements[idx].rank > nbr)
         {
             tmp = arr->elements[idx].rank - nbr;
@@ -65,14 +65,15 @@ int find_element(t_arr *arr, int nbr)
 void turk_alg(t_context *context)
 {
     int target;
-    int log_idx;
+    int idx;
     int dist;
 
     pb(context);
     pb(context);
-    target = context->b.elements[phys_idx(&context->b, 0)].rank;
-    log_idx = find_element(&context->a, target);
-    dist = context->a.depth - 1 - log_idx;
+    idx = 0;
+    target = context->b.elements[idx].rank;
+    idx = find_element(&context->a, target);
+    dist = context->a.depth - 1 - idx;
     while (dist--)
         ra(context);
     pb(context);
