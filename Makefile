@@ -9,6 +9,7 @@ $(SRC_DIR)/parse_args.c \
 $(SRC_DIR)/op_swap_n_push.c \
 $(SRC_DIR)/op_rotate.c \
 $(SRC_DIR)/op_reverse_rotate.c \
+$(SRC_DIR)/sort_stacks.c \
 $(SRC_DIR)/prepare_stacks.c 
 
 # Add the rest of your .c files here, for example:
@@ -18,7 +19,7 @@ HDRS = $(INC_DIR)/push_swap.h \
 	libft/libft.h 	
 
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -I$(INC_DIR) #-fsanitize=address -g
+CFLAGS = -Wall -Wextra -Werror -I$(INC_DIR) -fsanitize=address -g
 
 LIBFT_PATH = libft
 LIBFT = $(LIBFT_PATH)/libft.a

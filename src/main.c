@@ -6,7 +6,7 @@
 /*   By: aloiko <aloiko@student.42warsaw.pl>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/12 18:39:35 by aloiko            #+#    #+#             */
-/*   Updated: 2026/07/20 17:58:23 by aloiko           ###   ########.fr       */
+/*   Updated: 2026/07/20 19:34:35 by aloiko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,35 +93,35 @@ int	main(int argc, char **argv)
 	
 /*	printf("DEBUG: After setup_stacks\n");*/
 	printf("DEBUG:     depth.a = %d,                depth.b = %d\n", context.a.depth,  context.b.depth);
-	print_stack_a_b(&context); /*print stack before small functions*/
+	print_stack_a_b(&context);
 
-
+	sort_stacks(&context);
 /*  sa(&context);
 	pb(&context);
 	pb(&context);
 	pb(&context);
 	pb(&context);
 	pb(&context);
-	pb(&context);*/
 	pb(&context);
 	pb(&context);
 	pb(&context);
 	pb(&context);
-	print_stack_a_b(&context); /*print stack before small functions*/
+	pb(&context);
+	print_stack_a_b(&context);
 	ra(&context);
-	print_stack_a_b(&context); /*print stack before small functions*/
+	print_stack_a_b(&context);
 	ra(&context);
-	print_stack_a_b(&context); /*print stack before small functions*/
+	print_stack_a_b(&context);
 	ra(&context);
-	print_stack_a_b(&context); /*print stack before small functions*/
-	/*ra(&context);*/
+	print_stack_a_b(&context);
+	ra(&context);
 	pb(&context);
-	print_stack_a_b(&context); /*print stack before small functions*/
+	print_stack_a_b(&context);
 
 	rrr(&context);
-	print_stack_a_b(&context); /*print stack before small functions*/
+	print_stack_a_b(&context);
 	rb(&context);
-	print_stack_a_b(&context); /*print stack before small functions*/
+	print_stack_a_b(&context);*/
 
 
 	//turk_alg(&context);
@@ -131,7 +131,7 @@ int	main(int argc, char **argv)
 
 
 	printf("DEBUG:     depth.a = %d,                depth.b = %d\n", context.a.depth,  context.b.depth);
-	
+	printf("DEBUG:     operation_totaly = %d\n", context.op_total);
 	print_stack_a_b(&context); /* print stack after small functions */
 
 	free_all(&context);

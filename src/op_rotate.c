@@ -6,7 +6,7 @@
 /*   By: aloiko <aloiko@student.42warsaw.pl>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/14 19:17:37 by aloiko            #+#    #+#             */
-/*   Updated: 2026/07/16 17:12:05 by aloiko           ###   ########.fr       */
+/*   Updated: 2026/07/20 18:26:32 by aloiko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,23 +61,17 @@ void	rr(t_context *context)
 	if (context->a.depth > 1)
 	{
 		tmp = context->a.elements[0];
-		i = 0;
-		while (i < context->a.depth - 1)
-		{
+		i = -1;
+		while (++i < context->a.depth - 1)
 			context->a.elements[i] = context->a.elements[i + 1];
-			i++;
-		}
 		context->a.elements[context->a.depth - 1] = tmp;
 	}
 	if (context->b.depth > 1)
 	{
 		tmp = context->b.elements[0];
-		i = 0;
-		while (i < context->b.depth - 1)
-		{
+		i = -1;
+		while (++i < context->b.depth - 1)
 			context->b.elements[i] = context->b.elements[i + 1];
-			i++;
-		}
 		context->b.elements[context->b.depth - 1] = tmp;
 	}
 	context->op_counts[RR]++;

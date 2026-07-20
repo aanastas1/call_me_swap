@@ -26,7 +26,7 @@ parse_args.c
 
 prepare_stacks.c
 (
-    static void	stack_init(t_arr *arr, int capacity);
+    static void	stacks_init(t_arr *arr, int capacity);
     int	validate_no_dups(int *values, int n);
     double	compute_disorder_values(const int *values, int n);
     void	compute_ranks(t_context *context, const int *values, int size);
