@@ -6,7 +6,7 @@
 /*   By: aloiko <aloiko@student.42warsaw.pl>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/12 18:39:35 by aloiko            #+#    #+#             */
-/*   Updated: 2026/07/19 15:49:44 by aloiko           ###   ########.fr       */
+/*   Updated: 2026/07/20 17:58:23 by aloiko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void print_stack_a_b(t_context *context)
 	idx_a = 0;
 	idx_b = 0;
 	ft_putstr_fd("Stack A: (Value | Rank): [ ", 1);
-	ft_putstr_fd("                 Stack B: (Value | Rank): [\n", 1);
+	ft_putstr_fd("           Stack B: (Value | Rank): [\n", 1);
 	while (idx_a < context->a.depth || idx_b < context->b.depth)
 	{
 		if (idx_a < context->a.depth)
@@ -49,14 +49,16 @@ void print_stack_a_b(t_context *context)
 			ft_putstr_fd(" | ", 1);
 			ft_putnbr_fd(context->a.elements[idx_a].rank, 1);
 			if (idx_a == context->a.depth - 1)
+			{
 				ft_putstr_fd(" ]", 1);
-			ft_putstr_fd("                       ", 1);
+				ft_putstr_fd("                     ", 1);
+			}
+			else
+				ft_putstr_fd("                       ", 1);
 			idx_a++;
 		}
 		if (idx_b < context->b.depth)
 		{
-			if (idx_a == context->a.depth - 1 && idx_b == context->b.depth - 1)
-				ft_putstr_fd("                                          ", 1);
 			ft_putnbr_fd(context->b.elements[idx_b].value, 1);
 			ft_putstr_fd(" | ", 1);
 			ft_putnbr_fd(context->b.elements[idx_b].rank, 1);
@@ -64,9 +66,9 @@ void print_stack_a_b(t_context *context)
 				ft_putstr_fd(" ]", 1);
 			idx_b++;
 		}
-		ft_putstr_fd("             \n", 1);
+		ft_putstr_fd("\n", 1);
 		if (idx_a == context->a.depth)
-			ft_putstr_fd("                                            ", 1);
+			ft_putstr_fd("                       ", 1);
 	}
 	ft_putstr_fd("\n", 1);
 }
@@ -90,7 +92,7 @@ int	main(int argc, char **argv)
 	strategy_selector(&context);
 	
 /*	printf("DEBUG: After setup_stacks\n");*/
-	printf("DEBUG: depth.a = %d,             depth.b = %d\n", context.a.depth,  context.b.depth);
+	printf("DEBUG:     depth.a = %d,                depth.b = %d\n", context.a.depth,  context.b.depth);
 	print_stack_a_b(&context); /*print stack before small functions*/
 
 
@@ -128,7 +130,7 @@ int	main(int argc, char **argv)
 	
 
 
-	printf("DEBUG: depth.a = %d,             depth.b = %d\n", context.a.depth,  context.b.depth);
+	printf("DEBUG:     depth.a = %d,                depth.b = %d\n", context.a.depth,  context.b.depth);
 	
 	print_stack_a_b(&context); /* print stack after small functions */
 
