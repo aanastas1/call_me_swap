@@ -6,7 +6,7 @@
 /*   By: aloiko <aloiko@student.42warsaw.pl>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/20 18:37:33 by aloiko            #+#    #+#             */
-/*   Updated: 2026/07/21 17:31:42 by aloiko           ###   ########.fr       */
+/*   Updated: 2026/07/21 21:52:25 by aloiko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,21 +45,20 @@ void push_it_a(t_context *context, int idx)
     }
 }
 
-void sort_stacks(t_context *context, int offset)
+static void sort_stacks(t_context *context, int base_hi, int base_low)
 {
     int delimiter;
     int i;
     int pass_nbr;
-    int new_offset;
-   /* int capacity;
-
-    capacity = context->a.depth;*/
+    
+   
     if (context->a.depth <= 5)
         return ;
     
-    new_offset = offset + (context->a.depth / 2);
-    delimiter = context->a.depth / 2;
+    
+    delimiter = base_hi + context->a.depth / 2;
     pass_nbr = context->a.depth / 2;
+   
     i = 0;
     while (pass_nbr && i < context->a.depth - 1)
     {
@@ -72,6 +71,7 @@ void sort_stacks(t_context *context, int offset)
         }
         i++;
     }
+
     delimiter = context->b.depth / 2;
     pass_nbr = context->b.depth / 2;
     i = 0;
@@ -86,11 +86,11 @@ void sort_stacks(t_context *context, int offset)
         }
         i++;
     }
+     context->b.depth =  context->b.depth - context->a.depth;
     sort_stacks(context, new_offset);
 }
 
-
 void strategy_medium(t_context *context)
 {
-    sort_stacks(context, 0);
+    sort_stacks(context, 0, 0);
 }
