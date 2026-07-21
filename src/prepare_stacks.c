@@ -6,7 +6,7 @@
 /*   By: aloiko <aloiko@student.42warsaw.pl>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/13 13:46:35 by aloiko            #+#    #+#             */
-/*   Updated: 2026/07/18 15:51:28 by aloiko           ###   ########.fr       */
+/*   Updated: 2026/07/21 17:37:38 by aloiko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,12 +73,12 @@ void	compute_ranks(t_context *context, const int *values, int size)
 	i = 0;
 	while (i < size)
 	{
-		context->a.elements[size - 1 - i].rank = 0;
+		context->a.elements[i].rank = 0;
 		j = 0;
 		while (j < size)
 		{
 			if (values[j] < values[i])
-				context->a.elements[size - 1 - i].rank++;
+				context->a.elements[i].rank++;
 			j++;
 		}
 		i++;
@@ -95,7 +95,7 @@ void	setup_stacks(t_context *context, int *values, int size)
     i = 0;
 	while (i < size)
 	{
-    	context->a.elements[i].value = values[size - 1 - i];
+    	context->a.elements[i].value = values[i];
     	i++;
 	}
 }

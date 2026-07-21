@@ -82,8 +82,7 @@ void rrb(t_context *context);
 void rrr(t_context *context);
 
 void turk_alg(t_context *context);
-void sort_stacks(t_context *context);
-void push_it_b(t_context *context, int idx);
+
 
 
 void    strategy_selector(t_context *context);

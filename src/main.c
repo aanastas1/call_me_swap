@@ -6,7 +6,7 @@
 /*   By: aloiko <aloiko@student.42warsaw.pl>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/12 18:39:35 by aloiko            #+#    #+#             */
-/*   Updated: 2026/07/20 19:34:35 by aloiko           ###   ########.fr       */
+/*   Updated: 2026/07/21 17:30:07 by aloiko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,7 @@ int	main(int argc, char **argv)
 	printf("DEBUG:     depth.a = %d,                depth.b = %d\n", context.a.depth,  context.b.depth);
 	print_stack_a_b(&context);
 
-	sort_stacks(&context);
+	strategy_medium(&context);
 /*  sa(&context);
 	pb(&context);
 	pb(&context);
