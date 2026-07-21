@@ -49,8 +49,8 @@ typedef struct s_context {
     int op_counts[COUNT]; /* array counts of each operation type */
 
     /* stdout-only ops are printed inside op_* */
-} t_context;
-
+ } t_context;
+ 
 void	put_error_n_exit(void);
 void    *xalloc(size_t count, size_t type_size);
 
@@ -96,5 +96,6 @@ void strategy_adaptive(t_context *context);
 /* bench */ //by anastasi side print count of operation, or sa ss 
 void bench_print_and_counts(t_context *context, const char *strategy_name, const char *complex_class);
 
+void print_stack_a_b(t_context *context);
 
 # endif

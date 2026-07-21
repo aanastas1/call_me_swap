@@ -19,6 +19,7 @@ void push_it_b(t_context *context, int idx)
         while (idx--)
             ra(context);
         pb(context);
+        print_stack_a_b(context);
     }
     else
     {
@@ -26,6 +27,7 @@ void push_it_b(t_context *context, int idx)
         while (idx--)
             rra(context);
         pb(context);
+        print_stack_a_b(context);
     }
 }
 
@@ -34,9 +36,11 @@ void sort_stacks(t_context *context)
     int delimiter;
     int i;
     int pass_nbr;
-    int capacity;
+   /* int capacity;
 
-    capacity = context->a.depth;
+    capacity = context->a.depth;*/
+    if (context->a.depth <= 5)
+        return;
     delimiter = context->a.depth / 2;
     pass_nbr = context->a.depth / 2;
     i = 0;
@@ -50,4 +54,5 @@ void sort_stacks(t_context *context)
         }
         i++;
     }
+    sort_stacks(context);
 }

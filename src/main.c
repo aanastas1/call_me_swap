@@ -20,7 +20,15 @@ void	put_error_n_exit(void)
 }
 static void	context_init(t_context *context)
 {
-    ft_bzero(&context, sizeof(context)); 
+	*context = (t_context){
+    .a = { .elements = NULL, .depth = 0 },
+    .b = { .elements = NULL, .depth = 0 },
+    .disorder = 0.0,
+    .strategy = NONE,
+    .bench_enabled = 0,
+    .op_total = 0,
+    .op_counts = {0}
+	};
 }
 
 static void	free_all(t_context *context)
@@ -75,8 +83,9 @@ void print_stack_a_b(t_context *context)
 
 int	main(int argc, char **argv)
 {
-	t_context	context;
+	t_context context;
 
+	
 	if (argc < 2)
 		return (0);
 	context_init(&context); 
