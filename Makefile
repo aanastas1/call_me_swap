@@ -10,6 +10,8 @@ $(SRC_DIR)/op_swap.c \
 $(SRC_DIR)/op_push.c \
 $(SRC_DIR)/op_rotate.c \
 $(SRC_DIR)/op_reverse_rotate.c \
+$(SRC_DIR)/complex_string_split.c \
+$(SRC_DIR)/assistant_functions.c \
 $(SRC_DIR)/sort_stacks.c \
 $(SRC_DIR)/prepare_stacks.c 
 

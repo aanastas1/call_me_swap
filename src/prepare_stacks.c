@@ -6,7 +6,7 @@
 /*   By: aloiko <aloiko@student.42warsaw.pl>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/13 13:46:35 by aloiko            #+#    #+#             */
-/*   Updated: 2026/07/21 17:37:38 by aloiko           ###   ########.fr       */
+/*   Updated: 2026/07/22 17:39:25 by aloiko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,32 +40,7 @@ int	validate_no_dups(int *values, int n)
 	return (1);
 }
 
-double	compute_disorder_values(const int *values, int n)
-{
-	int	mistakes;
-	int	total_pairs;
-	int	i;
-	int	j;
-
-	mistakes = 0;
-	total_pairs = 0;
-	i = 0;
-	while (i < n - 1)
-	{
-		j = i + 1;
-		while (j < n)
-		{
-			total_pairs++;
-			if (values[i] > values[j])
-				mistakes++;
-			j++;
-		}
-		i++;
-	}
-	return ((double)mistakes / total_pairs);
-}
-
-void	compute_ranks(t_context *context, const int *values, int size)
+static void	compute_ranks(t_context *context, const int *values, int size)
 {
 	int	i;
 	int	j;

@@ -51,16 +51,17 @@ typedef struct s_context {
     /* stdout-only ops are printed inside op_* */
  } t_context;
  
+/*assistant functions*/
+
 void	put_error_n_exit(void);
 void    *xalloc(size_t count, size_t type_size);
+int has_spaces(char *src);
 
 /* parse */
 void parse_args(int argc, char **argv, t_context *context);
-int validate_no_dups(int *values, int n);
-
-/* disorder + ranks */
-double compute_disorder_values(const int *values, int n);   /* returns [0..1] */
-void   compute_ranks(t_context *context, const int *values, int size);            
+int complex_string_split(int **out_values, char *str);
+int	add_nbr_to_arr(int **out_values, char *nptr, int idx);
+int	validate_no_dups(int *values, int n);
 
 void setup_stacks(t_context *context, int *values, int size);
 
