@@ -30,7 +30,7 @@ void	ra(t_context *context)
 	context->a.elements[context->a.depth - 1] = tmp;
 	context->op_counts[RA]++;
 	context->op_total++;
-	ft_putstr_fd("ra\n", 1);
+	ft_putstr_fd("ra\n", STDOUT_FILENO);
 }
 
 void	rb(t_context *context)
@@ -50,7 +50,7 @@ void	rb(t_context *context)
 	context->b.elements[context->b.depth - 1] = tmp;
 	context->op_counts[RB]++;
 	context->op_total++;
-	ft_putstr_fd("ra\n", 1);
+	ft_putstr_fd("ra\n", STDOUT_FILENO);
 }
 
 void	rr(t_context *context)
@@ -76,5 +76,5 @@ void	rr(t_context *context)
 	}
 	context->op_counts[RR]++;
 	context->op_total++;
-	ft_putstr_fd("rr\n", 1);
+	ft_putstr_fd("rr\n", STDOUT_FILENO);
 }

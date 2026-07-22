@@ -104,8 +104,7 @@ int	main(int argc, char **argv)
 	printf("DEBUG:     depth.a = %d,                depth.b = %d\n", context.a.depth,  context.b.depth);
 	print_stack_a_b(&context);
 
-	strategy_medium(&context);
-/*  sa(&context);
+	//strategy_medium(&context);
 	pb(&context);
 	pb(&context);
 	pb(&context);
@@ -116,6 +115,17 @@ int	main(int argc, char **argv)
 	pb(&context);
 	pb(&context);
 	pb(&context);
+	print_stack_a_b(&context);
+	/*pa(&context);
+	pa(&context);
+	pa(&context);
+	pa(&context);
+	pa(&context);
+	pa(&context);
+	pa(&context);
+	pa(&context);
+	pa(&context);
+	pa(&context);
 	print_stack_a_b(&context);
 	ra(&context);
 	print_stack_a_b(&context);
@@ -129,8 +139,8 @@ int	main(int argc, char **argv)
 
 	rrr(&context);
 	print_stack_a_b(&context);
-	rb(&context);
-	print_stack_a_b(&context);*/
+	rb(&context);*/
+	print_stack_a_b(&context);
 
 
 	//turk_alg(&context);

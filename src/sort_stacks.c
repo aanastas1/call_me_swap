@@ -19,6 +19,7 @@ void push_it_b(t_context *context, int idx)
         while (idx--)
             ra(context);
         pb(context);
+        print_stack_a_b(context);
     }
     else
     {
@@ -26,6 +27,7 @@ void push_it_b(t_context *context, int idx)
         while (idx--)
             rra(context);
         pb(context);
+        print_stack_a_b(context);
     }
 }
 void push_it_a(t_context *context, int idx)
@@ -35,6 +37,7 @@ void push_it_a(t_context *context, int idx)
         while (idx--)
             rb(context);
         pa(context);
+        
     }
     else
     {
@@ -45,52 +48,61 @@ void push_it_a(t_context *context, int idx)
     }
 }
 
-static void sort_stacks(t_context *context, int base_hi, int base_low)
+static void sort_stacks(t_context *context, int offset)
 {
     int delimiter;
     int i;
-    int pass_nbr;
-    
+    int count;
+    int size;
    
     if (context->a.depth <= 5)
-        return ;
-    
-    
-    delimiter = base_hi + context->a.depth / 2;
-    pass_nbr = context->a.depth / 2;
-   
-    i = 0;
-    while (pass_nbr && i < context->a.depth - 1)
     {
-        if (context->a.elements[i].rank < delimiter)
+        size = context->a.depth;
+        while (size--)
         {
-            push_it_b(context, i);
-            pass_nbr--;
-            i = -1;
-
+            pa(context);
+            print_stack_a_b(context);
         }
-        i++;
+        return;
     }
-
-    delimiter = context->b.depth / 2;
-    pass_nbr = context->b.depth / 2;
-    i = 0;
-    while (pass_nbr && i < context->a.depth - 1)
+    else
     {
-        if (context->b.elements[i].rank < delimiter)
+        count = context->a.depth / 2;
+        i = 0;
+        while (count && context->a.depth)
         {
-            push_it_a(context, i);
-            pass_nbr--;
-            i = -1;
-
+            if (context->a.elements[i].rank < offset)
+            {
+                push_it_b(context, i);
+                count--;
+                i = -1;
+            }
+            i++;
         }
-        i++;
+        delimiter = offset + context->a.depth / 2;
+        sort_stacks(context, delimiter);
+        delimiter = offset - context->b.depth / 2;
+        count = context->b.depth / 2;
+        i = 0;
+        while (count && i < context->b.depth)
+        {
+            if (context->b.elements[i].rank < delimiter)
+            {
+                push_it_a(context, i);
+                count--;
+                i = -1;
+            }
+            i++;
+        }
+        sort_stacks(context, delimiter);
     }
-     context->b.depth =  context->b.depth - context->a.depth;
-    sort_stacks(context, new_offset);
+   // merge_a_b();
 }
 
 void strategy_medium(t_context *context)
 {
-    sort_stacks(context, 0, 0);
+    int delimiter;
+
+    delimiter = context->a.depth / 2;
+    sort_stacks(context, delimiter);
 }

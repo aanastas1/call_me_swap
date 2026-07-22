@@ -24,7 +24,7 @@ void	sa(t_context *context)
 	context->a.elements[1] = tmp;
 	context->op_counts[SA]++;
 	context->op_total++;
-	ft_putstr_fd("sa\n", 1);
+	ft_putstr_fd("sa\n", STDOUT_FILENO);
 }
 
 void	sb(t_context *context)
@@ -38,7 +38,7 @@ void	sb(t_context *context)
 	context->b.elements[1] = tmp;
 	context->op_counts[SB]++;
 	context->op_total++;
-	ft_putstr_fd("sb\n", 1);
+	ft_putstr_fd("sb\n", STDOUT_FILENO);
 }
 
 void	ss(t_context *context)
@@ -61,7 +61,7 @@ void	ss(t_context *context)
 	}
 	context->op_counts[SS]++;
 	context->op_total++;
-	ft_putstr_fd("ss\n", 1);
+	ft_putstr_fd("ss\n", STDOUT_FILENO);
 }
 
 void	pa(t_context *context)
@@ -87,7 +87,7 @@ void	pa(t_context *context)
 	context->b.depth--;
 	context->op_counts[PA]++;
 	context->op_total++;
-	ft_putstr_fd("pb\n", 1);
+	ft_putstr_fd("pb\n", STDOUT_FILENO);
 }
 
 void	pb(t_context *context)
@@ -113,5 +113,5 @@ void	pb(t_context *context)
 	context->a.depth--;
 	context->op_counts[PB]++;
 	context->op_total++;
-	ft_putstr_fd("pb\n", 1);
+	ft_putstr_fd("pb\n", STDOUT_FILENO);
 }
