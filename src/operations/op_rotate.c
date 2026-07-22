@@ -6,48 +6,58 @@
 /*   By: anakloch <anakloch@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/14 19:17:37 by aloiko            #+#    #+#             */
-/*   Updated: 2026/07/17 12:24:31 by anakloch         ###   ########.fr       */
+/*   Updated: 2026/07/22 11:36:15 by anakloch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
-#include "../libft/libft.h"
 
-
-int phys_idx(t_arr *arr, int logical_idx)
+static int	rotate_stack(t_arr *stack)
 {
-	return (arr->bottom + logical_idx) % arr->depth;
+	t_element	top;
+	int			index;
+
+	if (stack->depth < 2)
+		return (0);
+	top = stack->elements[0];
+	index = 0;
+	while (index < stack->depth - 1)
+	{
+		stack->elements[index] = stack->elements[index + 1];
+		index++;
+	}
+	stack->elements[stack->depth - 1] = top;
+	return (1);
 }
 
 void	ra(t_context *context)
 {
-	if (context->a.depth <= 1)
+	if (!rotate_stack(&context->a))
 		return ;
-	context->a.bottom = phys_idx(&context->a, 1);
 	context->op_counts[RA]++;
 	context->op_total++;
-	ft_putstr_fd("ra\n", 1);
+	write(1, "ra\n", 3);
 }
 
 void	rb(t_context *context)
 {
-	if (context->b.depth <= 1)
+	if (!rotate_stack(&context->b))
 		return ;
-	context->b.bottom = phys_idx(&context->b, 1);
 	context->op_counts[RB]++;
 	context->op_total++;
-	ft_putstr_fd("rb\n", 1);
+	write(1, "rb\n", 3);
 }
 
 void	rr(t_context *context)
 {
-	if (context->a.depth <= 1 && context->b.depth <= 1)
+	int	changed_a;
+	int	changed_b;
+
+	changed_a = rotate_stack(&context->a);
+	changed_b = rotate_stack(&context->b);
+	if (!changed_a && !changed_b)
 		return ;
-	if (context->a.depth > 1)
-		context->a.bottom = phys_idx(&context->a, 1);
-	if (context->b.depth > 1)
-		context->b.bottom = phys_idx(&context->b, 1);
 	context->op_counts[RR]++;
 	context->op_total++;
-	ft_putstr_fd("rr\n", 1);
+	write(1, "rr\n", 3);
 }

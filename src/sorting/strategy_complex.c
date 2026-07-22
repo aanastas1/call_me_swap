@@ -1,28 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   check_stack.c                                      :+:      :+:    :+:   */
+/*   strategy_complex.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: anakloch <anakloch@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/07/17 12:28:57 by anakloch          #+#    #+#             */
-/*   Updated: 2026/07/22 11:36:35 by anakloch         ###   ########.fr       */
+/*   Created: 2026/07/19 18:15:00 by anakloch          #+#    #+#             */
+/*   Updated: 2026/07/22 11:36:31 by anakloch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-/* Checks ranks from the top toward the bottom of the stack. */
-int	stack_is_sorted_asc(t_arr *stack)
+/* Starts the verified complex strategy selected for production use. */
+void	strategy_complex(t_context *context)
 {
-	int	index;
-
-	index = 1;
-	while (index < stack->depth)
-	{
-		if (rank_at(stack, index - 1) > rank_at(stack, index))
-			return (0);
-		index++;
-	}
-	return (1);
+	strategy_radix_binary(context);
 }

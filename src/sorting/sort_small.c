@@ -6,81 +6,64 @@
 /*   By: anakloch <anakloch@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/17 10:40:42 by anakloch          #+#    #+#             */
-/*   Updated: 2026/07/17 10:40:43 by anakloch         ###   ########.fr       */
+/*   Updated: 2026/07/22 11:36:29 by anakloch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-static int	rank_at(t_arr *stack, int logical_idx)
+/* Moves the smallest rank in stack A to stack B. */
+static void	push_smallest_to_b(t_context *context)
 {
-	return (stack->elements[phys_idx(stack, logical_idx)].rank);
-}
+	int	steps;
 
-static int	min_rank_index(t_arr *stack)
-{
-	int	min_index;
-	int	i;
-
-	min_index = 0;
-	i = 1;
-	while (i < stack->depth)
+	steps = rotations_to_top(&context->a,
+			smallest_rank_index(&context->a));
+	while (steps > 0)
 	{
-		if (rank_at(stack, i) < rank_at(stack, min_index))
-			min_index = i;
-		i++;
+		ra(context);
+		steps--;
 	}
-	return (min_index);
-}
-
-static void	move_min_to_b(t_context *context)
-{
-	int	min_index;
-	int	from_top;
-
-	min_index = min_rank_index(&context->a);
-	from_top = context->a.depth - 1 - min_index;
-	if (from_top <= context->a.depth / 2)
-		while (from_top-- > 0)
-			ra(context);
-	else
+	while (steps < 0)
 	{
-		min_index++;
-		while (min_index-- > 0)
-			rra(context);
+		rra(context);
+		steps++;
 	}
 	pb(context);
 }
 
+/* Sorts exactly three elements in stack A. */
 static void	sort_three(t_context *context)
 {
 	int	top;
 	int	middle;
 	int	bottom;
 
-	top = rank_at(&context->a, 2);
+	top = rank_at(&context->a, 0);
 	middle = rank_at(&context->a, 1);
-	bottom = rank_at(&context->a, 0);
+	bottom = rank_at(&context->a, 2);
 	if (top > middle && top > bottom)
 		ra(context);
 	else if (middle > top && middle > bottom)
 		rra(context);
-	if (rank_at(&context->a, 2) > rank_at(&context->a, 1))
+	if (rank_at(&context->a, 0) > rank_at(&context->a, 1))
 		sa(context);
 }
 
+/* Sorts up to five elements in A and restores saved values from B. */
 void	sort_small(t_context *context)
 {
-	if (context->a.depth < 2 || stack_is_sorted_asc(&context->a))
-		return ;
-	if (context->a.depth == 2)
+	if (context->a.depth > 1 && !stack_is_sorted_asc(&context->a))
 	{
-		sa(context);
-		return ;
+		if (context->a.depth == 2)
+			sa(context);
+		else
+		{
+			while (context->a.depth > 3)
+				push_smallest_to_b(context);
+			sort_three(context);
+		}
 	}
-	while (context->a.depth > 3)
-		move_min_to_b(context);
-	sort_three(context);
 	while (context->b.depth > 0)
 		pa(context);
 }

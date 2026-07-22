@@ -1,47 +1,62 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   bench.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: anakloch <anakloch@student.42warsaw.pl>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/07/19 12:44:23 by anakloch          #+#    #+#             */
+/*   Updated: 2026/07/22 11:36:20 by anakloch         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "push_swap.h"
 
-void	op_record(t_context *context, t_operation_type operation)
+static void	print_count(const char *name, int count)
 {
-	if (operation < SA || operation >= COUNT)
-		return ;
-	context->op_total++;
-	context->op_counts[operation]++;
+	bench_putstr(name);
+	bench_putnbr(count);
 }
 
-static const char	*operation_name(int operation)
+/* Prints swap and push operation counters on one benchmark line. */
+static void	print_swap_push_counts(t_context *context)
 {
-	const char	*names[COUNT];
-
-	names[SA] = "sa";
-	names[SB] = "sb";
-	names[SS] = "ss";
-	names[PA] = "pa";
-	names[PB] = "pb";
-	names[RA] = "ra";
-	names[RB] = "rb";
-	names[RR] = "rr";
-	names[RRA] = "rra";
-	names[RRB] = "rrb";
-	names[RRR] = "rrr";
-	return (names[operation]);
+	bench_putstr("[bench] ");
+	print_count("sa: ", context->op_counts[SA]);
+	print_count(" sb: ", context->op_counts[SB]);
+	print_count(" ss: ", context->op_counts[SS]);
+	print_count(" pa: ", context->op_counts[PA]);
+	print_count(" pb: ", context->op_counts[PB]);
+	bench_putstr("\n");
 }
 
-// mode (--bench)
-void	bench_print_and_counts(t_context *context, double disorder,
-		const char *strategy_name, const char *complex_class)
+/* Prints rotate operation counters on one benchmark line. */
+static void	print_rotate_counts(t_context *context)
 {
-	int	i;
+	bench_putstr("[bench] ");
+	print_count("ra: ", context->op_counts[RA]);
+	print_count(" rb: ", context->op_counts[RB]);
+	print_count(" rr: ", context->op_counts[RR]);
+	print_count(" rra: ", context->op_counts[RRA]);
+	print_count(" rrb: ", context->op_counts[RRB]);
+	print_count(" rrr: ", context->op_counts[RRR]);
+	bench_putstr("\n");
+}
 
+/* Prints all required metrics to stderr after sorting is complete. */
+void	bench_print_and_counts(t_context *context)
+{
 	if (!context->bench_enabled)
 		return ;
-	fprintf(stderr, "disorder: %.2f%%\n", disorder * 100.0);
-	fprintf(stderr, "strategy: %s (%s)\n", strategy_name, complex_class);
-	fprintf(stderr, "operations: %d\n", context->op_total);
-	i = 0;
-	while (i < COUNT)
-	{
-		fprintf(stderr, "%s: %d\n", operation_name(i),
-			context->op_counts[i]);
-		i++;
-	}
+	bench_putstr("[bench] disorder: ");
+	bench_put_percent(context->disorder);
+	bench_putstr("[bench] strategy: ");
+	bench_putstr(context->strategy_name);
+	bench_putstr(" / ");
+	bench_putstr(context->complexity);
+	bench_putstr("\n[bench] total_ops: ");
+	bench_putnbr(context->op_total);
+	bench_putstr("\n");
+	print_swap_push_counts(context);
+	print_rotate_counts(context);
 }

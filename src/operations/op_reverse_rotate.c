@@ -1,47 +1,63 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   op_reverse_rotate.c                               :+:      :+:    :+:   */
+/*   op_reverse_rotate.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aloiko <aloiko@student.42warsaw.pl>        +#+  +:+       +#+        */
+/*   By: anakloch <anakloch@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/14 19:21:31 by aloiko            #+#    #+#             */
-/*   Updated: 2026/07/16 17:06:54 by aloiko           ###   ########.fr       */
+/*   Updated: 2026/07/22 11:36:13 by anakloch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
-#include "../libft/libft.h"
+
+static int	reverse_rotate_stack(t_arr *stack)
+{
+	t_element	bottom;
+	int			index;
+
+	if (stack->depth < 2)
+		return (0);
+	bottom = stack->elements[stack->depth - 1];
+	index = stack->depth - 1;
+	while (index > 0)
+	{
+		stack->elements[index] = stack->elements[index - 1];
+		index--;
+	}
+	stack->elements[0] = bottom;
+	return (1);
+}
 
 void	rra(t_context *context)
 {
-	if (context->a.depth <= 1)
+	if (!reverse_rotate_stack(&context->a))
 		return ;
-	context->a.bottom = phys_idx(&context->a, context->a.depth - 1);
 	context->op_counts[RRA]++;
 	context->op_total++;
-	ft_putstr_fd("rra\n", 1);
+	write(1, "rra\n", 4);
 }
 
 void	rrb(t_context *context)
 {
-	if (context->b.depth <= 1)
+	if (!reverse_rotate_stack(&context->b))
 		return ;
-	context->b.bottom = phys_idx(&context->b, context->b.depth - 1);
 	context->op_counts[RRB]++;
 	context->op_total++;
-	ft_putstr_fd("rrb\n", 1);
+	write(1, "rrb\n", 4);
 }
 
 void	rrr(t_context *context)
 {
-	if (context->a.depth <= 1 && context->b.depth <= 1)
+	int	changed_a;
+	int	changed_b;
+
+	changed_a = reverse_rotate_stack(&context->a);
+	changed_b = reverse_rotate_stack(&context->b);
+	if (!changed_a && !changed_b)
 		return ;
-	if (context->a.depth > 1)
-		context->a.bottom = phys_idx(&context->a, context->a.depth - 1);
-	if (context->b.depth > 1)
-		context->b.bottom = phys_idx(&context->b, context->b.depth - 1);
 	context->op_counts[RRR]++;
 	context->op_total++;
-	ft_putstr_fd("rrr\n", 1);
+	write(1, "rrr\n", 4);
 }

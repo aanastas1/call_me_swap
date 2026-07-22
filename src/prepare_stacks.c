@@ -6,106 +6,109 @@
 /*   By: anakloch <anakloch@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/13 13:46:35 by aloiko            #+#    #+#             */
-/*   Updated: 2026/07/17 12:28:42 by anakloch         ###   ########.fr       */
+/*   Updated: 2026/07/22 11:36:38 by anakloch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-int	validate_no_dups(int *values, int n)
+/* Rejects an input when two parsed values are equal. */
+int	validate_no_dups(int *values, int count)
 {
-	int	i;
-	int	j;
+	int	first;
+	int	second;
 
-	i = 0;
-	while (i < n - 1)
+	first = 0;
+	while (first < count - 1)
 	{
-		j = i + 1;
-		while (j < n)
+		second = first + 1;
+		while (second < count)
 		{
-			if (values[i] == values[j])
+			if (values[first] == values[second])
 				return (0);
-			j++;
+			second++;
 		}
-		i++;
+		first++;
 	}
 	return (1);
 }
 
-double	compute_disorder_values(const int *values, int n)
+/* Measures the fraction of inverted input pairs before any operation. */
+double	compute_disorder_values(const int *values, int count)
 {
-	int	mistakes;
-	int	total_pairs;
-	int	i;
-	int	j;
+	long	mistakes;
+	long	total_pairs;
+	int		first;
+	int		second;
 
+	if (count < 2)
+		return (0.0);
 	mistakes = 0;
 	total_pairs = 0;
-	i = 0;
-	while (i < n - 1)
+	first = 0;
+	while (first < count - 1)
 	{
-		j = i + 1;
-		while (j < n)
+		second = first + 1;
+		while (second < count)
 		{
 			total_pairs++;
-			if (values[i] > values[j])
+			if (values[first] > values[second])
 				mistakes++;
-			j++;
+			second++;
 		}
-		i++;
+		first++;
 	}
 	return ((double)mistakes / total_pairs);
 }
 
-int	*compute_ranks(const int *values, int n)
+/* Maps each value to its sorted position from zero to count minus one. */
+int	*compute_ranks(const int *values, int count)
 {
-	int	*temp;
-	int	i;
-	int	j;
+	int	*ranks;
+	int	value_index;
+	int	other_index;
 
-	temp = malloc(n * sizeof(int));
-	if (!temp)
+	ranks = malloc(sizeof(int) * count);
+	if (!ranks)
 		return (NULL);
-	i = 0;
-	while (i < n)
+	value_index = 0;
+	while (value_index < count)
 	{
-		temp[i] = 0;
-		j = 0;
-		while (j < n)
+		ranks[value_index] = 0;
+		other_index = 0;
+		while (other_index < count)
 		{
-			if (values[j] < values[i])
-				temp[i]++;
-			j++;
+			if (values[other_index] < values[value_index])
+				ranks[value_index]++;
+			other_index++;
 		}
-		i++;
+		value_index++;
 	}
-	return (temp);
+	return (ranks);
 }
 
-void	setup_stacks(t_context *context, int *values, int *ranks, int n)
+/* Copies input order into A so the first input value becomes the top. */
+void	setup_stacks(t_context *context, const int *values,
+		const int *ranks, int count)
 {
-	int	i;
+	int	input_index;
 
-	printf("DEBUG: setup_stacks start\n");
-	i = 0;
-	while (i < n)
+	input_index = 0;
+	while (input_index < count)
 	{
-		context->a.elements[i].value = values[i];
-		context->a.elements[i].rank = ranks[i];
-		i++;
+		context->a.elements[input_index].value = values[input_index];
+		context->a.elements[input_index].rank = ranks[input_index];
+		input_index++;
 	}
-	context->a.depth = n;
+	context->a.depth = count;
 }
 
-void	swap(t_arr *arr, int logical_idx1, int logical_idx2)
+/* Exchanges two elements addressed by logical stack indexes. */
+void	swap(t_arr *stack, int first_index, int second_index)
 {
-	t_element	tmp;
-	int			idx1;
-	int			idx2;
+	t_element	temporary;
 
-	idx1 = phys_idx(arr, logical_idx1);
-	idx2 = phys_idx(arr, logical_idx2);
-	tmp = arr->elements[idx1];
-	arr->elements[idx1] = arr->elements[idx2];
-	arr->elements[idx2] = tmp;
+	temporary = stack->elements[first_index];
+	stack->elements[first_index] = stack->elements[second_index];
+	stack->elements[second_index] = temporary;
 }

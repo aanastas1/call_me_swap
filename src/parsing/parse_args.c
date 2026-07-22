@@ -6,113 +6,97 @@
 /*   By: anakloch <anakloch@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/12 15:09:31 by aloiko            #+#    #+#             */
-/*   Updated: 2026/07/17 12:25:01 by anakloch         ###   ########.fr       */
+/*   Updated: 2026/07/22 11:36:22 by anakloch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
-#include "../libft/libft.h"
 
-int	ft_strcmp(const char *s1, const char *s2)
+static int	flag_index(char *src)
 {
-	while (*s1 && *s1 == *s2)
+	const char	*flags[] = {"--simple", "--medium", "--complex",
+		"--adaptive", "--bench"};
+	int			index;
+
+	index = 0;
+	while (index < 5)
 	{
-		s1++;
-		s2++;
+		if (ft_strcmp(src, flags[index]) == 0)
+			return (index);
+		index++;
 	}
-	return (*s1 - *s2);
+	return (-1);
 }
 
-static long	ft_atoil(const char *nptr)
+static int	set_flag(char *src, t_context *context)
 {
-	int		sign;
-	long	res;
+	int	index;
 
-	sign = 1;
-	res = 0;
-	if (*nptr == '-' || *nptr == '+')
-	{
-		if (*nptr == '-')
-			sign = -1;
-		nptr++;
-	}
-	while (ft_isdigit(*nptr))
-	{
-		res = res * 10 + (*nptr - '0');
-		nptr++;
-	}
-	return (sign * res);
-}
-
-int	all_digits(char *src)
-{
-	int	has_digits;
-
-	has_digits = 0;
-	if (*src == '-' || *src == '+')
-		src++;
-	if (!*src) /* Check if the string is empty after skipping sign */
+	index = flag_index(src);
+	if (index < 0)
 		return (0);
-	while (*src)
+	if (index == 4)
 	{
-		if (!ft_isdigit(*src))
-			return (0);
-		has_digits = 1;
-		src++;
+		if (context->bench_enabled)
+			return (-1);
+		context->bench_enabled = 1;
 	}
-	return (has_digits);
+	else
+	{
+		if (context->strategy != NONE)
+			return (-1);
+		context->strategy = (t_strategy)index;
+	}
+	return (1);
 }
 
-int	is_flag(char *src, t_context *context)
+static int	count_input(int argc, char **argv, t_context *context)
 {
-	const char	*flags[] = {"--simple", "--medium", "--complex", "--adaptive", "--bench"};
-	int	i;
-	int	max_index;
+	int	index;
+	int	flag;
+	int	count;
+	int	words;
 
-	i = 0;
-	max_index = sizeof(flags) / sizeof(flags[0]) - 1; /* last index is for --bench */
-	while (i <= max_index)
+	index = 1;
+	count = 0;
+	while (index < argc)
 	{
-		if (ft_strcmp(src, flags[i]) == 0)
+		flag = set_flag(argv[index], context);
+		if (flag < 0)
+			return (0);
+		if (flag == 0)
 		{
-			if ((i < max_index - 1) && context->strategy == NONE) /* strategy flags */
-				context->strategy = (t_strategy)i;
-			else if ((i == max_index) && context->bench_enabled == 0) /* bench flag */
-				context->bench_enabled = 1;
-			return (1);
+			words = count_words(argv[index]);
+			if (words == 0 || count > INT_MAX - words)
+				return (0);
+			count += words;
 		}
-		i++;
+		index++;
 	}
-	return (0);
+	return (count);
 }
 
 int	parse_args(int argc, char **argv, int **out_values, t_context *context)
 {
-	int		i;
-	int		count;
-	long	tmp;
+	int	arg_index;
+	int	value_index;
+	int	count;
 
-	*out_values = malloc(argc * sizeof(**out_values));
-	printf("DEBUG: parse_args start\n");
+	*out_values = NULL;
+	count = count_input(argc, argv, context);
+	if (count < 1)
+		return (0);
+	*out_values = malloc(sizeof(**out_values) * count);
 	if (!*out_values)
 		return (0);
-	count = 0;
-	i = 0;
-	while (++i < argc)
+	arg_index = 1;
+	value_index = 0;
+	while (arg_index < argc)
 	{
-		if (is_flag(argv[i], context))
-			continue ;
-		else if (all_digits(argv[i]))
-		{
-			tmp = ft_atoil(argv[i]);
-			if (tmp < INT_MIN || tmp > INT_MAX)
-				return (0);
-			(*out_values)[count++] = tmp;
-		}
-		else
-		{
+		if (flag_index(argv[arg_index]) < 0
+			&& !parse_numbers(argv[arg_index], *out_values, &value_index))
 			return (0);
-		}
+		arg_index++;
 	}
 	return (count);
 }
