@@ -6,7 +6,7 @@
 /*   By: aloiko <aloiko@student.42warsaw.pl>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/12 18:39:35 by aloiko            #+#    #+#             */
-/*   Updated: 2026/07/21 21:52:00 by aloiko           ###   ########.fr       */
+/*   Updated: 2026/07/22 14:42:39 by aloiko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,14 +59,16 @@ void print_stack_a_b(t_context *context)
 			if (idx_a == context->a.depth - 1)
 			{
 				ft_putstr_fd(" ]", 1);
-				ft_putstr_fd("                     ", 1);
 			}
-			else
-				ft_putstr_fd("                       ", 1);
+			/*else
+				ft_putstr_fd("                                                         ", 1);*/
 			idx_a++;
 		}
 		if (idx_b < context->b.depth)
 		{
+			if (idx_b == 0 && idx_a >= context->a.depth)
+				ft_putstr_fd("                       ", 1);
+			ft_putstr_fd("                       ", 1);
 			ft_putnbr_fd(context->b.elements[idx_b].value, 1);
 			ft_putstr_fd(" | ", 1);
 			ft_putnbr_fd(context->b.elements[idx_b].rank, 1);
@@ -116,7 +118,7 @@ int	main(int argc, char **argv)
 	pb(&context);
 	pb(&context);
 	print_stack_a_b(&context);
-	/*pa(&context);
+	pa(&context);
 	pa(&context);
 	pa(&context);
 	pa(&context);
@@ -139,7 +141,20 @@ int	main(int argc, char **argv)
 
 	rrr(&context);
 	print_stack_a_b(&context);
-	rb(&context);*/
+	pb(&context);
+	pb(&context);
+	pb(&context);
+	pb(&context);
+	print_stack_a_b(&context);
+	rb(&context);
+	print_stack_a_b(&context);
+	rb(&context);
+	print_stack_a_b(&context);
+	rr(&context);
+	print_stack_a_b(&context);
+	ra(&context);
+	print_stack_a_b(&context);
+	rrr(&context);
 	print_stack_a_b(&context);
 
 
