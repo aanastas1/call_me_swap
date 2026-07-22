@@ -47,7 +47,9 @@ typedef struct s_context {
    
     int op_total; /* total number of operations performed */
     int op_counts[COUNT]; /* array counts of each operation type */
-
+    
+    const char		*strategy_name;
+	const char		*complexity;
     /* stdout-only ops are printed inside op_* */
  } t_context;
  
@@ -66,8 +68,12 @@ int	validate_no_dups(int *values, int n);
 void setup_stacks(t_context *context, int *values, int size);
 
 /* sort helpers */
-int  stack_is_sorted_asc(const t_arr *a); /* ascending: smaller ranks first on top */
+int  stack_is_sorted_asc(t_arr *a); /* ascending: smaller ranks first on top */
 void sort_small(t_context *context);                /* handles n<=3..5 safely via dedicated logic */
+int	rank_at(t_arr *stack, int logical_index);
+int	smallest_rank_index(t_arr *stack);
+int	largest_rank_index(t_arr *stack);
+int	rotations_to_top(t_arr *stack, int logical_index);
 
 /* operation layer (must be the only place that prints ops) */
 void sa(t_context *context);
@@ -94,8 +100,12 @@ void strategy_complex(t_context *context);
 void strategy_adaptive(t_context *context);
 
 /* bench */ //by anastasi side print count of operation, or sa ss 
-void bench_print_and_counts(t_context *context, const char *strategy_name, const char *complex_class);
+void bench_print_and_counts(t_context *context);
+/*void bench_print_and_counts(t_context *context, const char *strategy_name, const char *complex_class);*/
 
 void print_stack_a_b(t_context *context);
+void	bench_putstr(const char *text);
+void	bench_putnbr(int number);
+void	bench_put_percent(double value);
 
 # endif

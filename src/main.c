@@ -6,7 +6,7 @@
 /*   By: aloiko <aloiko@student.42warsaw.pl>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/12 18:39:35 by aloiko            #+#    #+#             */
-/*   Updated: 2026/07/22 14:42:39 by aloiko           ###   ########.fr       */
+/*   Updated: 2026/07/22 19:28:39 by aloiko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,8 @@ int	main(int argc, char **argv)
 	print_stack_a_b(&context);
 
 	//strategy_medium(&context);
-	pb(&context);
+	strategy_medium(&context);
+	/*pb(&context);
 	pb(&context);
 	pb(&context);
 	pb(&context);
@@ -158,7 +159,7 @@ int	main(int argc, char **argv)
 	print_stack_a_b(&context);
 
 
-	//turk_alg(&context);
+	//turk_alg(&context);*/
 
 	printf("Disorder: %.2f\n", context.disorder);
 	
@@ -167,6 +168,10 @@ int	main(int argc, char **argv)
 	printf("DEBUG:     depth.a = %d,                depth.b = %d\n", context.a.depth,  context.b.depth);
 	printf("DEBUG:     operation_totaly = %d\n", context.op_total);
 	print_stack_a_b(&context); /* print stack after small functions */
+
+	if (context.bench_enabled)
+		bench_print_and_counts(&context);
+
 
 	free_all(&context);
 	return (0);

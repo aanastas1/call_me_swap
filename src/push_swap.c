@@ -6,7 +6,7 @@
 /*   By: aloiko <aloiko@student.42warsaw.pl>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/16 18:15:47 by aloiko            #+#    #+#             */
-/*   Updated: 2026/07/21 17:30:32 by aloiko           ###   ########.fr       */
+/*   Updated: 2026/07/22 18:46:13 by aloiko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,8 @@ void    strategy_selector(t_context *context)
         strategy_adaptive(context);
 }
 
-void strategy_simple(t_context *context)
-{(void)context;}
+/*void strategy_simple(t_context *context)
+{(void)context;}*/
 
 void strategy_complex(t_context *context)
 {(void)context;}

@@ -6,10 +6,11 @@
 /*   By: aloiko <aloiko@student.42warsaw.pl>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/20 18:37:33 by aloiko            #+#    #+#             */
-/*   Updated: 2026/07/21 21:52:25 by aloiko           ###   ########.fr       */
+/*   Updated: 2026/07/22 18:19:37 by aloiko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+/*
 #include "push_swap.h"
 
 void push_it_b(t_context *context, int idx)
@@ -105,4 +106,4 @@ void strategy_medium(t_context *context)
 
     delimiter = context->a.depth / 2;
     sort_stacks(context, delimiter);
-}
+}*/
