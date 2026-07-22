@@ -6,7 +6,7 @@
 /*   By: aloiko <aloiko@student.42warsaw.pl>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/12 18:39:35 by aloiko            #+#    #+#             */
-/*   Updated: 2026/07/22 19:28:39 by aloiko           ###   ########.fr       */
+/*   Updated: 2026/07/22 23:06:44 by aloiko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,7 @@ int	main(int argc, char **argv)
 	print_stack_a_b(&context);
 
 	//strategy_medium(&context);
-	strategy_medium(&context);
+	strategy_complex(&context)
 	/*pb(&context);
 	pb(&context);
 	pb(&context);
