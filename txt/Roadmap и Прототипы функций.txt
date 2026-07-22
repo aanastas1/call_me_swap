@@ -80,8 +80,14 @@ typedef struct s_ctx {
 } t_ctx;
 
 /* parse */
-int  parse_args(int argc, char **argv, int **out_values);
-int  validate_ints_and_no_dups(int *values, int n);
+int  parse_args(int argc, char **argv, int **out_values); out_values — это “output parameter” (указатель на переменную-результат):
+функция заполняет/выделяет массив int* с распарсенными значениями (числа из argv) и возвращает его в вызывающий main через этот аргумент.
+
+int  validate_ints_and_no_dups(int *values, int n);  проверяет уже распарсенные числа:
+
+    убеждается, что все значения валидны (обычно: вы не вышли за допустимый диапазон при парсинге/и нет “невозможных” значений),
+    проверяет, что нет дубликатов в values.
+Возвращает код статуса: например 1 (или 0) если всё ок, и противоположное значение если ошибка (дубликаты/невалидные).
 
 /* disorder + ranks */
 double compute_disorder_values(const int *values, int n);   /* returns [0..1] */

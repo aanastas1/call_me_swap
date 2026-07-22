@@ -1,17 +1,24 @@
-# ifndef PUSH_SWAP_H
+#ifndef PUSH_SWAP_H
 # define PUSH_SWAP_H
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <limits.h>
+# include <stdio.h>
+# include <stdlib.h>
+# include <unistd.h>
+# include <limits.h>
+
+
+# include "../libft/libft.h"
+
+typedef struct s_element
+{
+	int value; /* Value of the element */
+	int rank; /* Rank of the element */
+} t_element;
 
 typedef struct s_arr {
-    int *num;
-    int start;
-    int len;
-    int size;
-}   t_arr;
+    t_element *elements;
+    int depth; /* number of elements in the stack */
+} t_arr;
 
 typedef enum e_optype {
     SA, SB, SS,
@@ -22,41 +29,43 @@ typedef enum e_optype {
 } t_operation_type;
 
 typedef enum e_strategy {
+    NONE,
     SIMPLE,
     MEDIUM,
     COMPLEX,
-    ADAPTIVE,
-    NONE
+    ADAPTIVE
 } t_strategy;
 
 typedef struct s_context {
     t_arr a;
     t_arr b;
 
+    double disorder;
+
     t_strategy strategy;
     int bench_enabled;
-<<<<<<< HEAD
-    long op_total;
-    long op_counts[COUNT];
-
-=======
    
     int op_total; /* total number of operations performed */
     int op_counts[COUNT]; /* array counts of each operation type */
     
     const char		*strategy_name;
 	const char		*complexity;
->>>>>>> 38205b8 (Combined parsing and sorting algorithms.)
     /* stdout-only ops are printed inside op_* */
-} t_context;
+ } t_context;
+ 
+/*assistant functions*/
+
+void	put_error_n_exit(void);
+void    *xalloc(size_t count, size_t type_size);
+int has_spaces(char *src);
 
 /* parse */
-int  parse_args(int argc, char **argv, int **out_values, t_context *context);
-int  validate_ints_and_no_dups(int *values, int n);
+void parse_args(int argc, char **argv, t_context *context);
+int complex_string_split(int **out_values, char *str);
+int	add_nbr_to_arr(int **out_values, char *nptr, int idx);
+int	validate_no_dups(int *values, int n);
 
-/* disorder + ranks */
-double compute_disorder_values(const int *values, int n);   /* returns [0..1] */
-int   *compute_ranks(const int *values, int n);             /* returns n ints */
+void setup_stacks(t_context *context, int *values, int size);
 
 /* sort helpers */
 int  stack_is_sorted_asc(t_arr *a); /* ascending: smaller ranks first on top */
@@ -79,17 +88,18 @@ void rra(t_context *context);
 void rrb(t_context *context);
 void rrr(t_context *context);
 
+void turk_alg(t_context *context);
+
+
+
+void    strategy_selector(t_context *context);
 /* strategies */
-void strategy_simple(t_context *context, int n);
-void strategy_medium(t_context *context, int n);
-void strategy_complex(t_context *context, int n);
-void strategy_adaptive(t_context *context, int n, double disorder);
+void strategy_simple(t_context *context);
+void strategy_medium(t_context *context);
+void strategy_complex(t_context *context);
+void strategy_adaptive(t_context *context);
 
 /* bench */ //by anastasi side print count of operation, or sa ss 
-<<<<<<< HEAD
-void bench_print_and_counts(t_context *context, double disorder,
-const char *strategy_name, const char *complex_class);
-=======
 void bench_print_and_counts(t_context *context);
 /*void bench_print_and_counts(t_context *context, const char *strategy_name, const char *complex_class);*/
 
@@ -97,6 +107,5 @@ void print_stack_a_b(t_context *context);
 void	bench_putstr(const char *text);
 void	bench_putnbr(int number);
 void	bench_put_percent(double value);
->>>>>>> 38205b8 (Combined parsing and sorting algorithms.)
 
 # endif

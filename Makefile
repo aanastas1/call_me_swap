@@ -1,10 +1,5 @@
 NAME = push_swap
-CC = cc
-CFLAGS = -Wall -Wextra -Werror
 
-<<<<<<< HEAD
-SRC = main.c push_swap.c
-=======
 SRC_DIR = src
 INC_DIR = include
 
@@ -26,26 +21,31 @@ $(SRC_DIR)/bench.c \
 $(SRC_DIR)/bench_output.c \
 $(SRC_DIR)/strategy_simple.c 
 
->>>>>>> 38205b8 (Combined parsing and sorting algorithms.)
 # Add the rest of your .c files here, for example:
 # SRC = push_swap.c utils.c parse.c strategies_simple.c strategies_medium.c strategies_complex.c strategies_adaptive.c
 
-OBJ = $(SRC:.c=.o)
+HDRS = $(INC_DIR)/push_swap.h \
+	libft/libft.h 	
 
-.PHONY: all clean fclean re
+CC = cc
+CFLAGS = -Wall -Wextra -Werror -I$(INC_DIR) -fsanitize=address -g
+
+LIBFT_PATH = libft
+LIBFT = $(LIBFT_PATH)/libft.a
+
+LDFLAGS = -L$(LIBFT_PATH) -lft -L.
 
 all: $(NAME)
 
-$(NAME): $(OBJ)
-	$(CC) $(CFLAGS) $(OBJ) -o $(NAME)
-
-%.o: %.c
-	$(CC) $(CFLAGS) -c $< -o $@
+$(NAME): $(SRCS) $(HDRS) $(LIBFT_PATH)
+	$(CC) $(CFLAGS) -o $(NAME) $(SRCS) $(LIBFT) 
 
 clean:
-	rm -f $(OBJ)
+	rm -f *.o
 
 fclean: clean
 	rm -f $(NAME)
 
 re: fclean all
+
+.PHONY: all clean fclean re

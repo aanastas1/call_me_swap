@@ -1,5 +1,3 @@
-<<<<<<< HEAD
-=======
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
@@ -80,4 +78,3 @@ void turk_alg(t_context *context)
     pb(context);
 
 }
->>>>>>> 38205b8 (Combined parsing and sorting algorithms.)

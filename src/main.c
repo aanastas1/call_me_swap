@@ -1,6 +1,3 @@
-<<<<<<< HEAD
-int main(void)
-=======
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
@@ -17,12 +14,10 @@ int main(void)
 #include "../libft/libft.h"
 
 void	put_error_n_exit(void)
->>>>>>> 38205b8 (Combined parsing and sorting algorithms.)
 {
-    return 0;
+	ft_putstr_fd("Error\n", 2);
+	exit(1);
 }
-<<<<<<< HEAD
-=======
 static void	context_init(t_context *context)
 {
 	*context = (t_context){
@@ -182,4 +177,3 @@ int	main(int argc, char **argv)
 	return (0);
 }
 
->>>>>>> 38205b8 (Combined parsing and sorting algorithms.)
