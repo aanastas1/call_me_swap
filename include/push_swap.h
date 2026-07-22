@@ -35,9 +35,18 @@ typedef struct s_context {
 
     t_strategy strategy;
     int bench_enabled;
+<<<<<<< HEAD
     long op_total;
     long op_counts[COUNT];
 
+=======
+   
+    int op_total; /* total number of operations performed */
+    int op_counts[COUNT]; /* array counts of each operation type */
+    
+    const char		*strategy_name;
+	const char		*complexity;
+>>>>>>> 38205b8 (Combined parsing and sorting algorithms.)
     /* stdout-only ops are printed inside op_* */
 } t_context;
 
@@ -50,8 +59,12 @@ double compute_disorder_values(const int *values, int n);   /* returns [0..1] */
 int   *compute_ranks(const int *values, int n);             /* returns n ints */
 
 /* sort helpers */
-int  stack_is_sorted_asc(const t_arr *a); /* ascending: smaller ranks first on top */
+int  stack_is_sorted_asc(t_arr *a); /* ascending: smaller ranks first on top */
 void sort_small(t_context *context);                /* handles n<=3..5 safely via dedicated logic */
+int	rank_at(t_arr *stack, int logical_index);
+int	smallest_rank_index(t_arr *stack);
+int	largest_rank_index(t_arr *stack);
+int	rotations_to_top(t_arr *stack, int logical_index);
 
 /* operation layer (must be the only place that prints ops) */
 void sa(t_context *context);
@@ -73,7 +86,17 @@ void strategy_complex(t_context *context, int n);
 void strategy_adaptive(t_context *context, int n, double disorder);
 
 /* bench */ //by anastasi side print count of operation, or sa ss 
+<<<<<<< HEAD
 void bench_print_and_counts(t_context *context, double disorder,
 const char *strategy_name, const char *complex_class);
+=======
+void bench_print_and_counts(t_context *context);
+/*void bench_print_and_counts(t_context *context, const char *strategy_name, const char *complex_class);*/
+
+void print_stack_a_b(t_context *context);
+void	bench_putstr(const char *text);
+void	bench_putnbr(int number);
+void	bench_put_percent(double value);
+>>>>>>> 38205b8 (Combined parsing and sorting algorithms.)
 
 # endif
