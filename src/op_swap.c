@@ -19,7 +19,7 @@ static void swap_top(t_element *elem)
 
 	tmp = elem[0];
 	elem[0] = elem[1];
-	elem[1] = elem[0];
+	elem[1] = tmp;
 }
 
 void	sa(t_context *context)
