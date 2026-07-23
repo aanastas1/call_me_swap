@@ -80,9 +80,8 @@ static int	is_strategy_flag(char *src, t_context *context)
 
 static int fill_the_buffer(int max_args, char *arg, int **out_values, int *size)
 {
-	t_mode	mode;
+	static t_mode	mode;
 
-	mode = unknown;
 	if (has_spaces(arg))
 	{
 		if (mode == single_numbers || mode == complex_arg)
