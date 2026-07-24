@@ -6,13 +6,13 @@
 /*   By: aloiko <aloiko@student.42warsaw.pl>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/22 15:17:31 by aloiko            #+#    #+#             */
-/*   Updated: 2026/07/22 17:15:15 by aloiko           ###   ########.fr       */
+/*   Updated: 2026/07/24 21:47:32 by aloiko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 #include "../libft/libft.h"
-
+/*
 static void free_split(char **buf)
 {
     int i;
@@ -54,9 +54,9 @@ int complex_string_split(int **out_values, char *str)
 	while (i < buf_size)
 	{ 
 		if (!add_nbr_to_arr(out_values, buf[i], i))
-			return (0);
+			return (free_split(buf), 0);
 		i++;
 	}
 	free_split(buf);
 	return (buf_size);
-}
+}*/

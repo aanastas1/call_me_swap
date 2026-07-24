@@ -9,16 +9,21 @@
 
 # include "../libft/libft.h"
 
-typedef struct s_element
+typedef struct s_node
 {
-	int value; /* Value of the element */
-	int rank; /* Rank of the element */
-} t_element;
+	int	value;
+	int	rank;
 
-typedef struct s_arr {
-    t_element *elements;
-    int depth; /* number of elements in the stack */
-} t_arr;
+	struct s_node *next; // элемент ниже/следующий по кругу
+	struct s_node *prev; // элемент выше/предыдущий по кругу
+}	t_node;
+
+typedef struct s_stack
+{
+	t_node	*top;   // текущая вершина стека
+	int			depth; // количество элементов
+}	t_stack;
+
 
 typedef enum e_optype {
     SA, SB, SS,
@@ -37,8 +42,8 @@ typedef enum e_strategy {
 } t_strategy;
 
 typedef struct s_context {
-    t_arr a;
-    t_arr b;
+    t_stack	a;
+    t_stack	b;
 
     double disorder;
 
@@ -57,23 +62,24 @@ typedef struct s_context {
 
 void	put_error_n_exit(void);
 void    *xalloc(size_t count, size_t type_size);
-int has_spaces(char *src);
 
 /* parse */
 void parse_args(int argc, char **argv, t_context *context);
-int complex_string_split(int **out_values, char *str);
-int	add_nbr_to_arr(int **out_values, char *nptr, int idx);
+int get_number(char *arg, int **out_values, int *capacity, int *idx);
+
+//int complex_string_split(int **out_values, char *str);
+int	add_nbr_to_arr(int **out_values, int *capacity, char **nptr, int *idx);
 int	validate_no_dups(int *values, int n);
 
 void setup_stacks(t_context *context, int *values, int size);
 
 /* sort helpers */
-int  stack_is_sorted_asc(t_arr *a); /* ascending: smaller ranks first on top */
+int  stack_is_sorted_asc(t_stack *a); /* ascending: smaller ranks first on top */
 void sort_small(t_context *context);                /* handles n<=3..5 safely via dedicated logic */
-int	rank_at(t_arr *stack, int logical_index);
-int	smallest_rank_index(t_arr *stack);
-int	largest_rank_index(t_arr *stack);
-int	rotations_to_top(t_arr *stack, int logical_index);
+int	rank_at(t_stack *stack, int logical_index);
+int	smallest_rank_index(t_stack *stack);
+int	largest_rank_index(t_stack *stack);
+int	rotations_to_top(t_stack *stack, int logical_index);
 
 /* operation layer (must be the only place that prints ops) */
 void sa(t_context *context);
@@ -89,7 +95,6 @@ void rrb(t_context *context);
 void rrr(t_context *context);
 
 void turk_alg(t_context *context);
-
 
 
 void    strategy_selector(t_context *context);

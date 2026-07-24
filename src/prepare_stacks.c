@@ -6,18 +6,49 @@
 /*   By: aloiko <aloiko@student.42warsaw.pl>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/13 13:46:35 by aloiko            #+#    #+#             */
-/*   Updated: 2026/07/22 17:39:25 by aloiko           ###   ########.fr       */
+/*   Updated: 2026/07/24 22:56:46 by aloiko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-static void	stacks_init(t_context *context, int capacity)
+void add_node(t_node **node, int value, int rank)
 {
-	context->a.elements = xalloc(capacity, sizeof(t_element));
+	t_node *tmp;
+
+	tmp = malloc(sizeof(*tmp));
+	if(!tmp)
+		put_error_n_exit();
+	tmp->value = value;
+	tmp->rank = rank;
+	printf("DEBUG add_node: node=%p\n", (void*)node);
+	if (*node == NULL)
+	{
+		tmp->next = tmp;
+		tmp->prev = tmp;
+		*node = tmp;
+		return ;
+	}
+
+	// вставка между (*top)->prev и *top
+	tmp->next = *node;
+	tmp->prev = (*node)->prev;
+	(*node)->prev->next = tmp;
+	(*node)->prev = tmp;
+
+}
+
+static void	stacks_init(t_context *context, int *out_values, int *ranks, int capacity)
+{
+	int	i;
+
 	context->a.depth = capacity;
-	context->b.elements = xalloc(capacity, sizeof(t_element));
-	context->b.depth = 0;
+	i = 0;
+	while (i < capacity)
+	{
+		add_node(&context->a.top, out_values[i], ranks[i]);
+		i++;
+	}
 }
 
 int	validate_no_dups(int *values, int n)
@@ -40,37 +71,38 @@ int	validate_no_dups(int *values, int n)
 	return (1);
 }
 
-static void	compute_ranks(t_context *context, const int *values, int size)
+static int	*compute_ranks(const int *values, int size)
 {
 	int	i;
 	int	j;
-
+	int *ranks;
+	
+	ranks = xalloc(size, sizeof(int));
+	if (!ranks)
+		put_error_n_exit();
 	i = 0;
 	while (i < size)
 	{
-		context->a.elements[i].rank = 0;
+		ranks[i] = 0;
 		j = 0;
 		while (j < size)
 		{
 			if (values[j] < values[i])
-				context->a.elements[i].rank++;
+				ranks[i]++;
 			j++;
 		}
 		i++;
 	}
+	return (ranks);
 }
 
-void	setup_stacks(t_context *context, int *values, int size)
+void	setup_stacks(t_context *context, int *out_values, int size)
 {
-	int	i;
+	int *ranks;
 
-	stacks_init(context, size);
-	compute_ranks(context, values, size);
-
-    i = 0;
-	while (i < size)
-	{
-    	context->a.elements[i].value = values[i];
-    	i++;
-	}
+	if (!validate_no_dups(out_values, size))
+		return ;
+	ranks = compute_ranks(out_values, size);
+	stacks_init(context, out_values, ranks, size);
+	free(ranks);
 }

@@ -6,7 +6,7 @@
 /*   By: aloiko <aloiko@student.42warsaw.pl>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/22 16:04:49 by aloiko            #+#    #+#             */
-/*   Updated: 2026/07/22 17:46:38 by aloiko           ###   ########.fr       */
+/*   Updated: 2026/07/24 23:14:33 by aloiko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,68 +25,85 @@ void *xalloc(size_t count, size_t elem_size)
         put_error_n_exit();
     return p;
 }
-
-int has_spaces(char *src)
+int ft_isspace(char c)
 {
-	while (*src)
-	{
-		if (*src == ' ' || (*src >= '\t' && *src <= '\r'))
-			return (1);
-		src++;
-	}
-	return (0);
+	return (c == ' ' || (c >= '\t' && c <= '\r'));
 }
 
-static int	is_number(char *src)
+int is_number(char *src)
 {
-	int	is_number;
-
-	is_number = 1;
+	while (ft_isspace(*src))
+		src++;
 	if (*src == '-' || *src == '+')
 		src++;
 	if (!*src) /* Check if the string is empty after skipping sign */
 		return (0);
-	while (*src)
+	while (*src && !ft_isspace(*src))
 	{
 		if (!ft_isdigit(*src))
 			return (0);
 		src++;
 	}
-	return (is_number);
+	return (1);
 }
 
-static long	ft_atoil(const char *nptr)
+static long long	ft_atoill(char **nptr)
 {
 	int		sign;
-	long	res;
+	long long	res;
 
 	sign = 1;
 	res = 0;
-	if (*nptr == '-' || *nptr == '+')
+	while (ft_isspace(**nptr))
+		(*nptr)++;
+	if (**nptr == '-' || **nptr == '+')
 	{
-		if (*nptr == '-')
+		if (**nptr == '-')
 			sign = -1;
-		nptr++;
+		(*nptr)++;
 	}
-	while (ft_isdigit(*nptr))
+	while (ft_isdigit(**nptr))
 	{
-		res = res * 10 + (*nptr - '0');
-		nptr++;
+		res = res * 10 + (**nptr - '0');
+		(*nptr)++;
 	}
 	return (sign * res);
 }
 
-int	add_nbr_to_arr(int **out_values, char *nptr, int idx)
+int	add_nbr_to_arr(int **out_values, int *capacity, char **nptr, int *idx)
 {
-	long	tmp;
-
-    if (!is_number(nptr))
-    {
-        return (0);
-    }
-    tmp = ft_atoil(nptr);
+	long long	tmp;
+	
+    if (!is_number(*nptr))
+		return (0);
+    tmp = ft_atoill(nptr);
 	if (tmp < INT_MIN || tmp > INT_MAX)
 		return (0);
-	(*out_values)[idx] = (int)tmp;
+	if (*capacity <= *idx)
+	{
+		*capacity *= 2;
+		*out_values = realloc(*out_values, *capacity * sizeof(**out_values));
+		if (!*out_values)
+			 put_error_n_exit();
+	}
+	(*out_values)[*idx] = (int)tmp;
+	(*idx)++;
 	return (1);
+}
+
+int	get_number(char *arg, int **out_values, int *capacity, int *idx)
+{
+	int idx_before;
+
+	idx_before = *idx;
+	while (*arg)
+	{
+		while (*arg && ft_isspace(*arg))
+			arg++;
+		if (!*arg)
+			break;
+		if (!add_nbr_to_arr(out_values, capacity, &arg, idx))
+			return (0);
+	}
+	return (*idx - idx_before);
 }
