@@ -6,7 +6,7 @@
 /*   By: aloiko <aloiko@student.42warsaw.pl>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/12 18:39:35 by aloiko            #+#    #+#             */
-/*   Updated: 2026/07/24 23:28:10 by aloiko           ###   ########.fr       */
+/*   Updated: 2026/07/25 11:20:23 by aloiko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ void print_stack_a_b(t_context *context)
 	{
 		if (!done_a)
 		{
-			if (idx_a > 0 || done_b)
+			if (idx_a >= 0 || done_b)
 				ft_putstr_fd("              ", 1);
 			ft_putnbr_fd(curr_a->value, 1);
 			ft_putstr_fd(" | ", 1);
@@ -110,7 +110,7 @@ void print_stack_a_b(t_context *context)
 		}
 		if (!done_b)
 		{
-			if (idx_b == 0 && done_a)
+			if (idx_b >= 0 || done_a)
 				ft_putstr_fd("                       ", 1);
 			else if (idx_b > 0)
 				ft_putstr_fd("                       ", 1);
@@ -155,13 +155,13 @@ int	main(int argc, char **argv)
 	}
 	//strategy_selector(&context);
 	
-/*	printf("DEBUG: After setup_stacks\n");*/
+	printf("DEBUG: After setup_stacks\n");
 	printf("DEBUG:     depth.a = %d,                depth.b = %d\n", context.a.depth,  context.b.depth);
 	print_stack_a_b(&context);
 
 	//strategy_medium(&context);
 	//strategy_complex(&context);
-	/*pb(&context);
+	pb(&context);
 	pb(&context);
 	pb(&context);
 	pb(&context);
@@ -212,7 +212,7 @@ int	main(int argc, char **argv)
 	print_stack_a_b(&context);
 
 
-	//turk_alg(&context);*/
+	//turk_alg(&context);
 
 	printf("Disorder: %.2f\n", context.disorder);
 	

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   bench_output.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anakloch <anakloch@student.42warsaw.pl>    +#+  +:+       +#+        */
+/*   By: aloiko <aloiko@student.42warsaw.pl>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/19 18:15:00 by anakloch          #+#    #+#             */
-/*   Updated: 2026/07/22 19:21:40 by aloiko           ###   ########.fr       */
+/*   Updated: 2026/07/25 11:31:27 by aloiko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ void	bench_putstr(const char *text)
 {
 	int	length;
 
+	if (!text)
+		return;
 	length = 0;
 	while (text[length])
 		length++;
