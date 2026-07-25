@@ -6,7 +6,7 @@
 /*   By: aloiko <aloiko@student.42warsaw.pl>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/20 18:37:33 by aloiko            #+#    #+#             */
-/*   Updated: 2026/07/24 10:44:11 by aloiko           ###   ########.fr       */
+/*   Updated: 2026/07/25 21:06:28 by aloiko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -164,7 +164,7 @@ static void sort_stacks(t_context *context, int min_rank, int max_rank)
     int i;
     int count;
    
-     printf("DEBUG: sort_stack start\n");
+    printf("DEBUG: sort_stack start\n");
     if (context->a.depth <= 5)
     {
         sort_small(context);
@@ -192,7 +192,7 @@ static void sort_stacks(t_context *context, int min_rank, int max_rank)
 
 void strategy_complex(t_context *context)
 {
-     printf("DEBUG: strategy_complex start\n");
+    printf("DEBUG: strategy_complex start\n");
     int min_rank;
     int max_rank;
 

@@ -6,14 +6,12 @@
 /*   By: aloiko <aloiko@student.42warsaw.pl>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/16 18:15:47 by aloiko            #+#    #+#             */
-/*   Updated: 2026/07/24 22:08:34 by aloiko           ###   ########.fr       */
+/*   Updated: 2026/07/25 18:13:31 by aloiko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-
-/*
 void    strategy_selector(t_context *context)
 {
     if (context->strategy == NONE)
@@ -27,57 +25,15 @@ void    strategy_selector(t_context *context)
     if (context->strategy == ADAPTIVE)
         strategy_adaptive(context);
 }
-
-void strategy_simple(t_context *context)
-{(void)context;}
-
-void strategy_complex(t_context *context)
-{(void)context;}
-void strategy_adaptive(t_context *context)
-{(void)context;}
-
-int find_element(t_stack *arr, int nbr)
+void  strategy_adaptive(t_context *context)
 {
-    int idx;
-    int top;
-    int delta;
-    int res;
-    int tmp;
-
-    delta = arr->depth - 1;
-    top = arr->depth - 1;
-    idx = 0;
-    while (top >= 0)
-    {
-        if (arr->top[idx].rank > nbr)
-        {
-            tmp = arr->top[idx].rank - nbr;
-            if(tmp < delta)
-            {
-                delta = tmp;
-                res = top;
-            }
-        }
-        top--;
-    }
-    return (res);
+    //if (context->a.depth <= 50)
+      //  strategy_simple(context);
+    if (context->disorder < 0.05)
+        strategy_simple(context);
+    else if (context->disorder < 0.35)
+        strategy_medium(context);
+    else
+        strategy_complex(context);
 }
 
-void turk_alg(t_context *context)
-{
-    int target;
-    int idx;
-    int dist;
-
-    pb(context);
-    pb(context);
-    idx = 0;
-    target = context->b.top[idx].rank;
-    idx = find_element(&context->a, target);
-    dist = context->a.depth - 1 - idx;
-    while (dist--)
-        ra(context);
-    pb(context);
-
-}
-*/

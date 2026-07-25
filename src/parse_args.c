@@ -6,7 +6,7 @@
 /*   By: aloiko <aloiko@student.42warsaw.pl>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/12 15:09:31 by aloiko            #+#    #+#             */
-/*   Updated: 2026/07/24 23:05:16 by aloiko           ###   ########.fr       */
+/*   Updated: 2026/07/25 18:37:46 by aloiko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,26 +47,26 @@ static double	compute_disorder_values(const int *values, int n)
 		}
 		i++;
 	}
-	printf("DEBUG: total_pairs %d, %d\n", total_pairs, (n * (n - 1) / 2));
-	return ((double)mistakes / total_pairs);
+	//printf("DEBUG: total_pairs %d, %d\n", total_pairs, (n * (n - 1) / 2));
+	return ((double)mistakes / (double)total_pairs);
 }
 
 static int	is_strategy_flag(char *src, t_context *context)
 {
-	const char	*flags[] = {"--simple", "--medium", "--complex", "--adaptive", "--bench"};
+	const char	*flags[] = {"--bench", "--simple", "--medium", "--complex", "--adaptive"};
 	int	i;
 	int	max_index;
 
 	i = 0;
-	max_index = sizeof(flags) / sizeof(flags[0]) - 1; /* last index is for --bench */
+	max_index = sizeof(flags) / sizeof(flags[0]) - 1; 
 	while (i <= max_index)
 	{
 		if (ft_strcmp(src, flags[i]) == 0)
 		{
-			if ((i < max_index - 1) && !context->strategy) /* strategy flags */
-				context->strategy = (t_strategy)i;
-			else if ((i == max_index) && context->bench_enabled == 0) /* bench flag */
+			if (i == 0 && context->bench_enabled == 0) /* bench flag */
 				context->bench_enabled = 1;
+			else if (!context->strategy) /* strategy flags */
+				context->strategy = (t_strategy)i;
 			return (1);
 		}
 		i++;
@@ -91,8 +91,6 @@ void	parse_args(int argc, char **argv, t_context *context)
 	int		i;
 	int		idx;
 	
-	printf("DEBUG: parse_args start argc=%d\n", argc);
-	fflush(stdout);
 	capacity = argc;
 	out_values = xalloc(capacity, sizeof(*out_values));
 	if (!out_values)
@@ -116,9 +114,7 @@ void	parse_args(int argc, char **argv, t_context *context)
 			size += count;
 		}
 	}
-	printf("DEBUG: size=%d\n", size);
 	setup_stacks(context, out_values, size);
-	printf("DEBUG: setup_stacks done\n");
 	context->disorder = compute_disorder_values(out_values, size);
 	free(out_values);
 }

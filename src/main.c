@@ -6,7 +6,7 @@
 /*   By: aloiko <aloiko@student.42warsaw.pl>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/12 18:39:35 by aloiko            #+#    #+#             */
-/*   Updated: 2026/07/25 11:20:23 by aloiko           ###   ########.fr       */
+/*   Updated: 2026/07/25 14:27:48 by aloiko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,7 +142,7 @@ int	main(int argc, char **argv)
 
 	
 	if (argc < 2)
-		return (0);
+		return (1);
 	context_init(&context); 
 	
 /*	printf("DEBUG: main start\n");*/
@@ -159,9 +159,10 @@ int	main(int argc, char **argv)
 	printf("DEBUG:     depth.a = %d,                depth.b = %d\n", context.a.depth,  context.b.depth);
 	print_stack_a_b(&context);
 
+	strategy_selector(&context);
 	//strategy_medium(&context);
 	//strategy_complex(&context);
-	pb(&context);
+	/*pb(&context);
 	pb(&context);
 	pb(&context);
 	pb(&context);
@@ -209,7 +210,7 @@ int	main(int argc, char **argv)
 	ra(&context);
 	print_stack_a_b(&context);
 	rrr(&context);
-	print_stack_a_b(&context);
+	print_stack_a_b(&context);*/
 
 
 	//turk_alg(&context);

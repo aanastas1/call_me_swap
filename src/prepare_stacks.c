@@ -6,7 +6,7 @@
 /*   By: aloiko <aloiko@student.42warsaw.pl>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/13 13:46:35 by aloiko            #+#    #+#             */
-/*   Updated: 2026/07/24 22:56:46 by aloiko           ###   ########.fr       */
+/*   Updated: 2026/07/25 18:10:30 by aloiko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ void add_node(t_node **node, int value, int rank)
 		put_error_n_exit();
 	tmp->value = value;
 	tmp->rank = rank;
-	printf("DEBUG add_node: node=%p\n", (void*)node);
 	if (*node == NULL)
 	{
 		tmp->next = tmp;
@@ -79,7 +78,7 @@ static int	*compute_ranks(const int *values, int size)
 	
 	ranks = xalloc(size, sizeof(int));
 	if (!ranks)
-		put_error_n_exit();
+		return (NULL);
 	i = 0;
 	while (i < size)
 	{
@@ -103,6 +102,8 @@ void	setup_stacks(t_context *context, int *out_values, int size)
 	if (!validate_no_dups(out_values, size))
 		return ;
 	ranks = compute_ranks(out_values, size);
+	if (!ranks)
+		return ;
 	stacks_init(context, out_values, ranks, size);
 	free(ranks);
 }

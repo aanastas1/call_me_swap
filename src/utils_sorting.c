@@ -6,7 +6,7 @@
 /*   By: aloiko <aloiko@student.42warsaw.pl>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/19 12:48:08 by anakloch          #+#    #+#             */
-/*   Updated: 2026/07/24 22:05:15 by aloiko           ###   ########.fr       */
+/*   Updated: 2026/07/25 18:27:45 by aloiko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,25 @@ int	stack_is_sorted_asc(t_stack *stack)
 	return (1);
 }
 
-/* Returns the rank stored at a logical stack index. */
+/*Returns the rank stored at a logical stack index. */
 int	rank_at(t_stack *stack, int logical_index)
 {
-	return (stack->top[logical_index].rank);
+	t_node	*cur;
+	int		i;
+
+	if (!stack || !stack->top)
+		return 0;
+	if (logical_index < 0 || logical_index >= stack->depth)
+		return 0;
+
+	cur = stack->top;
+	i = 0;
+	while (i < logical_index)
+	{
+		cur = cur->next;   // индекс 1 = ниже, значит идём по next
+		i++;
+	}
+	return cur->rank;
 }
 
 /* Finds the logical index of the smallest rank in a stack. */

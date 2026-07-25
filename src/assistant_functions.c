@@ -6,7 +6,7 @@
 /*   By: aloiko <aloiko@student.42warsaw.pl>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/22 16:04:49 by aloiko            #+#    #+#             */
-/*   Updated: 2026/07/24 23:14:33 by aloiko           ###   ########.fr       */
+/*   Updated: 2026/07/25 14:42:10 by aloiko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,14 +16,13 @@
 void *xalloc(size_t count, size_t elem_size)
 {
 	size_t total;
+	void *ptr;
 
     if (elem_size != 0 && count > SIZE_MAX / elem_size)
-        put_error_n_exit(); 
+       return (NULL); 
     total = count * elem_size;
-    void *p = malloc(total);
-    if (!p)
-        put_error_n_exit();
-    return p;
+    ptr = malloc(total);
+    return (ptr);
 }
 int ft_isspace(char c)
 {
@@ -84,7 +83,7 @@ int	add_nbr_to_arr(int **out_values, int *capacity, char **nptr, int *idx)
 		*capacity *= 2;
 		*out_values = realloc(*out_values, *capacity * sizeof(**out_values));
 		if (!*out_values)
-			 put_error_n_exit();
+			return (0);
 	}
 	(*out_values)[*idx] = (int)tmp;
 	(*idx)++;

@@ -6,16 +6,16 @@
 /*   By: aloiko <aloiko@student.42warsaw.pl>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/20 18:37:33 by aloiko            #+#    #+#             */
-/*   Updated: 2026/07/24 21:51:03 by aloiko           ###   ########.fr       */
+/*   Updated: 2026/07/25 21:11:24 by aloiko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
-/*
+
 static void side_b(t_context *context, int min_rank, int max_rank);
 static void side_a(t_context *context, int min_rank, int max_rank);
 
-static int find_index_max_in_b(t_context *context, int min_rank, int max_rank_exclusive)
+/*static int find_index_max_in_b(t_context *context, int min_rank, int max_rank_exclusive)
 {
     int i, best_i = 0;
     int best_rank = -1; // rank >= 0
@@ -53,7 +53,16 @@ static void merge_b_a(t_context *context, int min_rank, int delimiter, int max_r
         rotate_b_to_top(context, idx);
         pa(context); // кладём сверху A
     }
-}
+}*/
+/*
+int rank_at(t_stack *s, int i)
+{
+    t_node *cur = s->top;
+
+    while (i-- > 0)
+        cur = cur->next;
+    return cur->rank;
+}*/
 
 void push_it_b(t_context *context, int idx)
 {
@@ -62,7 +71,7 @@ void push_it_b(t_context *context, int idx)
         while (idx--)
             ra(context);
         pb(context);
-        print_stack_a_b(context);
+      //  print_stack_a_b(context);
     }
     else
     {
@@ -70,7 +79,7 @@ void push_it_b(t_context *context, int idx)
         while (idx--)
             rra(context);
         pb(context);
-        print_stack_a_b(context);
+      //  print_stack_a_b(context);
     }
 }
 void push_it_a(t_context *context, int idx)
@@ -89,89 +98,84 @@ void push_it_a(t_context *context, int idx)
             rrb(context);
         pa(context);
     }
-    print_stack_a_b(context);
+   // print_stack_a_b(context);
 }
 
 static void sort_small_b_down(t_context *context)
 {
     int a;
-	int b;
-	int c;
+    int b;
+    int c;
 
     if (context->b.depth == 0 || context->b.depth == 1)
         return;
-    a = context->b.elements[0].rank;
-	b = context->b.elements[1].rank;
+
+    a = rank_at(&context->b, 0);
+    b = rank_at(&context->b, 1);
+
     if (context->b.depth == 2 && a < b)
     {
         sb(context);
         return ;
     }
-    c = context->b.elements[2].rank;
 
-	if (c < b && b < a)
-		return;
-	if (a < b && a < c)
-		rb(context);
-	else if (b < a && b < c)
-		rrb(context);
-	if (context->b.elements[0].rank < context->b.elements[1].rank)
-		sb(context);
+    c = rank_at(&context->b, 2);
 
+    if (c < b && b < a)
+        return;
+    if (a < b && a < c)
+        rb(context);
+    else if (b < a && b < c)
+        rrb(context);
+    if (rank_at(&context->b, 0) < rank_at(&context->b, 1))
+        sb(context);
 }
 
-
-    static void sort_small_a_top(t_context *context)
+static void sort_small_a_top(t_context *context)
 {
     if (context->a.depth <= 1)
         return;
-    
-    int a = context->a.elements[0].rank;
-    int b = context->a.elements[1].rank;
-    
+
+    int a = rank_at(&context->a, 0);
+    int b = rank_at(&context->a, 1);
+
     if (context->a.depth == 2)
     {
         if (a > b)
             sa(context);
         return;
     }
-    
-    int c = context->a.elements[2].rank;
-    
-    // 1,2,3 - уже отсортировано
+
+    int c = rank_at(&context->a, 2);
+
     if (a < b && b < c)
         return;
-    
-    // 1,3,2
+
     if (a < c && c < b)
     {
         sa(context);
         ra(context);
         return;
     }
-    
-    // 2,1,3
+
     if (b < a && a < c)
     {
         sa(context);
         return;
     }
-    
-    // 2,3,1
+
     if (b < c && c < a)
     {
         ra(context);
         return;
     }
-    
-    // 3,1,2
+
     if (c < a && a < b)
     {
         rra(context);
         return;
     }
-    
-    // 3,2,1
+
     if (c < b && b < a)
     {
         sa(context);
@@ -180,36 +184,33 @@ static void sort_small_b_down(t_context *context)
     }
 }
 
-
 static void side_a(t_context *context, int min_rank, int max_rank)
 {
     int delimiter;
     int i;
     int count;
- 
+
     if (context->a.depth <= 3)
     {
-        
         sort_small_a_top(context);
-        return ;
+        return;
     }
+
     delimiter = (min_rank + max_rank) / 2;
     count = context->a.depth / 2;
+
     i = 0;
     while (count && i < context->a.depth)
     {
-       if (context->a.elements[i].rank < delimiter)
-       {
+        if (rank_at(&context->a, i) < delimiter)
+        {
             push_it_b(context, i);
             count--;
             i = -1;
         }
-            i++;
+        i++;
     }
     side_a(context, delimiter, max_rank);
-   // side_b(context, min_rank, delimiter);
-   // while (context->b.depth > 0)
-     //   pb(context);
 }
 
 static void side_b(t_context *context, int min_rank, int max_rank)
@@ -218,27 +219,19 @@ static void side_b(t_context *context, int min_rank, int max_rank)
     int i;
     int count;
 
-    printf("side_b: [%d,%d]  depth=%d\n",
-       min_rank,
-       max_rank,
-       context->b.depth);
-       
     if (context->b.depth <= 3)
     {
-        
         sort_small_b_down(context);
-        return ;
+        return;
     }
+
     delimiter = (min_rank + max_rank) / 2;
     count = context->b.depth / 2;
+
     i = 0;
-      printf("side_b: [%d,%d]  depth=%d\n",
-       min_rank,
-       max_rank,
-       context->b.depth);
     while (count && i < context->b.depth)
     {
-        if (context->b.elements[i].rank >= delimiter)
+        if (rank_at(&context->b, i) >= delimiter)
         {
             push_it_a(context, i);
             count--;
@@ -246,44 +239,42 @@ static void side_b(t_context *context, int min_rank, int max_rank)
         }
         i++;
     }
-    side_b(context, min_rank, delimiter);
-   // side_a(context, delimiter, max_rank);
-    while (context->b.depth > 0)
-        pa(context);
-}
 
+    side_b(context, min_rank, delimiter);
+   // while (context->b.depth > 0)
+        //pa(context);
+}
 
 static void sort_stacks(t_context *context, int min_rank, int max_rank)
 {
     int delimiter;
     int i;
     int count;
-   
-    if (context->a.depth <= 5)
+
+    if (context->a.depth <= 3)
     {
         sort_small(context);
-        return ;
+        return;
     }
+
     delimiter = (min_rank + max_rank) / 2;
     count = context->a.depth / 2;
+
     i = 0;
     while (count && i < context->a.depth)
     {
-       if (context->a.elements[i].rank < delimiter)
-       {
+        if (rank_at(&context->a, i) < delimiter)
+        {
             push_it_b(context, i);
             count--;
             i = -1;
         }
-            i++;
+        i++;
     }
+
     side_a(context, delimiter, max_rank);
     side_b(context, min_rank, delimiter);
-  //  while (context->b.depth > 0)
-    //    pa(context);
-         
 }
-
 
 void strategy_complex(t_context *context)
 {
@@ -291,6 +282,9 @@ void strategy_complex(t_context *context)
     int max_rank;
 
     min_rank = 0;
-    max_rank = context->a.depth;
+    max_rank = context->a.depth - 1;
     sort_stacks(context, min_rank, max_rank);
-}*/
+    while (context->b.depth > 0)
+             pa(context);
+
+}
