@@ -76,10 +76,13 @@ void setup_stacks(t_context *context, int *values, int size);
 /* sort helpers */
 int  stack_is_sorted_asc(t_stack *a); /* ascending: smaller ranks first on top */
 void sort_small(t_context *context);                /* handles n<=3..5 safely via dedicated logic */
+void    sort_three(t_context *context);
 int	rank_at(t_stack *stack, int logical_index);
 int	smallest_rank_index(t_stack *stack);
 int	largest_rank_index(t_stack *stack);
 int	rotations_to_top(t_stack *stack, int logical_index);
+void check_circle(t_stack *stack, char *name);
+void print_circle(t_stack *stack);
 
 /* operation layer (must be the only place that prints ops) */
 void sa(t_context *context);

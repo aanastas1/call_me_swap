@@ -6,12 +6,101 @@
 /*   By: aloiko <aloiko@student.42warsaw.pl>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/12 18:39:35 by aloiko            #+#    #+#             */
-/*   Updated: 2026/07/25 14:27:48 by aloiko           ###   ########.fr       */
+/*   Updated: 2026/07/26 19:31:37 by aloiko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 #include "../libft/libft.h"
+
+int real_size(t_stack *stack)
+{
+    int count;
+    t_node *n;
+
+    if (!stack->top)
+        return (0);
+
+    count = 0;
+    n = stack->top;
+
+    do
+    {
+        count++;
+        n = n->next;
+    }
+    while (n != stack->top);
+
+    return (count);
+}
+
+void print_circle(t_stack *stack)
+{
+    t_node *n;
+
+    if (!stack->top)
+        return;
+
+    n = stack->top;
+
+    do
+    {
+        printf("%d ", n->rank);
+        n = n->next;
+    }
+    while (n != stack->top);
+
+    printf("\n");
+}
+
+
+void check_circle(t_stack *stack, char *name)
+{
+    t_node *n;
+    int count;
+
+    if (!stack->top)
+        return;
+
+    n = stack->top;
+    count = 0;
+
+    while (1)
+    {
+        if (!n)
+        {
+            printf("BROKEN %s: NULL pointer\n", name);
+            exit(1);
+        }
+
+        count++;
+
+        if (count > stack->depth)
+        {
+            printf("BROKEN %s: infinite loop\n", name);
+            exit(1);
+        }
+
+        n = n->next;
+
+        if (n == stack->top)
+            break;
+    }
+
+    if (stack->top->prev == NULL)
+    {
+        printf("BROKEN %s: top->prev NULL\n", name);
+        exit(1);
+    }
+
+    if (stack->top->prev->next != stack->top)
+    {
+        printf("BROKEN %s: last->next != top\n", name);
+        exit(1);
+    }
+}
+
+
 
 void	put_error_n_exit(void)
 {
@@ -24,7 +113,7 @@ static void	context_init(t_context *context)
     context->strategy = NONE;
     context->bench_enabled = 0;
 }
-
+/*
 static void	free_stack(t_stack *stack)
 {
 	t_node	*curr;
@@ -45,7 +134,34 @@ static void	free_stack(t_stack *stack)
 	} while (curr != start);
 
 	stack->top = NULL;
+}*/
+static void free_stack(t_stack *stack)
+{
+    t_node *curr;
+    t_node *next;
+    int i;
+    int depth;
+
+    if (!stack || !stack->top)
+        return;
+
+    curr = stack->top;
+    depth = stack->depth;
+
+    i = 0;
+    while (i < depth)
+    {
+        next = curr->next;
+        free(curr);
+        curr = next;
+        i++;
+    }
+
+    stack->top = NULL;
+    stack->depth = 0;
 }
+
+
 
 static void	free_all(t_context *context)
 {
@@ -153,11 +269,22 @@ int	main(int argc, char **argv)
 		free_all(&context);
 		put_error_n_exit();
 	}
-	//strategy_selector(&context);
 	
-	printf("DEBUG: After setup_stacks\n");
+	
+	//printf("DEBUG: After setup_stacks\n");
 	printf("DEBUG:     depth.a = %d,                depth.b = %d\n", context.a.depth,  context.b.depth);
-	print_stack_a_b(&context);
+	//print_stack_a_b(&context);
+
+	t_node *x = context.a.top;
+
+	for (int i = 0; i < context.a.depth; i++)
+	{
+    	printf("%d -> ", x->rank);
+    	x = x->next;
+	}
+
+	printf("END rank=%d\n", x->rank);
+	printf("TOP rank=%d\n", context.a.top->rank);
 
 	strategy_selector(&context);
 	//strategy_medium(&context);
@@ -221,11 +348,39 @@ int	main(int argc, char **argv)
 
 	printf("DEBUG:     depth.a = %d,                depth.b = %d\n", context.a.depth,  context.b.depth);
 	printf("DEBUG:     operation_totaly = %d\n", context.op_total);
-	print_stack_a_b(&context); /* print stack after small functions */
+	//print_stack_a_b(&context); /* print stack after small functions */
 
 	if (context.bench_enabled)
 		bench_print_and_counts(&context);
 
+	t_node *p = context.a.top;
+
+	for (int i = 0; i < context.a.depth; i++)
+	{
+    	printf("%d -> ", p->rank);
+   		p = p->next;
+	}
+
+	printf("BACK %d\n", p->rank);
+
+
+	printf("BEFORE FREE A=%d B=%d TOTAL=%d\n",
+    context.a.depth,
+    context.b.depth,
+    context.a.depth + context.b.depth);
+
+	print_stack_a_b(&context);
+
+	x = context.a.top;
+
+	for (int i = 0; i < context.a.depth; i++)
+	{
+    	printf("%d -> ", x->rank);
+    	x = x->next;
+	}
+
+	printf("END rank=%d\n", x->rank);
+	printf("TOP rank=%d\n", context.a.top->rank);
 
 	free_all(&context);
 	return (0);

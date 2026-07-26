@@ -6,7 +6,7 @@
 /*   By: aloiko <aloiko@student.42warsaw.pl>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/17 10:40:42 by anakloch          #+#    #+#             */
-/*   Updated: 2026/07/25 19:00:57 by aloiko           ###   ########.fr       */
+/*   Updated: 2026/07/26 11:31:05 by aloiko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static void	push_smallest_to_b(t_context *context)
 }
 
 /* Sorts exactly three elements in stack A. */
-static void	sort_three(t_context *context)
+void	sort_three(t_context *context)
 {
 	int	top;
 	int	middle;
