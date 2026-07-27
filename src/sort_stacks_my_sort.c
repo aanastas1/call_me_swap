@@ -6,14 +6,14 @@
 /*   By: aloiko <aloiko@student.42warsaw.pl>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/20 18:37:33 by aloiko            #+#    #+#             */
-/*   Updated: 2026/07/26 21:27:57 by aloiko           ###   ########.fr       */
+/*   Updated: 2026/07/26 22:17:16 by aloiko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-static void side_b(t_context *context, int len);
-static void side_a(t_context *context, int len);
+static void side_b(t_context *context, int min_rank, int max_rank);
+static void side_a(t_context *context, int min_rank, int max_rank);
 
 /*static int find_index_max_in_b(t_context *context, int min_rank, int max_rank_exclusive)
 {
@@ -178,208 +178,235 @@ static void sort_small_a_top(t_context *context)
     }
 }*/
 
-static void sort_int_array(int *arr, int len)
+static void side_a(t_context *context, int min_rank, int max_rank)
 {
-    int i;
-    int j;
-    int tmp;
+    int range;
+    int delimiter;
+    int count;
+    int start_rank;
 
-    i = 0;
-    while (i < len - 1)
+    start_rank = -1;
+    range = max_rank - min_rank + 1;
+
+    if (range == 1)
     {
-        j = i + 1;
-        while (j < len)
-        {
-            if (arr[i] > arr[j])
-            {
-                tmp = arr[i];
-                arr[i] = arr[j];
-                arr[j] = tmp;
-            }
-            j++;
-        }
-        i++;
-    }
-}
-
-static int	find_pivot_b(t_context *context, int len)
-{
-	int		*arr;
-	t_node	*node;
-	int		pivot;
-	int		i;
-
-	if (len <= 0 || context->b.top == NULL)
-		return (0);
-
-	arr = malloc(sizeof(int) * len);
-	if (!arr)
-		return (0);
-
-	node = context->b.top;
-	i = 0;
-
-	while (i < len)
-	{
-		arr[i] = node->rank;
-		node = node->next;
-		i++;
-	}
-
-	sort_int_array(arr, len);
-
-	pivot = arr[len / 2];
-
-	free(arr);
-
-	return (pivot);
-}
-
-
-int find_pivot_a(t_context *context, int len)
-{
-    int     *arr;
-    t_node  *node;
-    int     i;
-
-    if (len <= 0 || context->a.top == NULL)
-        return (0);
-        
-    arr = malloc(sizeof(int) * len);
-    if (!arr)
-		return (0);
-  
-
-    node = context->a.top;
-    i = 0;
-    while (i < len)
-    {
-        arr[i] = node->rank;
-        node = node->next;
-        i++;
-    }
-
-    sort_int_array(arr, len);
-
-    i = arr[len / 2];
-
-    free(arr);
-    return (i);
-}
-
-static void side_a(t_context *context, int len)
-{
-    int pivot;
-    int pushed;
-    int rotated;
-    int i;
-    
-    if (len <= 0)
         return;
-
-    if (len <= 1)
-        return;
-
-    if (len == 2)
+    }
+    if (range == 2)
     {
         if (context->a.top->rank > context->a.top->next->rank)
             sa(context);
+        if (context->a.depth == 2)
+            return;
+        pb(context);
+        pb(context);
         return;
     }
 
-    pivot = find_pivot_a(context, len);
+    printf("ENTER side_a(%d,%d) depthA=%d depthB=%d\n",
+        min_rank, max_rank, context->a.depth, context->b.depth);
 
-    pushed = 0;
-    rotated = 0;
-    i = 0;
+    delimiter = (min_rank + max_rank) / 2;
 
-    while (i < len)
+    count = delimiter - min_rank;
+
+    while (count)
     {
-        if (context->a.top->rank < pivot)
+        if (context->a.top->rank < delimiter)
         {
             pb(context);
-            pushed++;
+            count--;
         }
         else
         {
+            if (start_rank == -1)
+                start_rank = context->a.top->rank;
             ra(context);
-            rotated++;
-        }
-        i++;
+        }        
     }
-
-    while (rotated > 0)
+    if (start_rank != -1)
     {
+        while (context->a.top->rank != start_rank)
         rra(context);
-        rotated--;
     }
+    printf("CALL side_a(%d,%d)\n", delimiter, max_rank);
 
-    side_a(context, len - pushed);
-    side_b(context, pushed);
+    printf("CHECK RANGE [%d..%d]: ", min_rank, max_rank);
+    t_node *p = context->a.top;
+
+    for (int i = 0; i < range; i++)
+    {
+        printf("%d ", p->rank);
+        p = p->next;
+    }
+    printf("\n");
+
+    side_a(context, delimiter, max_rank);
+    printf("CALL side_b(%d,%d)\n", min_rank, delimiter - 1);
+    printf("CHECK RANGE [%d..%d]: ", min_rank, max_rank);
+    p = context->a.top;
+
+    for (int i = 0; i < range; i++)
+    {
+        printf("%d ", p->rank);
+        p = p->next;
+    }
+    printf("\n");
+
+    side_b(context, min_rank, delimiter - 1);
 }
 
-static void side_b(t_context *context, int len)
+
+static void side_b(t_context *context, int min_rank, int max_rank)
 {
-    int pivot;
-    int pushed;
-    int rotated;
-    int i;
+    int range;
+    int delimiter;
+    int count;
+    int start_rank;
 
-    if (len == 0)
-        return;
+    start_rank = -1;
 
-    if (len == 1)
+    range = max_rank - min_rank + 1;
+
+    if (range == 1)
     {
         pa(context);
         return;
     }
-
-    if (len == 2)
+    if (range == 2)
     {
         if (context->b.top->rank < context->b.top->next->rank)
             sb(context);
 
-
+        if (context->b.depth == 2)
+            return;
         pa(context);
         pa(context);
         return;
     }
 
-    pivot = find_pivot_b(context, len);
+    printf("ENTER side_b(%d,%d) depthA=%d depthB=%d\n",
+        min_rank, max_rank, context->a.depth, context->b.depth);
 
-    pushed = 0;
-    rotated = 0;
-    i = 0;
+    // side_b: верхняя половина возвращается в A
+    delimiter = (min_rank + max_rank + 1) / 2;
+    count = max_rank - delimiter + 1;
 
-     while (i < len)
+    while (count)
     {
-        if (context->b.top->rank > pivot)
+        if (context->b.top->rank >= delimiter)
         {
             pa(context);
-            pushed++;
+            count--;
         }
         else
         {
+            if (start_rank == -1)
+                start_rank = context->b.top->rank;
             rb(context);
-            rotated++;
-        }
-        i++;
+        }    
     }
-
-    while (rotated > 0)
+    if (start_rank != -1)
     {
-        rrb(context);
-        rotated--;
+        while (context->b.top->rank != start_rank)
+            rrb(context);
+    }
+   // print_stack_a_b(context);
+    printf("CALL side_a(%d,%d)\n", delimiter, max_rank);
+    printf("CHECK RANGE [%d..%d]: ", min_rank, max_rank);
+    t_node *p = context->a.top;
+
+    for (int i = 0; i < range; i++)
+    {
+        printf("%d ", p->rank);
+        p = p->next;
+    }
+    printf("\n");
+
+    side_a(context, delimiter, max_rank);
+    printf("CALL side_b(%d,%d)\n", min_rank, delimiter - 1);
+    printf("CHECK RANGE [%d..%d]: ", min_rank, max_rank);
+    p = context->a.top;
+
+    for (int i = 0; i < range; i++)
+    {
+        printf("%d ", p->rank);
+        p = p->next;
+    }
+    printf("\n");
+
+    side_b(context, min_rank, delimiter - 1);
+
+}
+
+
+static void sort_stacks(t_context *context, int min_rank, int max_rank)
+{
+    int delimiter;
+    int count;
+
+    if (context->a.depth <= 3)
+    {
+        sort_small(context);
+        return;
     }
 
-    side_a(context, pushed);
-    side_b(context, len - pushed);
+    delimiter = (min_rank + max_rank) / 2;
+    count = delimiter - min_rank;
+    printf("PARTITION A BEFORE: ");
+    t_node *x = context->a.top;
+    for (int i = 0; i < context->a.depth; i++)
+    {
+        printf("%d ", x->rank);
+        x = x->next;
+    }
+    printf("\n");
+    while (count)
+    {
+        if (context->a.top->rank < delimiter)
+        {
+            pb(context);
+            count--;
+        }
+        else
+            ra(context);
+    }
+    printf("CHECK RANGE [%d..%d]: ", min_rank, max_rank);
+    t_node *p = context->a.top;
+
+    int range = max_rank - min_rank + 1;
+
+    for (int i = 0; i < range; i++)
+    {
+        printf("%d ", p->rank);
+        p = p->next;
+    }
+    printf("\n");
+
+    side_a(context, delimiter, max_rank);
+    printf("CHECK RANGE [%d..%d]: ", min_rank, max_rank);
+    p = context->a.top;
+
+    for (int i = 0; i < range; i++)
+    {
+        printf("%d ", p->rank);
+        p = p->next;
+    }
+    printf("\n");
+
+    side_b(context, min_rank, delimiter - 1);
+    
 }
 
 void strategy_complex(t_context *context)
 {
-    side_a(context, context->a.depth);
+    int min_rank;
+    int max_rank;
 
+    min_rank = 0;
+    max_rank = context->a.depth - 1;
+    sort_stacks(context, min_rank, max_rank);
     while (context->b.depth > 0)
-        pa(context);
+             pa(context);
+
 }
