@@ -62,15 +62,11 @@ typedef struct s_context {
 
 void	put_error_n_exit(void);
 void    *xalloc(size_t count, size_t type_size);
+void    free_stack(t_stack *stack);
 
 /* parse */
 void parse_args(int argc, char **argv, t_context *context);
-int get_number(char *arg, int **out_values, int *capacity, int *idx);
-
-//int complex_string_split(int **out_values, char *str);
-int	add_nbr_to_arr(int **out_values, int *capacity, char **nptr, int *idx);
-int	validate_no_dups(int *values, int n);
-
+int	parse_one_arg(char *arg, int **out_values, int *capacity, int *idx);
 void setup_stacks(t_context *context, int *values, int size);
 
 /* sort helpers */
@@ -81,8 +77,6 @@ int	rank_at(t_stack *stack, int logical_index);
 int	smallest_rank_index(t_stack *stack);
 int	largest_rank_index(t_stack *stack);
 int	rotations_to_top(t_stack *stack, int logical_index);
-void check_circle(t_stack *stack, char *name);
-void print_circle(t_stack *stack);
 
 /* operation layer (must be the only place that prints ops) */
 void sa(t_context *context);
@@ -97,21 +91,17 @@ void rra(t_context *context);
 void rrb(t_context *context);
 void rrr(t_context *context);
 
-void turk_alg(t_context *context);
 
-
-void    strategy_selector(t_context *context);
 /* strategies */
+void    strategy_selector(t_context *context);
 void strategy_simple(t_context *context);
 void strategy_medium(t_context *context);
 void strategy_complex(t_context *context);
 void strategy_adaptive(t_context *context);
 
 /* bench */ //by anastasi side print count of operation, or sa ss 
-void bench_print_and_counts(t_context *context);
 /*void bench_print_and_counts(t_context *context, const char *strategy_name, const char *complex_class);*/
-
-void print_stack_a_b(t_context *context);
+void    bench_print_and_counts(t_context *context);
 void	bench_putstr(const char *text);
 void	bench_putnbr(int number);
 void	bench_put_percent(double value);

@@ -6,7 +6,7 @@
 /*   By: aloiko <aloiko@student.42warsaw.pl>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/14 19:21:31 by aloiko            #+#    #+#             */
-/*   Updated: 2026/07/26 19:34:58 by aloiko           ###   ########.fr       */
+/*   Updated: 2026/07/27 16:13:11 by aloiko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,6 @@ void	rra(t_context *context)
 	context->op_counts[RRA]++;
 	context->op_total++;
 	ft_putstr_fd("rra\n", STDOUT_FILENO);
-	printf("AFTER rra\n");
-	check_circle(&context->a, "A");
-	check_circle(&context->b, "B");
-	print_circle(&context->a);
-	print_circle(&context->b);
 }
 
 void	rrb(t_context *context)
@@ -36,11 +31,6 @@ void	rrb(t_context *context)
 	context->op_counts[RRB]++;
 	context->op_total++;
 	ft_putstr_fd("rrb\n", STDOUT_FILENO);
-	printf("AFTER rrb\n");
-	check_circle(&context->a, "A");
-	check_circle(&context->b, "B");
-	print_circle(&context->a);
-	print_circle(&context->b);
 }
 
 void	rrr(t_context *context)
@@ -51,11 +41,6 @@ void	rrr(t_context *context)
 		context->a.top = context->a.top->prev;
 	if (context->b.depth > 1)
 		context->b.top = context->b.top->prev;
-	printf("AFTER rrr\n");
-	check_circle(&context->a, "A");
-	check_circle(&context->b, "B");
-	print_circle(&context->a);
-	print_circle(&context->b);
 	context->op_counts[RRR]++;
 	context->op_total++;
 	ft_putstr_fd("rrr\n", STDOUT_FILENO);

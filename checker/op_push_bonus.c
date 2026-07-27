@@ -1,17 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   op_push.c                                          :+:      :+:    :+:   */
+/*   op_push_bonus.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aloiko <aloiko@student.42warsaw.pl>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/22 13:50:33 by aloiko            #+#    #+#             */
-/*   Updated: 2026/07/27 16:20:26 by aloiko           ###   ########.fr       */
+/*   Updated: 2026/07/27 19:50:46 by aloiko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "push_swap.h"
-
+#include "checker.h"
 
 static void push_node(t_stack *dest, t_stack *src)
 {
@@ -20,46 +19,28 @@ static void push_node(t_stack *dest, t_stack *src)
     t_node *prev;
     t_node *tail;
 
-    if (!src->top)
-        return;
-
     node = src->top;
-
-    /* remove from src */
     if (src->depth == 1)
-    {
         src->top = NULL;
-    }
     else
     {
         next = node->next;
         prev = node->prev;
-
         next->prev = prev;
         prev->next = next;
-
         src->top = next;
     }
-
-    /* detach node */
     node->next = node;
     node->prev = node;
-
-    /* insert into dest */
     if (!dest->top)
-    {
         dest->top = node;
-    }
     else
     {
         tail = dest->top->prev;
-
         node->next = dest->top;
         node->prev = tail;
-
         tail->next = node;
         dest->top->prev = node;
-
         dest->top = node;
     }
 }
@@ -71,9 +52,6 @@ void	pa(t_context *context)
 	push_node(&context->a, &context->b);
 	context->a.depth++;
 	context->b.depth--;
-	context->op_counts[PA]++;
-	context->op_total++;
-	ft_putstr_fd("pa\n", STDOUT_FILENO);
 }
 
 void	pb(t_context *context)
@@ -83,7 +61,4 @@ void	pb(t_context *context)
 	push_node(&context->b, &context->a);
 	context->a.depth--;
 	context->b.depth++;
-	context->op_counts[PB]++;
-	context->op_total++;
-	ft_putstr_fd("pb\n", STDOUT_FILENO);
 }

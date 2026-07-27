@@ -6,7 +6,7 @@
 /*   By: aloiko <aloiko@student.42warsaw.pl>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/20 18:37:33 by aloiko            #+#    #+#             */
-/*   Updated: 2026/07/26 21:27:57 by aloiko           ###   ########.fr       */
+/*   Updated: 2026/07/27 11:03:27 by aloiko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -379,6 +379,8 @@ static void side_b(t_context *context, int len)
 void strategy_complex(t_context *context)
 {
     side_a(context, context->a.depth);
+    context->strategy_name = "Complex";
+	context->complexity = "O(nlog(n))";
 
     while (context->b.depth > 0)
         pa(context);

@@ -6,7 +6,7 @@
 /*   By: aloiko <aloiko@student.42warsaw.pl>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/12 15:09:31 by aloiko            #+#    #+#             */
-/*   Updated: 2026/07/25 18:37:46 by aloiko           ###   ########.fr       */
+/*   Updated: 2026/07/27 14:24:49 by aloiko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,47 +74,27 @@ static int	is_strategy_flag(char *src, t_context *context)
 	return (0);
 }
 
-static int fill_the_buffer(char *arg, int **out_values, int *capacity, int *idx)
-{
-	int count;
-	 
-	count = get_number(arg, out_values, capacity, idx);
-	return (count);
-}
-
 void	parse_args(int argc, char **argv, t_context *context)
 {
 	int		*out_values;
 	int		count;
-	int		size;
 	int		capacity;
 	int		i;
-	int		idx;
 	
 	capacity = argc;
 	out_values = xalloc(capacity, sizeof(*out_values));
 	if (!out_values)
 		put_error_n_exit();
-	idx = 0;
 	count = 0;
-	size = 0;
 	i = 0;
 	while (++i < argc)
 	{
 		if (is_strategy_flag(argv[i], context))
 			continue ;
-		else
-		{
-			count = fill_the_buffer(argv[i], &out_values, &capacity, &idx);
-				if (!count)
-				{
-					free(out_values);
-					return ;
-				}
-			size += count;
-		}
+		if(!parse_one_arg(argv[i], &out_values, &capacity, &count))
+				return(free(out_values));
 	}
-	setup_stacks(context, out_values, size);
-	context->disorder = compute_disorder_values(out_values, size);
+	setup_stacks(context, out_values, count);
+	context->disorder = compute_disorder_values(out_values, count);
 	free(out_values);
 }

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   assistant_functions.c                              :+:      :+:    :+:   */
+/*   assistant_functions_bonus.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aloiko <aloiko@student.42warsaw.pl>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/22 16:04:49 by aloiko            #+#    #+#             */
-/*   Updated: 2026/07/27 18:10:26 by aloiko           ###   ########.fr       */
+/*   Updated: 2026/07/27 21:03:32 by aloiko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,10 +40,8 @@ void free_stack(t_stack *stack)
 
     if (!stack || !stack->top)
         return;
-
     curr = stack->top;
     depth = stack->depth;
-
     i = 0;
     while (i < depth)
     {
@@ -52,8 +50,29 @@ void free_stack(t_stack *stack)
         curr = next;
         i++;
     }
-
     stack->top = NULL;
     stack->depth = 0;
 }
 
+int	stack_is_sorted_asc(t_stack *stack)
+{
+	int	index;
+
+	index = 1;
+	while (index < stack->depth)
+	{
+		if (rank_at(stack, index - 1) > rank_at(stack, index))
+			return (0);
+		index++;
+	}
+	return (1);
+}
+
+int stacks_checker(t_context *context)
+{
+    if(!stack_is_sorted_asc(&context->a))
+        return (0);
+    if(context->b.depth != 0)
+        return (0);
+    return (0);
+}

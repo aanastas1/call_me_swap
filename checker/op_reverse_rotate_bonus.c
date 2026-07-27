@@ -1,47 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   op_rotate.c                                        :+:      :+:    :+:   */
+/*   op_reverse_rotate_bonus.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aloiko <aloiko@student.42warsaw.pl>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/07/14 19:17:37 by aloiko            #+#    #+#             */
-/*   Updated: 2026/07/27 16:14:03 by aloiko           ###   ########.fr       */
+/*   Created: 2026/07/14 19:21:31 by aloiko            #+#    #+#             */
+/*   Updated: 2026/07/27 19:34:04 by aloiko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "push_swap.h"
-#include "../libft/libft.h"
+#include "checker.h"
 
-void	ra(t_context *context)
+
+void	rra(t_context *context)
 {
 	if (context->a.depth <= 1)
 		return;
-	context->a.top = context->a.top->next;
-	context->op_counts[RA]++;
-	context->op_total++;
-	ft_putstr_fd("ra\n", STDOUT_FILENO);
+	context->a.top = context->a.top->prev;
 }
 
-void	rb(t_context *context)
+void	rrb(t_context *context)
 {
 	if (context->b.depth <= 1)
-		return;
-	context->b.top = context->b.top->next;
-	context->op_counts[RB]++;
-	context->op_total++;
-	ft_putstr_fd("rb\n", STDOUT_FILENO);
+		return ;
+	context->b.top = context->b.top->prev;
 }
 
-void	rr(t_context *context)
+void	rrr(t_context *context)
 {
 	if (context->a.depth <= 1 && context->b.depth <= 1)
 		return ;
 	if (context->a.depth > 1)
-		context->a.top = context->a.top->next;
+		context->a.top = context->a.top->prev;
 	if (context->b.depth > 1)
-		context->b.top = context->b.top->next;
-	context->op_counts[RR]++;
-	context->op_total++;
-	ft_putstr_fd("rr\n", STDOUT_FILENO);
+		context->b.top = context->b.top->prev;
 }
