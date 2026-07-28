@@ -6,11 +6,11 @@
 /*   By: aloiko <aloiko@student.42warsaw.pl>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/05 14:10:07 by aloiko            #+#    #+#             */
-/*   Updated: 2026/07/27 19:37:45 by aloiko           ###   ########.fr       */
+/*   Updated: 2026/07/28 18:35:49 by aloiko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "checker.h"
+#include "checker_bonus.h"
 
 char	*ft_stash_buf_join(char const *s1, char const *s2)
 {

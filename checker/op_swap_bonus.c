@@ -6,11 +6,11 @@
 /*   By: aloiko <aloiko@student.42warsaw.pl>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/13 14:15:04 by aloiko            #+#    #+#             */
-/*   Updated: 2026/07/27 19:35:29 by aloiko           ###   ########.fr       */
+/*   Updated: 2026/07/28 18:36:15 by aloiko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "checker.h"
+#include "checker_bonus.h"
 
 static void swap_top(t_stack *stack)
 {

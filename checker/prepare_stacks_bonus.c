@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   prepare_stacks.c                                   :+:      :+:    :+:   */
+/*   prepare_stacks_bonus.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aloiko <aloiko@student.42warsaw.pl>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/13 13:46:35 by aloiko            #+#    #+#             */
-/*   Updated: 2026/07/27 19:51:27 by aloiko           ###   ########.fr       */
+/*   Updated: 2026/07/28 18:36:21 by aloiko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "checker.h"
+#include "checker_bonus.h"
 
 int add_node(t_node **node, int value, int rank)
 {

@@ -6,11 +6,11 @@
 /*   By: aloiko <aloiko@student.42warsaw.pl>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/05 12:56:11 by aloiko            #+#    #+#             */
-/*   Updated: 2026/07/27 20:00:59 by aloiko           ###   ########.fr       */
+/*   Updated: 2026/07/28 18:35:43 by aloiko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "checker.h"
+#include "checker_bonus.h"
 
 static char *get_buf(int fd)
 {

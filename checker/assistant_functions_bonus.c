@@ -6,12 +6,11 @@
 /*   By: aloiko <aloiko@student.42warsaw.pl>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/22 16:04:49 by aloiko            #+#    #+#             */
-/*   Updated: 2026/07/27 21:03:32 by aloiko           ###   ########.fr       */
+/*   Updated: 2026/07/28 18:35:09 by aloiko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "push_swap.h"
-#include "../libft/libft.h"
+#include "checker_bonus.h"
 
 void *xalloc(size_t count, size_t elem_size)
 {
@@ -54,25 +53,28 @@ void free_stack(t_stack *stack)
     stack->depth = 0;
 }
 
-int	stack_is_sorted_asc(t_stack *stack)
+static int stack_is_asc_sorted(t_stack *s)
 {
-	int	index;
+	t_node	*cur;
 
-	index = 1;
-	while (index < stack->depth)
+	if (!s || s->depth < 2)
+		return (1);
+
+	cur = s->top; // верх стека
+	while (cur->next)
 	{
-		if (rank_at(stack, index - 1) > rank_at(stack, index))
+		if (cur->value > cur->next->value)
 			return (0);
-		index++;
+		cur = cur->next;
 	}
 	return (1);
 }
 
 int stacks_checker(t_context *context)
 {
-    if(!stack_is_sorted_asc(&context->a))
+    if(!stack_is_asc_sorted(&context->a))
         return (0);
     if(context->b.depth != 0)
         return (0);
-    return (0);
+    return (1);
 }

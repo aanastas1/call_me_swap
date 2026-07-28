@@ -38,6 +38,7 @@ typedef struct s_context {
 void	put_error_n_exit(void);
 void    *xalloc(size_t count, size_t type_size);
 void    free_stack(t_stack *stack);
+int		stacks_checker(t_context *context);
 
 /* parse */
 void parse_args(int argc, char **argv, t_context *context);

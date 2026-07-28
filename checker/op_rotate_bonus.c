@@ -6,11 +6,11 @@
 /*   By: aloiko <aloiko@student.42warsaw.pl>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/14 19:17:37 by aloiko            #+#    #+#             */
-/*   Updated: 2026/07/27 19:34:37 by aloiko           ###   ########.fr       */
+/*   Updated: 2026/07/28 18:36:08 by aloiko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "checker.h"
+#include "checker_bonus.h"
 
 void	ra(t_context *context)
 {

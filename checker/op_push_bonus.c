@@ -6,11 +6,11 @@
 /*   By: aloiko <aloiko@student.42warsaw.pl>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/22 13:50:33 by aloiko            #+#    #+#             */
-/*   Updated: 2026/07/27 19:50:46 by aloiko           ###   ########.fr       */
+/*   Updated: 2026/07/28 18:35:55 by aloiko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "checker.h"
+#include "checker_bonus.h"
 
 static void push_node(t_stack *dest, t_stack *src)
 {
