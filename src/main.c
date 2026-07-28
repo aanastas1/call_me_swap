@@ -286,9 +286,9 @@ int	main(int argc, char **argv)
 	printf("END rank=%d\n", x->rank);
 	printf("TOP rank=%d\n", context.a.top->rank);
 
-	strategy_selector(&context);
+	//strategy_selector(&context);
 	//strategy_medium(&context);
-	//strategy_complex(&context);
+	strategy_complex(&context);
 	/*pb(&context);
 	pb(&context);
 	pb(&context);

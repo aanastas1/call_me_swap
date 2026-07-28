@@ -196,10 +196,7 @@ static void side_a(t_context *context, int min_rank, int max_rank)
     {
         if (context->a.top->rank > context->a.top->next->rank)
             sa(context);
-        if (context->a.depth == 2)
-            return;
-        pb(context);
-        pb(context);
+        // Исправлено: не отправляем элементы в B, просто возвращаемся
         return;
     }
 
@@ -207,7 +204,6 @@ static void side_a(t_context *context, int min_rank, int max_rank)
         min_rank, max_rank, context->a.depth, context->b.depth);
 
     delimiter = (min_rank + max_rank) / 2;
-
     count = delimiter - min_rank;
 
     while (count)
@@ -224,38 +220,20 @@ static void side_a(t_context *context, int min_rank, int max_rank)
             ra(context);
         }        
     }
+
+    // Восстанавливаем порядок в стеке A, если были вращения
     if (start_rank != -1)
     {
         while (context->a.top->rank != start_rank)
-        rra(context);
+            rra(context);
     }
+
     printf("CALL side_a(%d,%d)\n", delimiter, max_rank);
+    side_a(context, delimiter, max_rank);  // сортируем большую часть (в A)
 
-    printf("CHECK RANGE [%d..%d]: ", min_rank, max_rank);
-    t_node *p = context->a.top;
-
-    for (int i = 0; i < range; i++)
-    {
-        printf("%d ", p->rank);
-        p = p->next;
-    }
-    printf("\n");
-
-    side_a(context, delimiter, max_rank);
     printf("CALL side_b(%d,%d)\n", min_rank, delimiter - 1);
-    printf("CHECK RANGE [%d..%d]: ", min_rank, max_rank);
-    p = context->a.top;
-
-    for (int i = 0; i < range; i++)
-    {
-        printf("%d ", p->rank);
-        p = p->next;
-    }
-    printf("\n");
-
-    side_b(context, min_rank, delimiter - 1);
+    side_b(context, min_rank, delimiter - 1);  // сортируем меньшую часть (в B)
 }
-
 
 static void side_b(t_context *context, int min_rank, int max_rank)
 {
@@ -277,9 +255,7 @@ static void side_b(t_context *context, int min_rank, int max_rank)
     {
         if (context->b.top->rank < context->b.top->next->rank)
             sb(context);
-
-        if (context->b.depth == 2)
-            return;
+        // Исправлено: всегда переносим оба элемента в A (без проверки depth)
         pa(context);
         pa(context);
         return;
@@ -288,7 +264,6 @@ static void side_b(t_context *context, int min_rank, int max_rank)
     printf("ENTER side_b(%d,%d) depthA=%d depthB=%d\n",
         min_rank, max_rank, context->a.depth, context->b.depth);
 
-    // side_b: верхняя половина возвращается в A
     delimiter = (min_rank + max_rank + 1) / 2;
     count = max_rank - delimiter + 1;
 
@@ -306,39 +281,19 @@ static void side_b(t_context *context, int min_rank, int max_rank)
             rb(context);
         }    
     }
+
     if (start_rank != -1)
     {
         while (context->b.top->rank != start_rank)
             rrb(context);
     }
-   // print_stack_a_b(context);
-    printf("CALL side_a(%d,%d)\n", delimiter, max_rank);
-    printf("CHECK RANGE [%d..%d]: ", min_rank, max_rank);
-    t_node *p = context->a.top;
 
-    for (int i = 0; i < range; i++)
-    {
-        printf("%d ", p->rank);
-        p = p->next;
-    }
-    printf("\n");
-
+    // !!! КЛЮЧЕВОЕ ИСПРАВЛЕНИЕ: сначала сортируем в A элементы >= delimiter,
+    // которые только что были перенесены из B
     side_a(context, delimiter, max_rank);
-    printf("CALL side_b(%d,%d)\n", min_rank, delimiter - 1);
-    printf("CHECK RANGE [%d..%d]: ", min_rank, max_rank);
-    p = context->a.top;
-
-    for (int i = 0; i < range; i++)
-    {
-        printf("%d ", p->rank);
-        p = p->next;
-    }
-    printf("\n");
-
+    // затем сортируем оставшуюся в B часть < delimiter
     side_b(context, min_rank, delimiter - 1);
-
 }
-
 
 static void sort_stacks(t_context *context, int min_rank, int max_rank)
 {

@@ -12,7 +12,7 @@ $(SRC_DIR)/op_rotate.c \
 $(SRC_DIR)/op_reverse_rotate.c \
 $(SRC_DIR)/complex_string_split.c \
 $(SRC_DIR)/assistant_functions.c \
-$(SRC_DIR)/sort_stacks.c \
+$(SRC_DIR)/sort_stacks_my_sort.c \
 $(SRC_DIR)/prepare_stacks.c \
 $(SRC_DIR)/strategy_medium.c \
 $(SRC_DIR)/utils_sorting.c \
@@ -28,7 +28,7 @@ HDRS = $(INC_DIR)/push_swap.h \
 	libft/libft.h 	
 
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -I$(INC_DIR) -fsanitize=address -g
+CFLAGS = -Wall -Wextra -Werror -I$(INC_DIR) #-fsanitize=address -g
 
 LIBFT_PATH = libft
 LIBFT = $(LIBFT_PATH)/libft.a
