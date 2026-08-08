@@ -6,13 +6,13 @@
 /*   By: aloiko <aloiko@student.42warsaw.pl>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/13 13:46:35 by aloiko            #+#    #+#             */
-/*   Updated: 2026/07/28 21:32:12 by aloiko           ###   ########.fr       */
+/*   Updated: 2026/08/07 16:52:12 by aloiko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "checker_bonus.h"
 
-int	add_node(t_node **node, int value, int rank)
+static int	add_node(t_node **node, int value, int rank)
 {
 	t_node	*tmp;
 

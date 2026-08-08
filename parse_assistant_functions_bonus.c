@@ -1,46 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   assistant_functions.c                              :+:      :+:    :+:   */
+/*   assistant_functions_bonus.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aloiko <aloiko@student.42warsaw.pl>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/22 16:04:49 by aloiko            #+#    #+#             */
-/*   Updated: 2026/08/07 16:09:42 by aloiko           ###   ########.fr       */
+/*   Updated: 2026/07/29 20:51:50 by aloiko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "push_swap.h"
-
-void	*xalloc(size_t count, size_t elem_size)
-{
-	size_t	total;
-	void	*ptr;
-
-	if (elem_size != 0 && count > SIZE_MAX / elem_size)
-		return (NULL);
-	total = count * elem_size;
-	ptr = malloc(total);
-	return (ptr);
-}
-
-void	put_error_n_exit(void)
-{
-	ft_putendl_fd("Error", STDERR_FILENO);
-	exit(1);
-}
-
-void	put_operation(char *str)
-{
-	ft_putendl_fd(str, STDOUT_FILENO);
-}
+#include "checker_bonus.h"
 
 void	free_stack(t_stack *stack)
 {
-	t_node		*curr;
-	t_node		*next;
-	int			i;
-	int			depth;
+	t_node	*curr;
+	t_node	*next;
+	int		i;
+	int		depth;
 
 	if (!stack || !stack->top)
 		return ;
@@ -56,4 +33,30 @@ void	free_stack(t_stack *stack)
 	}
 	stack->top = NULL;
 	stack->depth = 0;
+}
+
+static int	stack_is_asc_sorted(t_stack *s)
+{
+	t_node	*cur;
+	int		i;
+
+	if (!s || s->depth < 2)
+		return (1);
+	cur = s->top;
+	i = 0;
+	while (i < s->depth - 1)
+	{
+		if (cur->rank > cur->next->rank)
+			return (0);
+		cur = cur->next;
+		i++;
+	}
+	return (1);
+}
+
+int	stacks_checker(t_context *context)
+{
+	if (!stack_is_asc_sorted(&context->a) || context->b.depth != 0)
+		return (0);
+	return (1);
 }

@@ -6,7 +6,7 @@
 /*   By: aloiko <aloiko@student.42warsaw.pl>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/27 19:13:33 by aloiko            #+#    #+#             */
-/*   Updated: 2026/07/29 20:53:04 by aloiko           ###   ########.fr       */
+/*   Updated: 2026/08/07 19:11:50 by aloiko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static void	trim_line(char *s)
 		s[i] = '\0';
 }
 
-int	op_cmp(t_context *context, char *line)
+static int	op_cmp(t_context *context, char *line)
 {
 	if (ft_strcmp(line, "sa") == 0)
 		return (sa(context), 1);
@@ -60,7 +60,7 @@ int	op_cmp(t_context *context, char *line)
 		return (0);
 }
 
-void	checker(t_context *context)
+static void	checker(t_context *context)
 {
 	char	*line;
 
@@ -83,9 +83,9 @@ void	checker(t_context *context)
 		free(line);
 	}
 	if (stacks_checker(context))
-		ft_putstr_fd("OK\n", STDOUT_FILENO);
+		ft_putendl_fd("OK", STDOUT_FILENO);
 	else
-		ft_putstr_fd("KO\n", STDOUT_FILENO);
+		ft_putendl_fd("KO", STDOUT_FILENO);
 }
 
 int	main(int argc, char **argv)

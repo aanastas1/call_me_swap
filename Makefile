@@ -8,6 +8,9 @@ LDFLAGS = -Llibft -lft
 LIBFT_PATH = libft
 LIBFT = $(LIBFT_PATH)/libft.a
 
+HDRS = push_swap.h libft/libft.h
+BONUS_HDRS = checker_bonus.h libft/libft.h
+
 SRCS = \
 	push_swap.c \
 	parse_args.c \
@@ -18,7 +21,7 @@ SRCS = \
 	op_push.c \
 	op_rotate.c \
 	op_reverse_rotate.c \
-	utils_sorting.c \
+	assistants_sorting.c \
 	sort_small.c \
 	bench.c \
 	bench_output.c \
@@ -26,39 +29,43 @@ SRCS = \
 	strategy_medium.c \
 	strategy_complex.c
 
-HDRS = push_swap.h libft/libft.h
-
 BONUS_SRCS = \
 	checker_bonus.c \
 	checker_parse_args_bonus.c \
+	parse_assistant_functions_bonus.c \
 	assistant_functions_bonus.c \
-	util_functions_bonus.c \
 	prepare_stacks_bonus.c \
 	get_next_line_bonus.c \
-	get_next_line_utils_bonus.c \
 	op_swap_bonus.c \
 	op_push_bonus.c \
 	op_rotate_bonus.c \
 	op_reverse_rotate_bonus.c
 
-BONUS_HDRS = checker_bonus.h libft/libft.h
+OBJS = $(SRCS:.c=.o)
+BONUS_OBJS = $(BONUS_SRCS:.c=.o)
 
 all: $(NAME)
 
 bonus: $(BONUS_NAME)
 
-$(NAME): $(SRCS) $(HDRS) $(LIBFT)
-	$(CC) $(CFLAGS) -o $@ $(SRCS) $(LDFLAGS)
+$(NAME): $(OBJS) $(LIBFT)
+	$(CC) $(CFLAGS) -o $(NAME) $(OBJS) $(LDFLAGS)
 
-$(BONUS_NAME): $(BONUS_SRCS) $(BONUS_HDRS) $(LIBFT)
-	$(CC) $(CFLAGS) -o $@ $(BONUS_SRCS) $(LDFLAGS)
+$(BONUS_NAME): $(BONUS_OBJS) $(LIBFT)
+	$(CC) $(CFLAGS) -o $(BONUS_NAME) $(BONUS_OBJS) $(LDFLAGS)
+
+%.o: %.c $(HDRS)
+	$(CC) $(CFLAGS) -Ilibft -c $< -o $@
+
+bonus%.o: %.c $(BONUS_HDRS)
+	$(CC) $(CFLAGS) -Ilibft -c $< -o $@
 
 $(LIBFT):
 	$(MAKE) -C $(LIBFT_PATH)
 
 clean:
 	$(MAKE) -C $(LIBFT_PATH) clean
-	rm -f *.o
+	rm -f $(OBJS) $(BONUS_OBJS)
 
 fclean: clean
 	$(MAKE) -C $(LIBFT_PATH) fclean
