@@ -6,7 +6,7 @@
 /*   By: aloiko <aloiko@student.42warsaw.pl>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/12 15:09:31 by aloiko            #+#    #+#             */
-/*   Updated: 2026/07/29 14:02:55 by aloiko           ###   ########.fr       */
+/*   Updated: 2026/08/09 14:39:07 by aloiko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ static int	is_strategy_flag(char *src, t_context *context)
 	max_index = sizeof(flags) / sizeof(flags[0]) - 1;
 	while (i <= max_index)
 	{
-		if (ft_strcmp(src, flags[i]) == 0)
+		if (0 == ft_strcmp(src, flags[i]))
 		{
 			if (i == 0 && context->bench_enabled == 0)
 				context->bench_enabled = 1;

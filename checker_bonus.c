@@ -6,7 +6,7 @@
 /*   By: aloiko <aloiko@student.42warsaw.pl>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/27 19:13:33 by aloiko            #+#    #+#             */
-/*   Updated: 2026/08/07 19:11:50 by aloiko           ###   ########.fr       */
+/*   Updated: 2026/08/09 14:37:33 by aloiko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,27 +34,27 @@ static void	trim_line(char *s)
 
 static int	op_cmp(t_context *context, char *line)
 {
-	if (ft_strcmp(line, "sa") == 0)
+	if (0 == ft_strcmp(line, "sa"))
 		return (sa(context), 1);
-	else if (ft_strcmp(line, "sb") == 0)
+	else if (0 == ft_strcmp(line, "sb"))
 		return (sb(context), 1);
-	else if (ft_strcmp(line, "ss") == 0)
+	else if (0 == ft_strcmp(line, "ss"))
 		return (ss(context), 1);
-	else if (ft_strcmp(line, "pa") == 0)
+	else if (0 == ft_strcmp(line, "pa"))
 		return (pa(context), 1);
-	else if (ft_strcmp(line, "pb") == 0)
+	else if (0 == ft_strcmp(line, "pb"))
 		return (pb(context), 1);
-	else if (ft_strcmp(line, "ra") == 0)
+	else if (0 == ft_strcmp(line, "ra"))
 		return (ra(context), 1);
-	else if (ft_strcmp(line, "rb") == 0)
+	else if (0 == ft_strcmp(line, "rb"))
 		return (rb(context), 1);
-	else if (ft_strcmp(line, "rr") == 0)
+	else if (0 == ft_strcmp(line, "rr"))
 		return (rr(context), 1);
-	else if (ft_strcmp(line, "rra") == 0)
+	else if (0 == ft_strcmp(line, "rra"))
 		return (rra(context), 1);
-	else if (ft_strcmp(line, "rrb") == 0)
+	else if (0 == ft_strcmp(line, "rrb"))
 		return (rrb(context), 1);
-	else if (ft_strcmp(line, "rrr") == 0)
+	else if (0 == ft_strcmp(line, "rrr"))
 		return (rrr(context), 1);
 	else
 		return (0);
