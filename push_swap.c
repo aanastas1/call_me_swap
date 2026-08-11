@@ -6,7 +6,7 @@
 /*   By: aloiko <aloiko@student.42warsaw.pl>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/16 18:15:47 by aloiko            #+#    #+#             */
-/*   Updated: 2026/07/29 12:01:33 by aloiko           ###   ########.fr       */
+/*   Updated: 2026/08/11 19:45:06 by aloiko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,25 +33,50 @@ void	strategy_selector(t_context *context)
 	if (context->strategy == NONE)
 		strategy_adaptive(context);
 	if (context->strategy == SIMPLE)
+	{
+		context->strategy_name = "Simple";
+		context->complexity = "O(n^2)";
 		strategy_simple(context);
+	}
 	if (context->strategy == MEDIUM)
+	{
+		context->strategy_name = "Medium";
+		context->complexity = "O(n√n))";
 		strategy_medium(context);
+	}
 	if (context->strategy == COMPLEX)
+	{
+		context->strategy_name = "Complex";
+		context->complexity = "O(nlog(n))";
 		strategy_complex(context);
+	}
 	if (context->strategy == ADAPTIVE)
 		strategy_adaptive(context);
 }
 
 void	strategy_adaptive(t_context *context)
 {
+	context->strategy_name = "Adaptive";
 	if (context->a.depth <= 50)
+	{
+		context->complexity = "O(n^2)";
 		strategy_simple(context);
-	if (context->disorder < 0.05)
+	}
+	else if (context->disorder < 0.05)
+	{
+		context->complexity = "O(n^2)";
 		strategy_simple(context);
+	}
 	else if (context->disorder < 0.35)
+	{
+		context->complexity = "O(n√n))";
 		strategy_medium(context);
+	}
 	else
+	{
+		context->complexity = "O(nlog(n))";
 		strategy_complex(context);
+	}
 }
 
 int	main(int argc, char **argv)

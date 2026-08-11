@@ -6,7 +6,7 @@
 /*   By: aloiko <aloiko@student.42warsaw.pl>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/17 14:00:00 by anakloch          #+#    #+#             */
-/*   Updated: 2026/07/25 18:48:13 by aloiko           ###   ########.fr       */
+/*   Updated: 2026/08/11 19:05:03 by aloiko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,6 @@ static void	move_smallest_to_top(t_context *context)
 /* Applies selection sort by extracting minimum ranks into stack B. */
 void	strategy_simple(t_context *context)
 {
-	context->strategy_name = "Simple";
-	context->complexity = "O(n^2)";
 	if (stack_is_sorted_asc(&context->a))
 		return ;
 	while (context->a.depth > 5)

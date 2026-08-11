@@ -6,7 +6,7 @@
 /*   By: aloiko <aloiko@student.42warsaw.pl>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/20 18:37:33 by aloiko            #+#    #+#             */
-/*   Updated: 2026/07/29 19:30:21 by aloiko           ###   ########.fr       */
+/*   Updated: 2026/08/11 19:18:09 by aloiko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,8 +123,6 @@ void	strategy_complex(t_context *context)
 	int	min_rank;
 	int	max_rank;
 
-	context->strategy_name = "Complex";
-	context->complexity = "O(nlog(n))";
 	min_rank = 0;
 	max_rank = context->a.depth - 1;
 	side_a(context, min_rank, max_rank);

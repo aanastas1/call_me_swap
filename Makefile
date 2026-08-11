@@ -71,6 +71,6 @@ fclean: clean
 	$(MAKE) -C $(LIBFT_PATH) fclean
 	rm -f $(NAME) $(BONUS_NAME)
 
-re: fclean all bonus
+re: fclean all 
 
 .PHONY: all bonus clean fclean re
