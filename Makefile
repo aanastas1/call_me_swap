@@ -8,7 +8,7 @@ LDFLAGS = -Llibft -lft
 LIBFT_PATH = libft
 LIBFT = $(LIBFT_PATH)/libft.a
 
-HDRS = push_swap.h libft/libft.h
+HDRS = push_swap.h libft/libft.hclear
 BONUS_HDRS = checker_bonus.h libft/libft.h
 
 SRCS = \
