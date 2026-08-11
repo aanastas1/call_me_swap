@@ -6,7 +6,7 @@
 /*   By: aloiko <aloiko@student.42warsaw.pl>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/27 14:27:05 by aloiko            #+#    #+#             */
-/*   Updated: 2026/07/28 21:37:48 by aloiko           ###   ########.fr       */
+/*   Updated: 2026/08/11 13:08:25 by aloiko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,16 +47,26 @@ static int	read_value(char **nptr, int *out)
 
 static int	push_value(int **out_values, int *cap, int *idx, int value)
 {
+	int		*new_values;
+	int		old_cap;
+	int		i;
+
 	if (*idx < *cap)
 	{
 		(*out_values)[*idx] = value;
 		(*idx)++;
 		return (1);
 	}
+	old_cap = *cap;
 	*cap *= 2;
-	*out_values = realloc(*out_values, (*cap) * sizeof(**out_values));
-	if (!*out_values)
+	new_values = malloc((*cap) * sizeof(**out_values));
+	if (!new_values)
 		return (0);
+	i = -1;
+	while (++i < old_cap)
+		new_values[i] = (*out_values)[i];
+	free(*out_values);
+	*out_values = new_values;
 	(*out_values)[*idx] = value;
 	(*idx)++;
 	return (1);
