@@ -6,7 +6,7 @@
 /*   By: aloiko <aloiko@student.42warsaw.pl>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/17 10:40:50 by anakloch          #+#    #+#             */
-/*   Updated: 2026/08/11 19:03:43 by aloiko           ###   ########.fr       */
+/*   Updated: 2026/08/13 12:04:25 by aloiko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,13 +85,6 @@ void	strategy_medium(t_context *context)
 {
 	int	element_count;
 
-	if (stack_is_sorted_asc(&context->a))
-		return ;
-	if (context->a.depth <= 5)
-	{
-		sort_small(context);
-		return ;
-	}
 	element_count = context->a.depth;
 	move_all_to_b(context, element_count);
 	while (context->b.depth > 0)

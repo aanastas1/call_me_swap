@@ -6,7 +6,7 @@
 /*   By: aloiko <aloiko@student.42warsaw.pl>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/16 18:15:47 by aloiko            #+#    #+#             */
-/*   Updated: 2026/08/11 19:45:06 by aloiko           ###   ########.fr       */
+/*   Updated: 2026/08/13 12:12:45 by aloiko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ int	main(int argc, char **argv)
 	t_context	context;
 
 	if (argc < 2)
-		return (1);
+		return (0);
 	context_init(&context);
 	parse_args(argc, argv, &context);
 	if (context.a.depth == 0)
@@ -92,6 +92,8 @@ int	main(int argc, char **argv)
 		free_all(&context);
 		put_error_n_exit();
 	}
+	if (stack_is_sorted_asc(&context.a))
+		return (0);
 	strategy_selector(&context);
 	if (context.bench_enabled)
 		bench_print_and_counts(&context);

@@ -109,11 +109,51 @@ The `disorder` value is calculated using integer arithmetic and then converted t
 - Show that the adaptive selection does not break complexity targets, because each disorder regime picks one strategy whose operation count matches the required class.
 - Explain the additional overhead of measuring disorder and selecting a strategy, and why it doesn’t invalidate the complexity class in the operation model.
 
----
+```zsh
+=== COMPLEXITY — EMPIRICAL PROOF ===
+  Read down each ratio column: the one that stays flat is the true class.
+  Growth is ops(2n)/ops(n) — expect ~4.0 for n^2, ~2.83 for n√n, ~2.1 for n*log n.
 
-### AI usage (final note)
-- **Task:** “polish and format the README.md text.”
-- **Affected parts:** documentation formatting/wording only.
-- **Not affected:** sorting algorithms and operation generation logic.
+  --simple   expected O(n^2)
+       n       ops      ops/n^2     ops/n√n    ops/nlog2n   growth
+  ------------------------------------------------------------------
+      25       125       .2000      1.0000      1.0766         -
+      50       414       .1656      1.1709      1.4669      3.31
+     100      1465       .1465      1.4650      2.2049      3.53
+     200      5536       .1384      1.9572      3.6209      3.77
+     400     20735       .1295      2.5918      5.9967      3.74
+     500     32583       .1303      2.9143      7.2678      3.91
+    1000    124772       .1247      3.9456     12.5193      3.82
 
+  --medium   expected O(n*sqrt n)
+       n       ops      ops/n^2     ops/n√n   ops/nlog2n   growth
+  ------------------------------------------------------------------
+      25        98       .1568       .7840       .8440         -
+      50       242       .0968       .6844       .8575      2.46
+     100       571       .0571       .5710       .8593      2.35
+     200      1491       .0372       .5271       .9752      2.61
+     400      3782       .0236       .4727      1.0937      2.53
+     500      5085       .0203       .4548      1.1342      2.48
+    1000     13422       .0134       .4244      1.3467      2.63
+    3000     64680       .0071       .3936      1.8664      2.73
+    5000    136142       .0054       .3850      2.2157      2.72
+   10000    375972       .0037       .3759      2.8293      2.76
+
+  --complex   expected O(n*log n)
+       n       ops      ops/n^2     ops/n√n   ops/nlog2n   growth
+  ------------------------------------------------------------------
+      25       128       .2048      1.0240      1.1024         -
+      50       333       .1332       .9418      1.1799      2.60
+     100       810       .0810       .8100      1.2191      2.43
+     200      1872       .0468       .6618      1.2244      2.31
+     400      4503       .0281       .5628      1.3023      2.40
+     500      5772       .0230       .5162      1.2874      2.24
+    1000     12951       .0129       .4095      1.2994      2.24
+    3000     45748       .0050       .2784      1.3201      2.22
+    5000     83694       .0033       .2367      1.3621      2.14
+   10000    178214       .0017       .1782      1.3411      2.12
+   20000    382496       .0001       .1352      1.3385      2.14
+   40000    851359       .0001       .1064      1.3922      2.22
+   80000   1748348       .0000       .0772      1.3417      2.05
+```
 ---
