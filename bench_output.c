@@ -6,7 +6,7 @@
 /*   By: aloiko <aloiko@student.42warsaw.pl>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/19 18:15:00 by anakloch          #+#    #+#             */
-/*   Updated: 2026/08/13 12:57:25 by aloiko           ###   ########.fr       */
+/*   Updated: 2026/08/13 15:13:20 by aloiko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,25 +15,13 @@
 /* Writes a null-terminated benchmark string to standard error. */
 void	bench_putstr(const char *text)
 {
-	int	length;
-
-	if (!text)
-		return ;
-	length = 0;
-	while (text[length])
-		length++;
-	write(2, text, length);
+	ft_putstr_fd(text, STDERR_FILENO);
 }
 
 /* Writes a non-negative benchmark number to standard error. */
 void	bench_putnbr(int number)
 {
-	char	digit;
-
-	if (number > 9)
-		bench_putnbr(number / 10);
-	digit = number % 10 + '0';
-	write(2, &digit, 1);
+	ft_putnbr_fd(number, STDERR_FILENO);
 }
 
 /* Writes a disorder ratio as a percentage with exactly two decimals. */
