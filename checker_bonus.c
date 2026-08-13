@@ -6,7 +6,7 @@
 /*   By: aloiko <aloiko@student.42warsaw.pl>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/27 19:13:33 by aloiko            #+#    #+#             */
-/*   Updated: 2026/08/09 14:37:33 by aloiko           ###   ########.fr       */
+/*   Updated: 2026/08/13 15:17:02 by aloiko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ int	main(int argc, char **argv)
 	t_context	context;
 
 	if (argc < 2)
-		return (1);
+		return (0);
 	context_init(&context);
 	parse_args(argc, argv, &context);
 	if (context.a.depth == 0)
