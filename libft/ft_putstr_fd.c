@@ -6,13 +6,13 @@
 /*   By: aloiko <aloiko@student.42warsaw.pl>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/17 20:47:04 by aloiko            #+#    #+#             */
-/*   Updated: 2026/06/30 17:25:37 by aloiko           ###   ########.fr       */
+/*   Updated: 2026/08/14 16:38:07 by aloiko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	ft_putstr_fd(char *s, int fd)
+void	ft_putstr_fd(const char *s, int fd)
 {
 	if (!s)
 		return ;

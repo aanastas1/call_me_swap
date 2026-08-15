@@ -6,7 +6,7 @@
 /*   By: aloiko <aloiko@student.42warsaw.pl>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/29 13:36:36 by aloiko            #+#    #+#             */
-/*   Updated: 2026/07/29 21:13:38 by aloiko           ###   ########.fr       */
+/*   Updated: 2026/08/15 18:37:13 by aloiko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ typedef struct s_context
 	const char	*complexity;
 }	t_context;
 /*assistant functions*/
-void	put_error_n_exit(void);
+void	put_error(void);
 void	put_operation(char *str);
 void	*xalloc(size_t count, size_t type_size);
 void	free_stack(t_stack *stack);

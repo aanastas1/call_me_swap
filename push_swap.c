@@ -6,7 +6,7 @@
 /*   By: aloiko <aloiko@student.42warsaw.pl>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/16 18:15:47 by aloiko            #+#    #+#             */
-/*   Updated: 2026/08/13 12:12:45 by aloiko           ###   ########.fr       */
+/*   Updated: 2026/08/15 18:38:04 by aloiko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ static void	context_init(t_context *context)
 {
 	ft_memset(context, 0, sizeof(*context));
 	context->strategy = NONE;
+	context->disorder = -1.0;
 	context->bench_enabled = 0;
 }
 
@@ -57,7 +58,7 @@ void	strategy_selector(t_context *context)
 void	strategy_adaptive(t_context *context)
 {
 	context->strategy_name = "Adaptive";
-	if (context->a.depth <= 50)
+	if (context->a.depth <= 20)
 	{
 		context->complexity = "O(n^2)";
 		strategy_simple(context);
@@ -87,16 +88,14 @@ int	main(int argc, char **argv)
 		return (0);
 	context_init(&context);
 	parse_args(argc, argv, &context);
+	if (!context.disorder && !context.bench_enabled)
+		return (free_all(&context), 0);
+	else if (!context.disorder && context.bench_enabled)
+		return (bench_print_and_counts(&context), free_all(&context), 0);
 	if (context.a.depth == 0)
-	{
-		free_all(&context);
-		put_error_n_exit();
-	}
-	if (stack_is_sorted_asc(&context.a))
-		return (0);
+		return (free_all(&context), put_error(), 1);
 	strategy_selector(&context);
 	if (context.bench_enabled)
 		bench_print_and_counts(&context);
-	free_all(&context);
-	return (0);
+	return (free_all(&context), 0);
 }

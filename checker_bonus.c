@@ -6,7 +6,7 @@
 /*   By: aloiko <aloiko@student.42warsaw.pl>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/27 19:13:33 by aloiko            #+#    #+#             */
-/*   Updated: 2026/08/13 15:17:02 by aloiko           ###   ########.fr       */
+/*   Updated: 2026/08/15 18:39:36 by aloiko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,5 @@ int	main(int argc, char **argv)
 		put_error_n_exit();
 	}
 	checker(&context);
-	free_all(&context);
-	return (0);
+	return (free_all(&context), 0);
 }

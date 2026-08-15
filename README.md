@@ -184,6 +184,34 @@ The disorder computation is used to pick the strategy:
    40000    851359       .0001       .1064      1.3922      2.22
    80000   1748348       .0000       .0772      1.3417      2.05
 ```
+## Checker
+
+This project includes a program named `checker`.
+
+### Description
+`checker` takes a list of integers as its argument, representing **stack `a`**. The **first argument is the top** of the stack (make sure to handle the order correctly).  
+If no arguments are provided, the program stops immediately and outputs nothing.
+
+### Instructions handling
+After initialization, the program waits for operations read from **standard input**, where each instruction is followed by `\n`. When all instructions have been read, the program executes them on the received stacks.
+
+### Output rules
+After executing all instructions:
+- If **stack `a` is sorted** and **stack `b` is empty**, the program prints:
+  - `OK` followed by `\n` to standard output.
+- Otherwise, it prints:
+  - `KO` followed by `\n` to standard output.
+
+### Errors
+If an error occurs, the program prints:
+- `Error` followed by `\n` to standard error.
+
+Errors include (for example):
+- some arguments are not integers,
+- some arguments are bigger than an integer,
+- there are duplicates,
+- an instruction doesn’t exist and/or is incorrectly formatted.
+
 ### Contributors
 
 - *anakloch - simple and medium algorithms, bench*

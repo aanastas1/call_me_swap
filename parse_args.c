@@ -6,7 +6,7 @@
 /*   By: aloiko <aloiko@student.42warsaw.pl>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/12 15:09:31 by aloiko            #+#    #+#             */
-/*   Updated: 2026/08/09 14:39:07 by aloiko           ###   ########.fr       */
+/*   Updated: 2026/08/15 18:36:57 by aloiko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ void	parse_args(int argc, char **argv, t_context *context)
 	capacity = argc;
 	out_values = xalloc(capacity, sizeof(*out_values));
 	if (!out_values)
-		put_error_n_exit();
+		return ;
 	count = 0;
 	i = 0;
 	while (++i < argc)
@@ -98,7 +98,9 @@ void	parse_args(int argc, char **argv, t_context *context)
 		if (!parse_one_arg(argv[i], &out_values, &capacity, &count))
 			return (free(out_values));
 	}
-	setup_stacks(context, out_values, count);
 	context->disorder = compute_disorder_values(out_values, count);
+	if (!context->disorder)
+		return (free(out_values));
+	setup_stacks(context, out_values, count);
 	free(out_values);
 }

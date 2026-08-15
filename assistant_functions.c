@@ -6,7 +6,7 @@
 /*   By: aloiko <aloiko@student.42warsaw.pl>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/22 16:04:49 by aloiko            #+#    #+#             */
-/*   Updated: 2026/08/07 16:09:42 by aloiko           ###   ########.fr       */
+/*   Updated: 2026/08/15 18:36:08 by aloiko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,9 @@ void	*xalloc(size_t count, size_t elem_size)
 	return (ptr);
 }
 
-void	put_error_n_exit(void)
+void	put_error(void)
 {
 	ft_putendl_fd("Error", STDERR_FILENO);
-	exit(1);
 }
 
 void	put_operation(char *str)
