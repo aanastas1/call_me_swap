@@ -14,10 +14,17 @@
 
 static void	context_init(t_context *context)
 {
-	ft_memset(context, 0, sizeof(*context));
-	context->strategy = NONE;
-	context->disorder = -1.0;
-	context->bench_enabled = 0;
+	*context = (t_context){
+		.a = (t_stack){ .top = NULL, .depth = 0 },
+		.b = (t_stack){ .top = NULL, .depth = 0 },
+		.disorder = -1.0,
+		.strategy = NONE,
+		.bench_enabled = 0,
+		.op_total = 0,
+		.op_counts = (int [COUNT]){0},
+		.strategy_name = NULL,
+		.complexity = NULL,
+	};
 }
 
 static void	free_all(t_context *context)
