@@ -6,7 +6,7 @@
 /*   By: aloiko <aloiko@student.42warsaw.pl>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/12 15:09:31 by aloiko            #+#    #+#             */
-/*   Updated: 2026/08/15 18:36:57 by aloiko           ###   ########.fr       */
+/*   Updated: 2026/08/19 16:55:07 by aloiko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,8 @@ void	parse_args(int argc, char **argv, t_context *context)
 		if (!parse_one_arg(argv[i], &out_values, &capacity, &count))
 			return (free(out_values));
 	}
+	if (!validate_no_dups(out_values, count))
+		return (free(out_values));
 	context->disorder = compute_disorder_values(out_values, count);
 	if (!context->disorder)
 		return (free(out_values));

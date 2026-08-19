@@ -6,7 +6,7 @@
 /*   By: aloiko <aloiko@student.42warsaw.pl>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/29 13:36:27 by aloiko            #+#    #+#             */
-/*   Updated: 2026/08/07 19:14:58 by aloiko           ###   ########.fr       */
+/*   Updated: 2026/08/19 17:54:05 by aloiko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,6 @@
 # include <limits.h>
 
 # include "libft/libft.h"
-
-# ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 80
-# endif 
 
 typedef struct s_node
 {
@@ -42,6 +38,7 @@ typedef struct s_context
 	t_stack	a;
 	t_stack	b;
 }	t_context;
+
 /*assistant functions*/
 void	put_error_n_exit(void);
 void	*xalloc(size_t count, size_t type_size);
@@ -49,7 +46,8 @@ void	free_stack(t_stack *stack);
 int		stacks_checker(t_context *context);
 int		ft_strcmp(const char *s1, const char *s2);
 void	context_init(t_context *context);
-char	*get_operations(int fd);
+char	*get_next_line(int fd);
+
 /* parse */
 void	parse_args(int argc, char **argv, t_context *context);
 void	setup_stacks(t_context *context, int *values, int size);

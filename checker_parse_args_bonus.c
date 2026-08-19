@@ -6,7 +6,7 @@
 /*   By: aloiko <aloiko@student.42warsaw.pl>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/27 14:27:05 by aloiko            #+#    #+#             */
-/*   Updated: 2026/08/11 13:08:25 by aloiko           ###   ########.fr       */
+/*   Updated: 2026/08/19 17:51:56 by aloiko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@ static int	ft_isspace(char c)
 
 static int	read_value(char **nptr, int *out)
 {
-	long long	sign;
-	long long	res;
+	double	sign;
+	double	res;
 
 	sign = 1;
 	res = 0;

@@ -35,7 +35,6 @@ BONUS_SRCS = \
 	parse_assistant_functions_bonus.c \
 	assistant_functions_bonus.c \
 	prepare_stacks_bonus.c \
-	stdinput_reading_bonus.c \
 	op_swap_bonus.c \
 	op_push_bonus.c \
 	op_rotate_bonus.c \

@@ -6,7 +6,7 @@
 /*   By: aloiko <aloiko@student.42warsaw.pl>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/29 13:36:36 by aloiko            #+#    #+#             */
-/*   Updated: 2026/08/15 18:37:13 by aloiko           ###   ########.fr       */
+/*   Updated: 2026/08/19 16:45:25 by aloiko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,7 @@ void	free_stack(t_stack *stack);
 void	parse_args(int argc, char **argv, t_context *context);
 int		parse_one_arg(char *arg, int **out_values, int *capacity, int *idx);
 void	setup_stacks(t_context *context, int *values, int size);
+int		validate_no_dups(int *values, int n);
 /* sort helpers */
 int		stack_is_sorted_asc(t_stack *a);
 void	sort_small(t_context *context);

@@ -6,7 +6,7 @@
 /*   By: aloiko <aloiko@student.42warsaw.pl>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/16 18:15:47 by aloiko            #+#    #+#             */
-/*   Updated: 2026/08/15 18:38:04 by aloiko           ###   ########.fr       */
+/*   Updated: 2026/08/18 12:27:02 by aloiko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,8 @@
 static void	context_init(t_context *context)
 {
 	*context = (t_context){
-		.a = (t_stack){ .top = NULL, .depth = 0 },
-		.b = (t_stack){ .top = NULL, .depth = 0 },
+		.a = (t_stack){.top = NULL, .depth = 0},
+		.b = (t_stack){.top = NULL, .depth = 0},
 		.disorder = -1.0,
 		.strategy = NONE,
 		.bench_enabled = 0,

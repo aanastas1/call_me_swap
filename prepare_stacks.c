@@ -6,7 +6,7 @@
 /*   By: aloiko <aloiko@student.42warsaw.pl>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/13 13:46:35 by aloiko            #+#    #+#             */
-/*   Updated: 2026/07/29 13:15:38 by aloiko           ###   ########.fr       */
+/*   Updated: 2026/08/19 18:11:21 by aloiko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ static void	stacks_init(t_context *context, int *values, int *ranks, int cap)
 	}
 }
 
-static int	validate_no_dups(int *values, int n)
+int	validate_no_dups(int *values, int n)
 {
 	int	i;
 	int	j;
@@ -101,8 +101,6 @@ void	setup_stacks(t_context *context, int *out_values, int size)
 {
 	int	*ranks;
 
-	if (!validate_no_dups(out_values, size))
-		return ;
 	ranks = compute_ranks(out_values, size);
 	if (!ranks)
 		return ;

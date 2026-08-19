@@ -62,20 +62,25 @@ static int	op_cmp(t_context *context, char *line)
 
 static void	checker(t_context *context)
 {
-	char	*op;
+	char	*line;
 
 	while (1)
 	{
-		op = get_operations(0);
-		if (!op)
+		line = get_next_line(0);
+		if (!line)
 			break ;
-		trim_line(op);
-		if (op[0] == '\0' || !op_cmp(context, op))
+		trim_line(line);
+		if (line[0] == '\0')
 		{
-			free(op);
+			free(line);
 			put_error_n_exit();
 		}
-		free(op);
+		if (!op_cmp(context, line))
+		{
+			free(line);
+			put_error_n_exit();
+		}
+		free(line);
 	}
 	if (stacks_checker(context))
 		ft_putendl_fd("OK", STDOUT_FILENO);
