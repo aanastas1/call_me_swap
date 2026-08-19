@@ -21,7 +21,7 @@ static void	context_init(t_context *context)
 		.strategy = NONE,
 		.bench_enabled = 0,
 		.op_total = 0,
-		.op_counts = (int [COUNT]){0},
+		.op_counts = {0},
 		.strategy_name = NULL,
 		.complexity = NULL,
 	};

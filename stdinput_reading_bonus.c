@@ -67,11 +67,11 @@ static char	*get_stash(char **stash, int fd)
 	return (ptr);
 }
 
-static char	*get_line(char **stash, char *ptr)
+static char	*get_op(char **stash, char *ptr)
 {
 	size_t	len;
 	size_t	stash_len;
-	char	*line;
+	char	*op;
 	char	*tail;
 
 	stash_len = ft_strlen(*stash);
@@ -79,20 +79,18 @@ static char	*get_line(char **stash, char *ptr)
 		len = stash_len;
 	else
 		len = ptr - *stash + 1;
-	line = ft_substr(*stash, 0, len);
+	op = ft_substr(*stash, 0, len);
 	tail = ft_substr(*stash, len, stash_len - len);
 	free(*stash);
 	*stash = tail;
-	return (line);
+	return (op);
 }
 
-char	*get_next_line(int fd)
+char	*get_operations(int fd)
 {
 	static char	*stash;
 	char		*ptr;
 
-	if (fd < 0 || BUFFER_SIZE <= 0)
-		return (NULL);
 	if (!stash)
 	{
 		stash = malloc(1);
@@ -107,5 +105,5 @@ char	*get_next_line(int fd)
 		stash = NULL;
 		return (NULL);
 	}
-	return (get_line(&stash, ptr));
+	return (get_op(&stash, ptr));
 }

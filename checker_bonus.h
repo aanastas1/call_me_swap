@@ -49,7 +49,7 @@ void	free_stack(t_stack *stack);
 int		stacks_checker(t_context *context);
 int		ft_strcmp(const char *s1, const char *s2);
 void	context_init(t_context *context);
-char	*get_next_line(int fd);
+char	*get_operations(int fd);
 /* parse */
 void	parse_args(int argc, char **argv, t_context *context);
 void	setup_stacks(t_context *context, int *values, int size);
